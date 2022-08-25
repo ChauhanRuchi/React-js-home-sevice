@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import store from "../store";
+import store from "../../store";
 
 type DispatchType = typeof store.dispatch;
 

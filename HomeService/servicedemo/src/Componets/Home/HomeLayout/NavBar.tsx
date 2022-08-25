@@ -8,14 +8,14 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { render } from "@testing-library/react";
 import { NavLink } from "react-router-dom";
-import "../Css/demo.css";
+import "../../../Css/demo.css";
 
 interface Props {
   window?: () => Window;
 }
 
 const drawerWidth = 240;
-export default function DrawerAppBar(props: Props) {
+export default function DrawerAppBar(props: Props, className = "back") {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -37,7 +37,10 @@ export default function DrawerAppBar(props: Props) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar component="nav">
+      <AppBar
+        component="nav"
+        style={{ backgroundColor: "#214758", color: "#efefef" }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -54,17 +57,59 @@ export default function DrawerAppBar(props: Props) {
             HomeServiceProvider
           </Typography>
           <Box sx={{ height: "100%" }}>
-            <NavLink to="/" className={"tab"}>
+            <NavLink
+              to="/"
+              className={"tab"}
+              style={{
+                margin: "10px",
+                fontFamily: "",
+                fontStyle: "normal",
+              }}
+            >
               Home
             </NavLink>
-
-            <NavLink to="/Login" className={"tab"}>
+            <NavLink
+              to="/Service"
+              className={"tab"}
+              style={{
+                margin: "10px",
+                fontFamily: "",
+                fontStyle: "normal",
+              }}
+            >
+              Service
+            </NavLink>
+            <NavLink
+              to="/Login"
+              className={"tab"}
+              style={{
+                margin: "10px",
+                fontFamily: "",
+                fontStyle: "normal",
+              }}
+            >
               Login
             </NavLink>
-            <NavLink to="/Logout" className={"tab"}>
+            <NavLink
+              to="/Logout"
+              className={"tab"}
+              style={{
+                margin: "10px",
+                fontFamily: "",
+                fontStyle: "normal",
+              }}
+            >
               Logout
             </NavLink>
-            <NavLink to="/Register" className={"tab"}>
+            <NavLink
+              to="/Register"
+              className={"tab"}
+              style={{
+                margin: "10px",
+                fontFamily: "",
+                fontStyle: "normal",
+              }}
+            >
               Register
             </NavLink>
           </Box>

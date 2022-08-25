@@ -2,7 +2,6 @@
   text-decoration: none;
   margin: 20;
   color: #fff;
-  font-style: normal;
 }
 .textfieald {
   display: flex;
@@ -36,4 +35,11 @@
   100% {
     transform: scale(1, 1);
   }
+}
+.back {
+  background: #214758;
+}
+.cm-input input.mui-focused {
+  border-color: red;
+  border-radius: 1;
 }

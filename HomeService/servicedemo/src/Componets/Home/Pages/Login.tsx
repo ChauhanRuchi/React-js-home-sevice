@@ -13,10 +13,11 @@ import { useSelector, useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { signin } from "../action/signup";
+import { signin } from "../../../Redux/action/signup";
 import { useState } from "react";
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import "../../../Css/demo.css";
 
 function Copyright(props: any) {
   return (
@@ -44,7 +45,7 @@ export default function Login() {
   const [currentpass, setpass] = useState("");
   const dispatch = useDispatch<any>();
   const [showalert, setShowAlert] = useState(false);
-  console.log("login...", state1);
+  localStorage.setItem("Token", state1?.data?.Token || "");
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -65,16 +66,38 @@ export default function Login() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <div
+            className="LoginTitle"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+            }}
+          >
+            <Typography
+              component="h1"
+              variant="h5"
+              style={{ marginRight: "40px", color: "#214758" }}
+            >
+              User
+            </Typography>
+            <Typography
+              component="h1"
+              variant="h5"
+              style={{ marginLeft: "40px", color: "#214758" }}
+            >
+              Admin
+            </Typography>
+          </div>
+
+          <Avatar sx={{ m: 1, bgcolor: "#214758" }}>
             {/* <LockOutlinedIcon /> */}
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" style={{ color: "#214758" }}>
             Sign in
           </Typography>
           <Box
@@ -87,6 +110,9 @@ export default function Login() {
               margin="normal"
               required
               fullWidth
+              inputProps={{
+                style: { fontFamily: "nunito", borderColor: "#214758" },
+              }}
               id="email"
               label="Email Address"
               name="email"
@@ -94,6 +120,7 @@ export default function Login() {
               autoFocus
               value={currentemail}
               onChange={(e: any) => setemail(e.target.value)}
+              className="cm-input input.mui-focused "
             />
             <TextField
               margin="normal"
@@ -108,7 +135,17 @@ export default function Login() {
               onChange={(e: any) => setpass(e.target.value)}
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              style={{
+                color: "#214758",
+              }}
+              control={
+                <Checkbox
+                  value="remember"
+                  style={{
+                    color: "#214758",
+                  }}
+                />
+              }
               label="Remember me"
             />
             {showalert && state1?.data?.mes && (
@@ -127,7 +164,11 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              style={{
+                marginTop: "20px",
+                marginBottom: "8px",
+                background: "#214758",
+              }}
               onClick={() => {
                 setShowAlert(true);
                 dispatch(
@@ -142,12 +183,20 @@ export default function Login() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link
+                  href="#"
+                  variant="body2"
+                  style={{ textDecorationColor: "#214758", color: "#214758" }}
+                >
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link
+                  href="#"
+                  variant="body2"
+                  style={{ textDecorationColor: "#214758", color: "#214758" }}
+                >
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

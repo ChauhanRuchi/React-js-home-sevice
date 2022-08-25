@@ -1,5 +1,5 @@
-import signup from "../reducer/signup";
-import signin from "../reducer/signup";
+import signup from "../Reducer/signup";
+import signin from "../Reducer/signup";
 
 import { combineReducers } from "redux";
 

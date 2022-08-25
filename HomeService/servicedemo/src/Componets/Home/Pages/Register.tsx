@@ -14,7 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { signup } from "../action/signup";
+import { signup } from "../../../Redux/action/signup";
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { stat } from "fs/promises";
