@@ -13,7 +13,6 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <NavBar />
         <Routes>
           <Route path="/" element={<HomeLayout />}>
             <Route path="/Login" element={<Login />} />

@@ -24,6 +24,7 @@
     "react-scripts": "5.0.1",
     "react-validation": "^3.0.7",
     "reactjs": "^1.0.0",
+    "recharts": "^2.1.13",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.1",
     "typescript": "^4.7.4",

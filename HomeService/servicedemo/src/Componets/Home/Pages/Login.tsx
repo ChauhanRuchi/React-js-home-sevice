@@ -14,10 +14,14 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { signin } from "../../../Redux/action/signup";
+import { adminlogin } from "../../../Redux/action/admin";
 import { useState } from "react";
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import "../../../Css/demo.css";
+//tab selection
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 
 function Copyright(props: any) {
   return (
@@ -41,10 +45,18 @@ const theme = createTheme();
 
 export default function Login() {
   const state1 = useSelector((state: any) => state.signin);
+  const adminstate = useSelector((state: any) => state.admin);
+
   const [currentemail, setemail] = useState("");
   const [currentpass, setpass] = useState("");
+  // Tab Changed
+  const [userType, setUserType] = React.useState("User");
+  const [tabIndex, setTabIndex] = React.useState<Number>(0);
   const dispatch = useDispatch<any>();
+
   const [showalert, setShowAlert] = useState(false);
+  const [showalert1, setShowAlert1] = useState(false);
+
   localStorage.setItem("Token", state1?.data?.Token || "");
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -60,6 +72,32 @@ export default function Login() {
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
+
+  const handleChangeUserType = (event: any, newTabIndex: Number) => {
+    if (newTabIndex === 0) {
+      setUserType("User");
+    }
+
+    if (newTabIndex === 1) {
+      setUserType("Admin");
+    }
+
+    setTabIndex(newTabIndex);
+  };
+
+  const tabStyle = {
+    default_tab: {
+      color: "",
+      fontSize: 15,
+    },
+    active_tab: {
+      color: "#214758",
+      fontSize: 15,
+    },
+  };
+  let getStyle = (isActive: any) => {
+    return isActive ? tabStyle.active_tab : tabStyle.default_tab;
+  };
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -78,27 +116,29 @@ export default function Login() {
               flexDirection: "row",
             }}
           >
-            <Typography
-              component="h1"
-              variant="h5"
-              style={{ marginRight: "40px", color: "#214758" }}
-            >
-              User
-            </Typography>
-            <Typography
-              component="h1"
-              variant="h5"
-              style={{ marginLeft: "40px", color: "#214758" }}
-            >
-              Admin
-            </Typography>
+            {
+              <Tabs
+                value={tabIndex}
+                onChange={handleChangeUserType}
+                centered
+                variant="fullWidth"
+                TabIndicatorProps={{
+                  style: {
+                    backgroundColor: "#214758",
+                  },
+                }}
+              >
+                <Tab label="User" style={getStyle(userType === "User")} />
+                <Tab label="Admin" style={getStyle(userType === "Admin")} />
+              </Tabs>
+            }
           </div>
 
           <Avatar sx={{ m: 1, bgcolor: "#214758" }}>
             {/* <LockOutlinedIcon /> */}
           </Avatar>
           <Typography component="h1" variant="h5" style={{ color: "#214758" }}>
-            Sign in
+            {userType} Sign in
           </Typography>
           <Box
             component="form"
@@ -148,7 +188,7 @@ export default function Login() {
               }
               label="Remember me"
             />
-            {showalert && state1?.data?.mes && (
+            {showalert && (state1?.data?.mes || adminstate?.data?.mes) && (
               <Stack spacing={0} sx={{ width: "100%" }}>
                 <Alert
                   severity="error"
@@ -156,10 +196,11 @@ export default function Login() {
                     backgroundColor: "#FF0000",
                   }}
                 >
-                  {state1?.data?.mes}
+                  {state1?.data?.mes || adminstate?.data?.mes}
                 </Alert>
               </Stack>
             )}
+
             <Button
               type="submit"
               fullWidth
@@ -171,12 +212,22 @@ export default function Login() {
               }}
               onClick={() => {
                 setShowAlert(true);
-                dispatch(
-                  signin({
-                    email: currentemail,
-                    password: currentpass,
-                  })
-                );
+                setShowAlert1(true);
+
+                if (userType == "User")
+                  dispatch(
+                    signin({
+                      email: currentemail,
+                      password: currentpass,
+                    })
+                  );
+                else
+                  dispatch(
+                    adminlogin({
+                      email: currentemail,
+                      password: currentpass,
+                    })
+                  );
               }}
             >
               Sign In
