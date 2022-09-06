@@ -14,7 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { signup } from "../../../Redux/action/signup";
+import { signup } from "../Redux/action/signup";
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { stat } from "fs/promises";
@@ -160,6 +160,11 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              style={{
+                marginTop: "20px",
+                marginBottom: "8px",
+                background: "#214758",
+              }}
               onClick={() => {
                 setShowAlert(true);
                 dispatch(
@@ -174,7 +179,11 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link
+                  href="#"
+                  variant="body2"
+                  style={{ textDecorationColor: "#214758", color: "#214758" }}
+                >
                   Already have an account? Sign in
                 </Link>
               </Grid>

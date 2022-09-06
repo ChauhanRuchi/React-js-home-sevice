@@ -4,6 +4,7 @@ import store from "../../store";
 
 type DispatchType = typeof store.dispatch;
 
+let url = process.env.REACT_APP_URl_SIGNUP;
 export const signup = (formdata: any) => (dispatch: DispatchType) => {
   axios
     .post("http://localhost:2009/HomeService/signup", {

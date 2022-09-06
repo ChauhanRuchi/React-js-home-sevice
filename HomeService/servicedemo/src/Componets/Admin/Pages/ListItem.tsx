@@ -9,7 +9,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-
+import { NavLink } from "react-router-dom";
 export const mainListItems = (
   <React.Fragment>
     <ListItemButton>
@@ -20,16 +20,22 @@ export const mainListItems = (
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+     <NavLink to="./Service">
+     <ListItemText primary="Service" />
+     </NavLink>
+   
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <PeopleIcon />
+        <ShoppingCartIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <NavLink to="./ServiceCreate">
+        <ListItemText primary="SubService" />
+      </NavLink>
     </ListItemButton>
+    
     <ListItemButton>
       <ListItemIcon>
         <BarChartIcon />
@@ -60,7 +66,7 @@ export const secondaryListItems = (
       <ListItemIcon>
         <AssignmentIcon />
       </ListItemIcon>
-      <ListItemText primary="Last quarter" />
+      <ListItemText primary="Last quarter" onClick={(x) => {}} />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>

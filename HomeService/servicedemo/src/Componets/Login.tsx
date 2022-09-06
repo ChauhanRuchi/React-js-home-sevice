@@ -13,12 +13,14 @@ import { useSelector, useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { signin } from "../../../Redux/action/signup";
-import { adminlogin } from "../../../Redux/action/admin";
+import { signin } from "../Redux/action/signup";
+import { adminlogin } from "../Redux/action/admin";
 import { useState } from "react";
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import "../../../Css/demo.css";
+import { useNavigate } from "react-router-dom";
+
+import "../Css/demo.css";
 //tab selection
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -44,8 +46,17 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function Login() {
+  let navigate = useNavigate();
   const state1 = useSelector((state: any) => state.signin);
   const adminstate = useSelector((state: any) => state.admin);
+  localStorage.setItem("AdminToken", adminstate?.data?.Token || "");
+
+  console.log("adminstate",adminstate)
+  React.useEffect(() => {
+    if (adminstate?.data?.login == true) {
+      navigate("/admin/Dashboard");
+    }
+  }, [adminstate]);
 
   const [currentemail, setemail] = useState("");
   const [currentpass, setpass] = useState("");
@@ -221,13 +232,14 @@ export default function Login() {
                       password: currentpass,
                     })
                   );
-                else
+                else {
                   dispatch(
                     adminlogin({
                       email: currentemail,
                       password: currentpass,
                     })
                   );
+                }
               }}
             >
               Sign In
