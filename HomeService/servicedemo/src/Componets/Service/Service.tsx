@@ -1,45 +1,46 @@
-import SubServiceCard from "./CardSubService";
+import * as React from "react";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { getsubservice } from "../../Redux/action/service";
-import service from "../../Redux/Reducer/service";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import Login from "../Login";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import "../../../src/Css/demo.css";
-import { serialize } from "v8";
-
-const Service = () => {
-  const dispatch = useDispatch<any>();
-  const state1 = useSelector((state: any) => state.service);
-  let servicearr=state1.data;
-  useEffect(() => {
-    dispatch(getsubservice);
-  }, []);
+export default function SubServiceCard(Props: any) {
+  const [click,setclick]=useState(false);
+  let navigate = useNavigate();
+  let Token;
   return (
-    <>
-      <div className="main">
-        <Typography variant="h5">SubService</Typography>
-
-        <div
-          className="card"
-          style={{ display: "flex", flexDirection: "row", marginTop: "35px" }}
-        >
-          {
-           servicearr?.map(function(item:any){
-
-      return    <SubServiceCard
-      title={item?.servicename}
-      decription={item?.decription}
-      image={item?.url}
-      id="1"
-    />
-           })
+   
+<Card sx={{ width: 340 }} style={{ margin: "20px" }}>
+    <CardMedia
+      component="img"
+      height="120"
+      image={Props.image}
+      alt="green iguana"
+      onClick={() => {
+        {
+          
         }
-        
-        
-        </div>
-      </div>
-    </>
+      }}
+    />
+    <CardContent>
+      <Typography gutterBottom variant="h5" component="div">
+        {Props.title}
+      </Typography>
+      <Typography variant="body2" color="text.secondary">
+        {Props.decription}
+      </Typography>
+      <Button variant="contained" onClick={()=>{
+          navigate("../Bookservice")
+        console.log(Props.title)}} style={{background:"#214758",marginTop:"15px"}}>Booking Service</Button>
+    </CardContent>
+    <CardActions></CardActions>
+  </Card>
+    
+   
   );
-};
-export default Service;
+}

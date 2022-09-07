@@ -8,6 +8,12 @@
   align-content: center;
   justify-content: center;
 }
+.bookingservice{
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+}
 
 .Title {
   display: flex;
@@ -22,6 +28,9 @@
   width: 20px;
   height: 20px;
   animation: zoom-in-zoom-out 5s ease infinite;
+}
+.footer{
+  
 }
 
 @keyframes zoom-in-zoom-out {

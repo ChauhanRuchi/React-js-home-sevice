@@ -1,5 +1,5 @@
-import signup from "../Reducer/signup";
-import signin from "../Reducer/signup";
+import signup from "./user";
+import signin from "./user";
 import service from "../Reducer/service";
 import admin from "../Reducer/admin";
 

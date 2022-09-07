@@ -4,7 +4,7 @@ import NavBar from "../src/Componets/Home/HomeLayout/NavBar";
 import Login from "./Componets/Login";
 import Register from "./Componets/Register";
 import Home from "./Componets/Home";
-import Service from "./Componets/Service/Service";
+import Service from "./Componets/Service/SubService";
 import Logout from "../src/Componets/Home/HomeLayout/Logout";
 import HomeLayout from "./Componets/Home/HomeLayout/HomeLayout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";

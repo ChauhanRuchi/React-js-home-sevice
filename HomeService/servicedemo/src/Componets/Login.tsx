@@ -13,13 +13,13 @@ import { useSelector, useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { signin } from "../Redux/action/signup";
+import { signin } from "../Redux/action/user";
+import user from "../Redux/Reducer/user"
 import { adminlogin } from "../Redux/action/admin";
 import { useState } from "react";
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
-
 import "../Css/demo.css";
 //tab selection
 import Tabs from "@mui/material/Tabs";
@@ -48,6 +48,7 @@ const theme = createTheme();
 export default function Login() {
   let navigate = useNavigate();
   const state1 = useSelector((state: any) => state.signin);
+  console.log(state1)
   const adminstate = useSelector((state: any) => state.admin);
   localStorage.setItem("AdminToken", adminstate?.data?.Token || "");
 

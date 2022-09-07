@@ -1,6 +1,6 @@
 let initstate = {};
 
-const signup = (state = initstate, action: any) => {
+const user = (state = initstate, action: any) => {
   switch (action.type) {
     case "SET_CURRENT_USER":
       return { ...state, data: action.payload };
@@ -10,4 +10,4 @@ const signup = (state = initstate, action: any) => {
       return state;
   }
 };
-export default signup;
+export default user;

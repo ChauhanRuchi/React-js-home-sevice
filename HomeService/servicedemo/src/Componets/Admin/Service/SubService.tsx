@@ -51,8 +51,8 @@ export default function BasicModal() {
       Admin: "",
       img_upload: "",
     },
-    onSubmit: (values) => {
-      formData.append("image", values["file"] as any);
+    onSubmit: (values:any) => {
+      formData.append("image", values?.["file"]);
       
       formData.append("subservicename", values.SubService);
 
