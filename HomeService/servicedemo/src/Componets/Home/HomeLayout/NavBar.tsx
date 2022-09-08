@@ -69,7 +69,7 @@ export default function DrawerAppBar(props: Props, className = "back") {
               Home
             </NavLink>
             <NavLink
-              to="/Service"
+              to="/Service/:id"
               className={"tab"}
               style={{
                 margin: "10px",

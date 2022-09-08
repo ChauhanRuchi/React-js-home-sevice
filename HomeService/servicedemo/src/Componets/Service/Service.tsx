@@ -7,10 +7,11 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Login from "../Login";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 
 export default function SubServiceCard(Props: any) {
   const [click,setclick]=useState(false);
+  let { id } = useParams();
   let navigate = useNavigate();
   let Token;
   return (
@@ -36,7 +37,7 @@ export default function SubServiceCard(Props: any) {
       </Typography>
       <Button variant="contained" onClick={()=>{
           navigate("../Bookservice")
-        console.log(Props.title)}} style={{background:"#214758",marginTop:"15px"}}>Booking Service</Button>
+        console.log(id)}} style={{background:"#214758",marginTop:"15px"}}>Booking Service</Button>
     </CardContent>
     <CardActions></CardActions>
   </Card>

@@ -10,9 +10,14 @@ import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
 import { subservice } from "../../../Redux/action/service";
+import { getservice } from "../../../Redux/action/service";
 import service from "../../../Redux/Reducer/service"
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 const style = {
   position: "absolute" as "absolute",
@@ -32,39 +37,40 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 export default function BasicModal() {
-  const state = useSelector((state: any) => state.service);
-  console.log(state);
+  const state =useSelector((state: any) => state.service);
+  let data="";
+  
+  const [service, setService] = React.useState('');
   var formData = new FormData();
   const dispatch = useDispatch<any>();
-
   const [open, setOpen] = React.useState(false);
   const [link, setlink] = React.useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+    useEffect(()=>{
+        dispatch(getservice)
+    },[])
 
+  const handleChange = (event: SelectChangeEvent) => {
+    setService(event.target.value as string);
+  };
   const formik = useFormik({
     initialValues: {
       data: "",
       SubService: "",
       Service: "",
       Decription: "",
-      Admin: "",
       img_upload: "",
+    
     },
     onSubmit: (values:any) => {
       formData.append("image", values?.["file"]);
       
-      formData.append("subservicename", values.SubService);
+      formData.append("serviceid", service);
 
       formData.append("servicename", values.Service);
 
-      formData.append("adminname", values.Admin);
       formData.append("decription", values.Decription);
-
-      for (var pair of formData.entries()) {
-        console.log(pair[0] + ", " + pair[1]);
-      }
-
 
       dispatch(subservice(formData));
     },
@@ -91,15 +97,26 @@ export default function BasicModal() {
               style={{ padding: 1 }}
             >
               <Grid item xs={6}>
-                <TextField
-                  id="SubService"
-                  label="SubService Name"
-                  onChange={formik.handleChange}
-                  defaultValue={formik.values.data}
-                  fullWidth
-                  autoComplete="current-password"
-                  variant="filled"
-                />{" "}
+              <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">MainService</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={service}
+          label="SubService"
+          onChange={handleChange}
+          defaultValue={formik.values.data}        >
+        {
+          state?.mainservicedata?.map((item:any)=>{
+           return <MenuItem value={item?._id}>
+            {item?.servicename}</MenuItem>
+          })
+        
+        }
+        </Select>
+      </FormControl>
+    </Box>
               </Grid>
               <Grid item xs={6}>
                 <TextField
@@ -122,18 +139,6 @@ export default function BasicModal() {
                   autoComplete="current-password"
                   variant="filled"
                 />{" "}
-              </Grid>
-
-              <Grid item xs={6}>
-                <TextField
-                  id="Admin"
-                  onChange={formik.handleChange}
-                  defaultValue={formik.values.data}
-                  fullWidth
-                  label="Admin Name"
-                  autoComplete="current-password"
-                  variant="filled"
-                />
               </Grid>
               <Grid item xs={6}>
                 <Stack>

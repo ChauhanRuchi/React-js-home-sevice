@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import {servicecre} from "../../../Redux/action/service"
 import service from "../../../Redux/Reducer/service"
 
+
 import { useSelector, useDispatch } from "react-redux";
 
 const style = {
@@ -33,7 +34,6 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 export default function ServiceCreate() {
   const state = useSelector((state: any) => state.service);
-  console.log(state);
   var formData = new FormData();
   const dispatch = useDispatch<any>();
   const [open, setOpen] = React.useState(false);
@@ -51,13 +51,11 @@ export default function ServiceCreate() {
       img_upload: "",
       Serviceid:"",
     },
-    onSubmit: (values) => {
-      formData.append("image", values["file"] as any);
-      formData.append("serviceid",values.Serviceid);
+    onSubmit: (values:any) => {
+      formData.append("image", values?.["file"]);
     
       formData.append("servicename", values.Service);
 
-      formData.append("adminname", values.Admin);
       formData.append("decription", values.Decription);
 
       for (var pair of formData.entries()) {
@@ -87,16 +85,7 @@ export default function ServiceCreate() {
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               style={{ padding: 1 }}
             >
-              <Grid item xs={6}>
-                <TextField
-                  id="Serviceid"
-                  onChange={formik.handleChange}
-                  defaultValue={formik.values.data}
-                  label="Service Id"
-                  fullWidth
-                  variant="filled"
-                />
-              </Grid>
+              
               <Grid item xs={6}>
                 <TextField
                   id="Service"
@@ -120,17 +109,7 @@ export default function ServiceCreate() {
                 />{" "}
               </Grid>
 
-              <Grid item xs={6}>
-                <TextField
-                  id="Admin"
-                  onChange={formik.handleChange}
-                  defaultValue={formik.values.data}
-                  fullWidth
-                  label="Admin Name"
-                  autoComplete="current-password"
-                  variant="filled"
-                />
-              </Grid>
+           
               <Grid item xs={6}>
                 <Stack>
                   <Button variant="contained" component="label">

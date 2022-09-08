@@ -49,10 +49,10 @@ export const subservice = (formdata: any) => (dispatch: DispatchType) => {
     });
 };
 
-export const getsubservice = (dispatch: DispatchType) => {
-  
+export const getsubservice =(formdata:any)=> (dispatch: DispatchType) => {
+
   axios
-    .get("http://localhost:2009/HomeService/getsubservice")
+    .get("http://localhost:2009/HomeService/getservicebysub/"+formdata?._id)
     .then((res) => {
       console.log(res)
       dispatch({
@@ -89,3 +89,24 @@ export const getservice=(dispatch:DispatchType)=>{
       });
     });
 }
+
+export const getsubserviceall = (dispatch: DispatchType) => {
+
+  axios
+    .get("http://localhost:2009/HomeService/getsubservice")
+    .then((res) => {
+      console.log(res)
+      dispatch({
+        type: "GET_CURRENT_SUBSERVICE",
+        payload: res.data,
+      });
+    })
+    .catch(({ response }) => {
+      console.log(response)
+
+      dispatch({
+        type: "GET_CURRENT_SUBSERVICE",
+        payload: response.data,
+      });
+    });
+};

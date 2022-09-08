@@ -12,7 +12,7 @@ import { useEffect } from "react";
 const Home = () => {
   const dispatch = useDispatch<any>();
   const state1 = useSelector((state: any) => state.service);
-  let arr = state1.data;
+  let arr = state1.mainservicedata;
  
   useEffect(() => {
     dispatch(getservice);
@@ -42,7 +42,7 @@ const Home = () => {
       <div
         className="card"
         style={{ display: "flex", flexDirection: "row", marginTop: "35px" }}
-        
+
       >
         {
            arr?.map(function(item:any){
@@ -51,7 +51,7 @@ const Home = () => {
           title={item?.servicename}
           decription={item?.decription}
           image={item?.url}
-          id="1"
+           id={item?._id} 
         />
            })
         }

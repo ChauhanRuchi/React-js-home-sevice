@@ -20,7 +20,7 @@ const Booking=()=>{
         <TextField id="outlined-basic" label="Enter Your Address" variant="outlined" />
         </CardContent>
        </Card>
-       <Typography variant="h7" style={{marginTop:"15px"}}>
+       <Typography variant="h6" style={{marginTop:"15px"}}>
     Requested Service on
       </Typography>
       <Typography variant="h6" style={{marginTop:"25px"}}>{date.toUTCString()}</Typography>

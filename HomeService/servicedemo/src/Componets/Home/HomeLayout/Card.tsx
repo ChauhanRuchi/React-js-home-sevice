@@ -24,7 +24,8 @@ export default function MediaCard(Props: any) {
             console.log("gfgg", Token);
             if (Token === null || Token === undefined || Token === "")
               navigate("Login");
-            else navigate("Service");
+            else
+             navigate("Service/"+Props.id);
           }
         }}
       />
