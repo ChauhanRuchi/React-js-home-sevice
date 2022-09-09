@@ -60,55 +60,35 @@ export default function DrawerAppBar(props: Props, className = "back") {
             <NavLink
               to="/"
               className={"tab"}
-              style={{
-                margin: "10px",
-                fontFamily: "",
-                fontStyle: "normal",
-              }}
+        
             >
               Home
             </NavLink>
             <NavLink
               to="/Service/:id"
               className={"tab"}
-              style={{
-                margin: "10px",
-                fontFamily: "",
-                fontStyle: "normal",
-              }}
+             
             >
               Service
             </NavLink>
             <NavLink
               to="/Login"
               className={"tab"}
-              style={{
-                margin: "10px",
-                fontFamily: "",
-                fontStyle: "normal",
-              }}
+             
             >
               Login
             </NavLink>
             <NavLink
               to="/Logout"
               className={"tab"}
-              style={{
-                margin: "10px",
-                fontFamily: "",
-                fontStyle: "normal",
-              }}
+             
             >
               Logout
             </NavLink>
             <NavLink
               to="/Register"
               className={"tab"}
-              style={{
-                margin: "10px",
-                fontFamily: "",
-                fontStyle: "normal",
-              }}
+             
             >
               Register
             </NavLink>

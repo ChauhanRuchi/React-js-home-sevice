@@ -163,7 +163,7 @@ export default function Login() {
               required
               fullWidth
               inputProps={{
-                style: { fontFamily: "nunito", borderColor: "#214758" },
+                style: {borderColor: "#214758" },
               }}
               id="email"
               label="Email Address"

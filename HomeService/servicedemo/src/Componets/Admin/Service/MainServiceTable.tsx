@@ -7,13 +7,17 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { getsubserviceall } from "../../../Redux/action/service";
+import { getservice ,deletemainservice} from "../../../Redux/action/service";
 import service from "../../../Redux/Reducer/service";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { IconButton } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import MainServiceEdit from "../../Admin/Service/MainServiceEdit"
 
 interface Column {
-  id: "MainService" | "ServiceName" | "Decription" | "URl";
+  id:  "ServiceName" | "Decription" |"Edit"|"Delete";
   label: string;
   minWidth?: number;
   align?: "right";
@@ -21,33 +25,27 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "MainService", label: "MainService", minWidth: 170 },
-  { id: "ServiceName", label: "ServiceName", minWidth: 100 },
+  { id: "ServiceName", label: "ServiceName"},
   {
     id: "Decription",
     label: "Decription",
-    minWidth: 170,
     align: "right",
     format: (value: number) => value.toLocaleString("en-US"),
   },
-  {
-    id: "URl",
-    label: "URl",
-    minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
-  },
+  { id: "Edit", label: "Edit"},
+  { id: "Delete", label: "Delete"},
+ 
 ];
 
 interface Data {
-  MainService: string;
   ServiceName: string;
   Decription: string;
-  URl: string;
+
 }
 
-export default function StickyHeadTable() {
+export default function MainServiceTable() {
   const [page, setPage] = React.useState(0);
+  const [deletestate, setdelete] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsData, setRowsData] = React.useState([]);
   const dispatch = useDispatch<any>();
@@ -64,12 +62,15 @@ export default function StickyHeadTable() {
     setPage(0);
   };
   useEffect(() => {
-    dispatch(getsubserviceall);
+    dispatch(getservice);
   }, []);
-
+     
+      function setdele(){
+       dispatch(deletemainservice(servicestate._id))
+      }
   useEffect(() => {
-    if (servicestate?.subservicedataall) {
-      setRowsData(servicestate.subservicedataall);
+    if (servicestate?.mainservicedata) {
+      setRowsData(servicestate.mainservicedata);
     }
   }, [servicestate]);
   console.log("rowsData", rowsData);
@@ -89,9 +90,18 @@ export default function StickyHeadTable() {
             <TableBody>
               {rowsData.map((column: any) => (
                 <TableRow hover role="checkbox">
-                  <TableCell key={"MainService"}>{column.servicename}</TableCell>
                   <TableCell key={"ServiceName"}>{column.servicename}</TableCell>{" "}
                   <TableCell key={"Decription"}>{column.decription}</TableCell>
+                  <TableCell key={"Edit"}>{
+                    <MainServiceEdit id={column?._id} />
+                  }</TableCell>
+      <TableCell key={"Delete"}>{
+                    <IconButton>
+                    <DeleteIcon onClick={
+                     setdele
+                    }/>
+                    </IconButton>
+                  }</TableCell>
                 </TableRow>
               ))}
             </TableBody>
