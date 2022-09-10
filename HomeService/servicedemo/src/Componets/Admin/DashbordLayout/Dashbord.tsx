@@ -116,7 +116,7 @@ function DashboardContent() {
               aria-label="open drawer"
               onClick={toggleDrawer}
               sx={{
-                marginRight: "36px",
+                marginRight: "3px",
                 ...(open && { display: "none" }),
               }}
             >

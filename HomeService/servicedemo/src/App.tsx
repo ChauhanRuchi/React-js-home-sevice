@@ -5,12 +5,13 @@ import Login from "./Componets/Login";
 import Register from "./Componets/Register";
 import Home from "./Componets/Home";
 import Service from "./Componets/Service/SubService";
+import Profile from "../src/Componets/Admin/Profile/Profile"
 import Logout from "../src/Componets/Home/HomeLayout/Logout";
 import HomeLayout from "./Componets/Home/HomeLayout/HomeLayout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DashbordLayout from "./Componets/Admin/DashbordLayout/DashBordlayout";
-import SubService from "./Componets/Admin/Pages/SubService";
-import ServiceCreate from "./Componets/Admin/Pages/Service";
+import SubService from "./Componets/Admin/Service/SubService";
+import ServiceCreate from "./Componets/Admin/Service/Service";
 import Booking from "./Componets/Home/Booking/Booking";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/admin/Dashboard/" element={<DashbordLayout />}>
             <Route path="ServiceCreate" element={<SubService />} />
             <Route path="Service" element={<ServiceCreate/>} />
+            <Route path="Profile" element={<Profile/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

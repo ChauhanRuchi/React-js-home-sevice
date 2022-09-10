@@ -9,7 +9,7 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
-import {editmainservice} from "../../../Redux/action/service"
+import {editmainservice,getservice} from "../../../Redux/action/service"
 import service from "../../../Redux/Reducer/service"
 import { IconButton } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
@@ -57,7 +57,7 @@ export default function MainServiceEdit(Props:any) {
       Serviceid:"",
     },
     onSubmit: (values:any) => {
-      formData.append("image", values?.["file"]);
+      formData.append("image", values?.["file"]||state?.url);
     
       formData.append("servicename", values.Service);
 
@@ -66,14 +66,13 @@ export default function MainServiceEdit(Props:any) {
       for (var pair of formData.entries()) {
         console.log(pair[0] + ", " + pair[1]);
       }
-
-      dispatch(editmainservice(Props.id,formData));  },
+      dispatch(editmainservice(Props.id,formData));
+     },
   });
   return (
     <div>
        
-     <IconButton 
-                     >
+     <IconButton>
                     <EditIcon onClick={ handleOpen}/>
                     </IconButton>
       <Modal
@@ -150,6 +149,7 @@ export default function MainServiceEdit(Props:any) {
                   alignItems: "center",
                   justifyContent: "center",
                 }}
+               
               >
                 Submit
               </Button>

@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { signin } from "../Redux/action/user";
-import user from "../Redux/Reducer/user"
+import user from "../Redux/Reducer/user";
 import { adminlogin } from "../Redux/action/admin";
 import { useState } from "react";
 import Stack from "@mui/material/Stack";
@@ -24,6 +24,7 @@ import "../Css/demo.css";
 //tab selection
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { BorderColor } from "@mui/icons-material";
 
 function Copyright(props: any) {
   return (
@@ -48,11 +49,11 @@ const theme = createTheme();
 export default function Login() {
   let navigate = useNavigate();
   const state1 = useSelector((state: any) => state.signin);
-  console.log(state1)
+  console.log(state1);
   const adminstate = useSelector((state: any) => state.admin);
   localStorage.setItem("AdminToken", adminstate?.data?.Token || "");
 
-  console.log("adminstate",adminstate)
+  console.log("adminstate", adminstate);
   React.useEffect(() => {
     if (adminstate?.data?.login == true) {
       navigate("/admin/Dashboard");
@@ -163,7 +164,7 @@ export default function Login() {
               required
               fullWidth
               inputProps={{
-                style: {borderColor: "#214758" },
+                style: { borderColor: "#214758" },
               }}
               id="email"
               label="Email Address"
@@ -172,7 +173,7 @@ export default function Login() {
               autoFocus
               value={currentemail}
               onChange={(e: any) => setemail(e.target.value)}
-              className="cm-input input.mui-focused "
+              // className="cm-input input.mui-focused "
             />
             <TextField
               margin="normal"

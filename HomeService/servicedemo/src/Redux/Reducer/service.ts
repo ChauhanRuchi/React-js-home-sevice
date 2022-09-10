@@ -9,7 +9,7 @@ const service = (state = initstate, action: any) => {
     case "GET_CURRENT_MAINSERVICE":
       return { ...state, mainservicedata: action.payload };
     case "SET_CURRENT_MAINSERVICE":
-      return { ...state, mainservicedata: action.payload };
+      return { ...state };
     case "GET_CURRENT_SUBSERVICE":
       return { ...state, subservicedataall: action.payload };
       case "EDIT_CURRENT_SERVICE":

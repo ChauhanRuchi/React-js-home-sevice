@@ -65,8 +65,9 @@ export default function MainServiceTable() {
     dispatch(getservice);
   }, []);
      
-      function setdele(){
-       dispatch(deletemainservice(servicestate._id))
+      function setdele(id:any){
+       dispatch(deletemainservice(id))
+       dispatch(getservice);
       }
   useEffect(() => {
     if (servicestate?.mainservicedata) {
@@ -88,7 +89,7 @@ export default function MainServiceTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rowsData.map((column: any) => (
+              {[...rowsData]?.map((column: any) => (
                 <TableRow hover role="checkbox">
                   <TableCell key={"ServiceName"}>{column.servicename}</TableCell>{" "}
                   <TableCell key={"Decription"}>{column.decription}</TableCell>
@@ -97,9 +98,9 @@ export default function MainServiceTable() {
                   }</TableCell>
       <TableCell key={"Delete"}>{
                     <IconButton>
-                    <DeleteIcon onClick={
-                     setdele
-                    }/>
+                    <DeleteIcon onClick={()=>{
+                      setdele(column?._id)
+                    }}/>
                     </IconButton>
                   }</TableCell>
                 </TableRow>

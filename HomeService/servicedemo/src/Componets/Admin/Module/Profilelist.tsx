@@ -1,36 +1,61 @@
 import * as React from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { useState } from "react";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import { useNavigate } from "react-router-dom";
 
-export default function Profilelist() {
-  const[open,setopen]=useState(false);
-   
-  return (<>
-  {
-    open==true &&(<List
-    sx={{ width: "10%", maxWidth: 60, bgcolor: "background.paper"}}>
-    {
-  
-      <ListItem
-        key={1}
-      >
-        <ListItemText primary={`Line item ${1}`} />
-      </ListItem>
-  }
-  </List>)
-  }
- 
-    <IconButton
-      color="inherit"
-      onClick={(event) =>{
-        setopen(true)}}
-    >
-      <AccountCircleIcon  />
-    </IconButton>
+
+export default function MenuAppBar() {
+  let navigate = useNavigate();
+  const [auth, setAuth] = React.useState(true);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <>
+      {auth && (
+        <div>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={handleMenu}
+            color="inherit"
+          >
+            <AccountCircle sx={{ marginLeft: "25px" }} />
+          </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={()=>{ setAnchorEl(null); navigate("./Profile")}}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
+        </div>
+      )}
     </>
   );
 }

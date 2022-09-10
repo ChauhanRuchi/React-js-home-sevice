@@ -9,12 +9,16 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
-import {getservice, servicecre} from "../../../Redux/action/service"
+import { subservice } from "../../../Redux/action/service";
+import { getservice } from "../../../Redux/action/service";
 import service from "../../../Redux/Reducer/service"
-import CloseIcon from '@mui/icons-material/Close';
-
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -32,40 +36,44 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-export default function MainService() {
-  const state = useSelector((state: any) => state.service);
+export default function BasicModal() {
+  const state =useSelector((state: any) => state.service);
+  let data="";
+  
+  const [service, setService] = React.useState('');
   var formData = new FormData();
   const dispatch = useDispatch<any>();
   const [open, setOpen] = React.useState(false);
   const [link, setlink] = React.useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+    useEffect(()=>{
+        dispatch(getservice)
+    },[])
 
+  const handleChange = (event: SelectChangeEvent) => {
+    setService(event.target.value as string);
+  };
   const formik = useFormik({
     initialValues: {
       data: "",
       SubService: "",
       Service: "",
       Decription: "",
-      Admin: "",
       img_upload: "",
-      Serviceid:"",
+    
     },
     onSubmit: (values:any) => {
       formData.append("image", values?.["file"]);
-    
+      
+      formData.append("serviceid", service);
+
       formData.append("servicename", values.Service);
 
       formData.append("decription", values.Decription);
 
-      for (var pair of formData.entries()) {
-        console.log(pair[0] + ", " + pair[1]);
-      }
-
-      dispatch(servicecre(formData));  
-      dispatch(getservice);
-
-      },
+      dispatch(subservice(formData));
+    },
   });
   return (
     <div>
@@ -80,7 +88,6 @@ export default function MainService() {
       >
         <Box sx={style}>
           <Typography variant="h6">Add Service</Typography>
-          <CloseIcon/>
 
           <form onSubmit={formik.handleSubmit}>
             <Grid
@@ -89,7 +96,28 @@ export default function MainService() {
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               style={{ padding: 1 }}
             >
-           
+              <Grid item xs={6}>
+              <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">MainService</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={service}
+          label="SubService"
+          onChange={handleChange}
+          defaultValue={formik.values.data}        >
+        {
+          state?.mainservicedata?.map((item:any)=>{
+           return <MenuItem value={item?._id}>
+            {item?.servicename}</MenuItem>
+          })
+        
+        }
+        </Select>
+      </FormControl>
+    </Box>
+              </Grid>
               <Grid item xs={6}>
                 <TextField
                   id="Service"
@@ -112,8 +140,6 @@ export default function MainService() {
                   variant="filled"
                 />{" "}
               </Grid>
-
-           
               <Grid item xs={6}>
                 <Stack>
                   <Button variant="contained" component="label">
