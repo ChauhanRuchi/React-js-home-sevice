@@ -5,7 +5,7 @@ import Login from "./Componets/Login";
 import Register from "./Componets/Register";
 import Home from "./Componets/Home";
 import Service from "./Componets/Service/SubService";
-import Profile from "../src/Componets/Admin/Profile/Profile"
+import Profile from "./Componets/Admin/Profile/MainProfile"
 import Logout from "../src/Componets/Home/HomeLayout/Logout";
 import HomeLayout from "./Componets/Home/HomeLayout/HomeLayout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -13,6 +13,7 @@ import DashbordLayout from "./Componets/Admin/DashbordLayout/DashBordlayout";
 import SubService from "./Componets/Admin/Service/SubService";
 import ServiceCreate from "./Componets/Admin/Service/Service";
 import Booking from "./Componets/Home/Booking/Booking";
+import MainProfiile from "./Componets/Admin/Profile/MainProfile";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
           <Route path="/admin/Dashboard/" element={<DashbordLayout />}>
             <Route path="ServiceCreate" element={<SubService />} />
             <Route path="Service" element={<ServiceCreate/>} />
-            <Route path="Profile" element={<Profile/>}/>
+            <Route path="Profile" element={<MainProfiile/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

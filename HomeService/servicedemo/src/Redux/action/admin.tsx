@@ -21,3 +21,29 @@ export const adminlogin = (formdata: any) => (dispatch: DispatchType) => {
       });
     });
 };
+
+export const changepass = (formdata: any) => (dispatch: DispatchType) => {
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${localStorage.getItem("AdminToken")}`,
+    },
+  };
+  axios
+    .patch("http://localhost:2009/HomeService/admin/changepassword", 
+      formdata,
+      config
+    )
+    .then((res) => {
+      dispatch({
+        type: "CURRENT_CHANGEPASSWORD",
+        payload: res.data,
+      });
+    })
+    .catch(({ response }) => {
+      dispatch({
+        type: "CURRENT_CHANGEPASSWORD",
+        payload: response.data,
+      });
+    });
+};
