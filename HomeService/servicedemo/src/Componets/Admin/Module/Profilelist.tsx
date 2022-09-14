@@ -52,7 +52,12 @@ export default function MenuAppBar() {
             onClose={handleClose}
           >
             <MenuItem onClick={()=>{ setAnchorEl(null); navigate("./Profile")}}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={()=>{
+              setAnchorEl(null);
+              localStorage.removeItem("AdminToken")
+              navigate("../")
+            }
+            }>Logout</MenuItem>
           </Menu>
         </div>
       )}

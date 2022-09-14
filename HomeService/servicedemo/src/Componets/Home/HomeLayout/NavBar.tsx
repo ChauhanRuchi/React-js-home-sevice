@@ -7,7 +7,9 @@ import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { render } from "@testing-library/react";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import "../../../Css/demo.css";
 
 interface Props {
@@ -16,6 +18,7 @@ interface Props {
 
 const drawerWidth = 240;
 export default function DrawerAppBar(props: Props, className = "back") {
+  let navigate = useNavigate();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -79,8 +82,14 @@ export default function DrawerAppBar(props: Props, className = "back") {
               Login
             </NavLink>
             <NavLink
-              to="/Logout"
+              to="/"
               className={"tab"}
+              onClick={
+                ()=>{
+                  localStorage.removeItem("Token")
+                  navigate("../")
+                }
+              }
              
             >
               Logout

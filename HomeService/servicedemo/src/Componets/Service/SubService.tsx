@@ -47,7 +47,6 @@ const Service = (Props:any) => {
            })
         }
         
-        
         </div>
       </div>
     </>

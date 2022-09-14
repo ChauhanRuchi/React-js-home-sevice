@@ -47,6 +47,7 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function Login() {
+
   let navigate = useNavigate();
   const state1 = useSelector((state: any) => state.signin);
   console.log(state1);
@@ -85,7 +86,9 @@ export default function Login() {
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
-
+  if(state1?.data?.login==true){
+    navigate("../")
+  }
   const handleChangeUserType = (event: any, newTabIndex: Number) => {
     if (newTabIndex === 0) {
       setUserType("User");
@@ -228,12 +231,16 @@ export default function Login() {
                 setShowAlert1(true);
 
                 if (userType == "User")
+              
                   dispatch(
                     signin({
                       email: currentemail,
                       password: currentpass,
-                    })
+                    })                    
                   );
+                 
+             
+
                 else {
                   dispatch(
                     adminlogin({
