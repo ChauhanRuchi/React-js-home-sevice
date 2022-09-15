@@ -63,16 +63,17 @@ export default function BasicModal() {
       img_upload: "",
     
     },
-    onSubmit: (values:any) => {
+    onSubmit: async(values:any) => {
+
+      
       formData.append("image", values?.["file"]);
       
       formData.append("serviceid", service);
-
       formData.append("servicename", values.Service);
 
       formData.append("decription", values.Decription);
-
-      dispatch(subservice(formData));
+    
+     await dispatch(subservice(formData));
     },
   });
   return (

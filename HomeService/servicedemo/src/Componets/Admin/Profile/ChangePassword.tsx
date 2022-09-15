@@ -12,6 +12,10 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import "../../../Css/demo.css"
 import { useSelector,useDispatch } from 'react-redux';
+import * as Yup from 'yup';
+import { useFormik } from "formik";
+
+
 
 const bull = (
   <Box
@@ -27,56 +31,74 @@ export default function ChangePassword() {
     const dispatch = useDispatch<any>();
 
     console.log(statepassword)
-    const [oldpassword,setoldpassword]=useState("");
-    const [newpassword,setnewpassword]=useState("");
-    const [confirmpassword,setconfirmpassword]=useState("");
-    formData.append("oldpassword",oldpassword);
-    formData.append("newpassword",newpassword);
-    formData.append("confirmpassword",confirmpassword);      
-    console.log(oldpassword)
-   let pass=()=>{
-        dispatch( changepass(formData))
- 
-   }
+    
+   const ValidationSchema = Yup.object().shape({
+    passwordinput: Yup.string().required('Required')
+  });
+  const formik = useFormik({
+    validationSchema:{ValidationSchema},
+    initialValues: {
+      data: "",
+      passwordinput: "",
+      newpasswordinput: "",
+      confirmpasswordinput: "",
+    
+    },
+  
+    onSubmit: async(values:any) => {
+      console.log(values?.passwordinput)
+      formData.append("oldpassword",values?.passwordinput);
+      formData.append("newpassword",values?.newpasswordinput)
+      formData.append("confirmpassword",values?.confirmpasswordinput)
+
+      dispatch(changepass(formData))
+    },
+  });
     const card = (
     
         <React.Fragment>
           
           <CardContent>
-            <TextField
-                id="password-input"
+          <form onSubmit={formik.handleSubmit} >
+          <TextField
+                id="passwordinput"
                 fullWidth
                 label="Password"
                 type="password"
                 autoComplete="current-password"
                 variant="filled"
                className='changepass'
-                value={oldpassword}
-                onChange={(e)=>{ setoldpassword(e.target.value)}}
+               onChange={formik.handleChange}
+               error={formik.errors||formik.touched?true:false}
+               helperText={formik.errors.passwordinput}
+               defaultValue={formik.values.data||""||undefined&&formik.touched.passwordinput}
               />
               <TextField
-                id="newpassword-input"
+                id="newpasswordinput"
                 fullWidth
                 label="NewPassword"
                 type="password"
                 autoComplete="current-password"
                 variant="filled"
                 className='changepass'
-                value={newpassword}
-                onChange={(e)=>{ setnewpassword(e.target.value)}}
+                onChange={formik.handleChange}
+                  defaultValue={formik.values.data}
               />
               <TextField
-                id="confirmpassword-input"
+                id="confirmpasswordinput"
                 fullWidth
                 label="ConfirmPassword"
                 type="password"
                 autoComplete="current-password"
                 variant="filled"
                 className='changepass'
-                value={confirmpassword}
-                onChange={(e)=>{ setconfirmpassword(e.target.value)}}
+                onChange={formik.handleChange}
+                  defaultValue={formik.values.data}
               />
-                <Button variant="outlined" fullWidth style={{marginTop:"20px"}} onClick={()=> pass()}>Change Password</Button>
+                <Button  type='submit' variant="outlined" fullWidth style={{marginTop:"20px"}}>Change Password</Button>
+            </form>
+            
+         
           </CardContent>
           <CardActions>
             {/* <Button size="small">Learn More</Button> */}

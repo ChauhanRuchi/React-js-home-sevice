@@ -47,12 +47,12 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function Login() {
+  localStorage.removeItem("Token");
 
   let navigate = useNavigate();
   const state1 = useSelector((state: any) => state.signin);
-  console.log(state1);
+  console.log("...",localStorage.getItem("Token"));
   const adminstate = useSelector((state: any) => state.admin);
-  localStorage.setItem("AdminToken", adminstate?.data?.Token || "");
 
   console.log("adminstate", adminstate);
   React.useEffect(() => {
@@ -71,7 +71,6 @@ export default function Login() {
   const [showalert, setShowAlert] = useState(false);
   const [showalert1, setShowAlert1] = useState(false);
 
-  localStorage.setItem("Token", state1?.data?.Token || "");
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -86,9 +85,10 @@ export default function Login() {
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
-  if(state1?.data?.login==true){
+  if(localStorage.getItem("Token")!=null){
     navigate("../")
   }
+
   const handleChangeUserType = (event: any, newTabIndex: Number) => {
     if (newTabIndex === 0) {
       setUserType("User");
@@ -249,6 +249,11 @@ export default function Login() {
                     })
                   );
                 }
+                if(state1?.data?.login==true)
+                localStorage.setItem("Token", state1?.data?.Token || "");
+
+                localStorage.setItem("AdminToken", adminstate?.data?.Token || "");
+
               }}
             >
               Sign In
@@ -256,7 +261,7 @@ export default function Login() {
             <Grid container>
               <Grid item xs>
                 <Link
-                  href="#"
+                  href="#/"
                   variant="body2"
                   style={{ textDecorationColor: "#214758", color: "#214758" }}
                 >
@@ -265,7 +270,7 @@ export default function Login() {
               </Grid>
               <Grid item>
                 <Link
-                  href="#"
+                  href="/Register"
                   variant="body2"
                   style={{ textDecorationColor: "#214758", color: "#214758" }}
                 >

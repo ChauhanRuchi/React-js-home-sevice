@@ -68,16 +68,23 @@ export default function DrawerAppBar(props: Props, className = "back") {
               Home
             </NavLink>
             <NavLink
-              to="/Service/:id"
+              to="/Service"
               className={"tab"}
              
             >
               Service
             </NavLink>
             <NavLink
-              to="/Login"
+              to=""
               className={"tab"}
-             
+              onClick={()=>{
+                if(localStorage.getItem("Token")!=""){
+                  return navigate("/")
+                }
+                else{
+                  return navigate("Login")
+                }
+              }}
             >
               Login
             </NavLink>
@@ -87,6 +94,7 @@ export default function DrawerAppBar(props: Props, className = "back") {
               onClick={
                 ()=>{
                   localStorage.removeItem("Token")
+                  if(localStorage.getItem("Token")==null)
                   navigate("../")
                 }
               }
@@ -94,13 +102,7 @@ export default function DrawerAppBar(props: Props, className = "back") {
             >
               Logout
             </NavLink>
-            <NavLink
-              to="/Register"
-              className={"tab"}
-             
-            >
-              Register
-            </NavLink>
+     
           </Box>
         </Toolbar>
       </AppBar>

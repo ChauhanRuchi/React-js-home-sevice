@@ -162,3 +162,45 @@ export const deletemainservice = (id: string) => (dispatch: DispatchType) => {
       });
     });
 };
+export const deletesubservice = (id: string) => (dispatch: DispatchType) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("AdminToken")}`,
+    },
+  };
+  axios
+    .delete("http://localhost:2009/HomeService/deletesubservice/" + id, config)
+    .then((res) => {
+      console.log(res);
+      dispatch({
+        type: "DELETE_SUB_SERVICE",
+        payload: res.data,
+      });
+    })
+    .catch(({ response }) => {
+      console.log(response);
+      dispatch({
+        type: "DELETE_SUB_SERVICE",
+        payload: response.data,
+      });
+    });
+};
+export const getsearchbyid =(id:string|undefined)=> (dispatch: DispatchType) => {
+  axios
+    .get("http://localhost:2009/HomeService/getsearchbyid/"+id)
+    .then((res) => {
+      console.log(res);
+      dispatch({
+        type: "GET_SEARCHBYID",
+        payload: res.data,
+      });
+    })
+    .catch(({ response }) => {
+      console.log(response);
+
+      dispatch({
+        type: "GET_SEARCHBYID",
+        payload: response.data,
+      });
+    });
+};
