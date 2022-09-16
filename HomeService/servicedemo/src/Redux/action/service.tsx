@@ -22,7 +22,7 @@ export const servicecre = (formdata: any) => (dispatch: DispatchType) => {
     })
     .catch(({ response }) => {
       dispatch({
-        type: "SET_CURRENT_MAINSERVICE",
+        type: "SET_ERROR_MAINSERVICE",
         payload: response.data,
       });
     });
@@ -133,7 +133,7 @@ export const editmainservice =
       .catch(({ response }) => {
         console.log(response);
         dispatch({
-          type: "EDIT_CURRENT_SERVICE",
+          type: "EDIT_ERROR_SERVICE",
           payload: response.data,
         });
       });

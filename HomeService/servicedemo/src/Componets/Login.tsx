@@ -61,6 +61,11 @@ export default function Login() {
     }
   }, [adminstate]);
 
+    React.useEffect(()=>{
+      localStorage.setItem("Token", state1?.data?.Token || "");
+      localStorage.setItem("AdminToken", adminstate?.data?.Token || "");
+
+    },[state1,adminstate])
   const [currentemail, setemail] = useState("");
   const [currentpass, setpass] = useState("");
   // Tab Changed
@@ -85,9 +90,7 @@ export default function Login() {
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
-  if(localStorage.getItem("Token")!=null){
-    navigate("../")
-  }
+ 
 
   const handleChangeUserType = (event: any, newTabIndex: Number) => {
     if (newTabIndex === 0) {
@@ -239,8 +242,6 @@ export default function Login() {
                     })                    
                   );
                  
-             
-
                 else {
                   dispatch(
                     adminlogin({
@@ -249,11 +250,9 @@ export default function Login() {
                     })
                   );
                 }
-                if(state1?.data?.login==true)
-                localStorage.setItem("Token", state1?.data?.Token || "");
-
-                localStorage.setItem("AdminToken", adminstate?.data?.Token || "");
-
+                if(localStorage.getItem("Token")!=undefined){
+                  navigate("../")
+                }
               }}
             >
               Sign In

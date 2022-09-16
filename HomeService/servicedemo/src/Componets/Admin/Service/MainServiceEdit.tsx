@@ -13,7 +13,8 @@ import {editmainservice,getservice} from "../../../Redux/action/service"
 import service from "../../../Redux/Reducer/service"
 import { IconButton } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
-
+import * as Yup from "yup";
+import CloseIcon from '@mui/icons-material/Close';
 import { useSelector, useDispatch } from "react-redux";
 import { __String } from "typescript";
 
@@ -36,9 +37,9 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 export default function MainServiceEdit(Props:any) {
 
-    console.log("Props id...",Props.id)
-  const state = useSelector((state: any) => state.service.editmainservice);
-  console.log("edit service....",state)
+  const state = useSelector((state: any) => state.service);
+
+console.log(".....",state?.editsucess)
   var formData = new FormData();
   const dispatch = useDispatch<any>();
   const [open, setOpen] = React.useState(false);
@@ -46,18 +47,23 @@ export default function MainServiceEdit(Props:any) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const ValidationSchema = Yup.object().shape({
+    Service: Yup.string().required("Required"),
+    Decription: Yup.string().required("Required"),
+  });
   const formik = useFormik({
+    validationSchema:ValidationSchema,
     initialValues: {
-      data: "",
-      SubService: "",
-      Service: "",
-      Decription: "",
-      Admin: "",
-      img_upload: "",
-      Serviceid:"",
+      data: "fg",
+      SubService: "gg",
+      Service:"jj",
+      Decription: "gg",
+      Admin: "gg",
+      img_upload: "gg",
+      Serviceid:"gg",
     },
     onSubmit: (values:any) => {
-      formData.append("image", values?.["file"]||state?.url);
+      formData.append("image", values?.["file"]);
     
       formData.append("servicename", values.Service);
 
@@ -69,56 +75,65 @@ export default function MainServiceEdit(Props:any) {
       dispatch(editmainservice(Props.id,formData));
      },
   });
+    React.useEffect(()=>{
+        if(state?.editsucess===true)
+        handleClose();
+    },[state?.editsucess])
   return (
     <div>
        
      <IconButton>
-                    <EditIcon onClick={ handleOpen}/>
-                    </IconButton>
+           <EditIcon onClick={ handleOpen}/>
+            </IconButton>
       <Modal
         open={open}
-        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <div style={{display:"flex",justifyContent:"space-between"}}>
           <Typography variant="h6">Add Service</Typography>
-
+          <CloseIcon style={{color:"red"}} onClick={()=>handleClose()}/>
+          </div>
           <form onSubmit={formik.handleSubmit}>
             <Grid
               container
               spacing={2}
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               style={{ padding: 1 }}
-            >
-              
+            >             
               <Grid item xs={6}>
                 <TextField
                   id="Service"
                   onChange={formik.handleChange}
-                  defaultValue={formik.values.data}
+                  defaultValue={Props.servicename}
                   label="Service Name"
                   fullWidth
                   autoComplete="current-password"
                   variant="filled"
+                  error={!!formik.errors.Service}
+                  helperText={formik.errors.Service}
                 />
               </Grid>
               <Grid item xs={6}>
                 <TextField
                   id="Decription"
                   onChange={formik.handleChange}
-                  defaultValue={formik.values.data}
+                  defaultValue={Props.decription}
                   label="Decription"
                   fullWidth
                   autoComplete="current-password"
                   variant="filled"
+                  error={!!formik.errors.Decription}
+                  helperText={formik.errors.Decription}
                 />{" "}
               </Grid>
 
-           
-              <Grid item xs={6}>
-                <Stack>
-                  <Button variant="contained" component="label">
+             
+            </Grid>
+            <div style={{display:"flex",justifyContent:"space-between",margin:"20px"}}>
+              <Stack>
+                  <Button variant="contained" component="label" style={{width:"200px"}}>
                     Upload
                     <input
                       id="img_upload"
@@ -135,25 +150,19 @@ export default function MainServiceEdit(Props:any) {
                           event.currentTarget.files[0] as EventTarget
                         );
                       }}
-                      defaultValue={formik.values.data}
+                      defaultValue={Props.url}
                     />
                   </Button>
                 </Stack>
-              </Grid>
               <Button
                 type="submit"
                 variant="contained"
-                style={{
-                  margin: "20px",
-                  display: "",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-               
+                style={{width:"200px"}}
               >
                 Submit
               </Button>
-            </Grid>
+              </div>
+            
           </form>
         </Box>
       </Modal>

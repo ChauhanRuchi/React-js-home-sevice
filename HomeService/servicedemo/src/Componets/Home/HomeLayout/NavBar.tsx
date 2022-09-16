@@ -75,14 +75,14 @@ export default function DrawerAppBar(props: Props, className = "back") {
               Service
             </NavLink>
             <NavLink
-              to=""
+              to="/Login"
               className={"tab"}
               onClick={()=>{
-                if(localStorage.getItem("Token")!=""){
+                if(localStorage.getItem("Token")!=undefined){
                   return navigate("/")
                 }
                 else{
-                  return navigate("Login")
+                  return navigate("/Login")
                 }
               }}
             >

@@ -62,18 +62,17 @@ export default function MainServiceTable() {
   };
   useEffect(() => {
     dispatch(getservice);
-  }, []);
+  }, [servicestate?.mainservicedata]);
      
       function setdele(id:any){
-       dispatch(deletemainservice(id))
-       dispatch(getservice);
+        dispatch(deletemainservice(id))
+        dispatch(getservice);
       }
   useEffect(() => {
     if (servicestate?.mainservicedata) {
       setRowsData(servicestate.mainservicedata);
     }
   }, [servicestate]);
-  console.log("rowsData", rowsData);
 
   return (
     <>
@@ -93,7 +92,7 @@ export default function MainServiceTable() {
                   <TableCell key={"ServiceName"}>{column.servicename}</TableCell>{" "}
                   <TableCell key={"Decription"}>{column.decription}</TableCell>
                   <TableCell key={"Edit"}>{
-                    <MainServiceEdit id={column?._id} />
+                    <MainServiceEdit id={column?._id} servicename={column?.servicename} decription={column?.decription} url={column?.url}/>
                   }</TableCell>
       <TableCell key={"Delete"}>{
                     <IconButton>

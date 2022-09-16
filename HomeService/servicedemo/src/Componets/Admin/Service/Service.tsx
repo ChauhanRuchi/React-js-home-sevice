@@ -3,6 +3,6 @@ import MainServiceTable from "./MainServiceTable";
 export default function ServiceCreate(){
   return(<>
   <MainService/>
-  <MainServiceTable/>
+  <MainServiceTable  />
   </>)
 }

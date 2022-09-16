@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import {getservice, servicecre} from "../../../Redux/action/service"
 import service from "../../../Redux/Reducer/service"
 import CloseIcon from '@mui/icons-material/Close';
+import * as Yup from "yup";
 
 
 import { useSelector, useDispatch } from "react-redux";
@@ -33,15 +34,22 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 export default function MainService() {
-  const state = useSelector((state: any) => state.service);
+      const state = useSelector((state: any) => state.service);
+      console.log("create.....",state?.createsucess)
+
   var formData = new FormData();
   const dispatch = useDispatch<any>();
   const [open, setOpen] = React.useState(false);
   const [link, setlink] = React.useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const ValidationSchema = Yup.object().shape({
+    Service: Yup.string().required("Required"),
+    Decription: Yup.string().required("Required"),
+  });
 
   const formik = useFormik({
+    validationSchema:ValidationSchema,
     initialValues: {
       data: "",
       SubService: "",
@@ -51,7 +59,7 @@ export default function MainService() {
       img_upload: "",
       Serviceid:"",
     },
-    onSubmit: (values:any) => {
+    onSubmit:async (values:any) => {
       formData.append("image", values?.["file"]);
     
       formData.append("servicename", values.Service);
@@ -63,25 +71,34 @@ export default function MainService() {
       }
 
       dispatch(servicecre(formData));  
-      dispatch(getservice);
-
       },
   });
+
+    React.useEffect(()=>{
+      if(state?.createsucess===true){
+        handleClose();
+      }
+    },[state])
+
   return (
-    <div>
+    <>
+      <div style={{display:"flex",justifyContent:"space-between"}}>
+        <Typography variant="h5">MainService</Typography>
       <Button onClick={handleOpen} variant="contained">
         + Add Service
       </Button>
+      </div>
+     
       <Modal
         open={open}
-        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
+          <div style={{display:"flex",justifyContent:"space-between"}}>
           <Typography variant="h6">Add Service</Typography>
-          <CloseIcon/>
-
+          <CloseIcon style={{color:"red"}} onClick={()=>handleClose()}/>
+          </div>
           <form onSubmit={formik.handleSubmit}>
             <Grid
               container
@@ -89,7 +106,6 @@ export default function MainService() {
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               style={{ padding: 1 }}
             >
-           
               <Grid item xs={6}>
                 <TextField
                   id="Service"
@@ -99,6 +115,8 @@ export default function MainService() {
                   fullWidth
                   autoComplete="current-password"
                   variant="filled"
+                  error={!!formik.errors.Service}
+                  helperText={formik.errors.Service}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -110,13 +128,13 @@ export default function MainService() {
                   fullWidth
                   autoComplete="current-password"
                   variant="filled"
+                  error={!!formik.errors.Decription}
+                  helperText={formik.errors.Decription}
                 />{" "}
               </Grid>
-
-           
               <Grid item xs={6}>
                 <Stack>
-                  <Button variant="contained" component="label">
+                  <Button variant="contained" component="label" >
                     Upload
                     <input
                       id="img_upload"
@@ -146,7 +164,7 @@ export default function MainService() {
                   display: "",
                   alignItems: "center",
                   justifyContent: "center",
-                }}
+                }}              
               >
                 Submit
               </Button>
@@ -154,6 +172,7 @@ export default function MainService() {
           </form>
         </Box>
       </Modal>
-    </div>
+      </>
+    
   );
 }
