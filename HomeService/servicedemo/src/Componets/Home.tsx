@@ -39,6 +39,7 @@ const Home = () => {
           About Service in Below Need
         </Typography>
       </Box>
+      <Box>
       <div
         className="card"
         style={{ display: "flex", flexDirection: "row", marginTop: "35px" }}
@@ -56,6 +57,8 @@ const Home = () => {
            })
         }
       </div>
+      </Box>
+      
     </>
   );
 };

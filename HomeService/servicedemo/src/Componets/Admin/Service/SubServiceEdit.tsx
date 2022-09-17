@@ -9,13 +9,15 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
-import {getservice, servicecre} from "../../../Redux/action/service"
+import {editsubservice,getsubserviceall} from "../../../Redux/action/service"
 import service from "../../../Redux/Reducer/service"
-import CloseIcon from '@mui/icons-material/Close';
+import { IconButton } from "@mui/material";
+import EditIcon from '@mui/icons-material/Edit';
 import * as Yup from "yup";
-
-
+import CloseIcon from '@mui/icons-material/Close';
 import { useSelector, useDispatch } from "react-redux";
+import { __String } from "typescript";
+
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -33,9 +35,9 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-export default function MainService() {
-      const state = useSelector((state: any) => state.service);
-      console.log("create.....",state?.createsucess)
+export default function MainServiceEdit(Props:any) {
+
+  const state = useSelector((state: any) => state.service);
 
   var formData = new FormData();
   const dispatch = useDispatch<any>();
@@ -43,25 +45,24 @@ export default function MainService() {
   const [link, setlink] = React.useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   const ValidationSchema = Yup.object().shape({
     Service: Yup.string().required("Required"),
     Decription: Yup.string().required("Required"),
   });
-
   const formik = useFormik({
     validationSchema:ValidationSchema,
     initialValues: {
-      data: "",
-      SubService: "",
-      Service: "",
-      Decription: "",
-      Admin: "",
-      img_upload: "",
-      Serviceid:"",
+      data: "fg",
+      SubService: "gg",
+      Service:"jj",
+      Decription: "gg",
+      img_upload: "gg",
+      Serviceid:"gg",
     },
-    onSubmit:async (values:any) => {
+    onSubmit: (values:any) => {
       formData.append("image", values?.["file"]);
-    
+
       formData.append("servicename", values.Service);
 
       formData.append("decription", values.Decription);
@@ -69,26 +70,19 @@ export default function MainService() {
       for (var pair of formData.entries()) {
         console.log(pair[0] + ", " + pair[1]);
       }
-
-      dispatch(servicecre(formData));  
-      },
+      dispatch(editsubservice(Props.id,formData));
+     },
   });
-
     React.useEffect(()=>{
-      if(state?.createsucess===true){
+        if(state?.editsucess===true)
         handleClose();
-      }
-    },[state])
-
+    },[state?.editsucess])
   return (
-
-    <>
-      <div style={{display:"flex",justifyContent:"flex-end",width:"100%"}}>
-      <Button onClick={handleOpen} variant="contained">
-        + Add Service
-      </Button>
-      </div>
-     
+    <div>
+       
+     <IconButton>
+           <EditIcon onClick={ handleOpen}/>
+            </IconButton>
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"
@@ -105,12 +99,12 @@ export default function MainService() {
               spacing={2}
               columnSpacing={{ xs: 1, sm: 2, md: 3 }}
               style={{ padding: 1 }}
-            >
+            >             
               <Grid item xs={6}>
                 <TextField
                   id="Service"
                   onChange={formik.handleChange}
-                  defaultValue={formik.values.data}
+                  defaultValue={Props.servicename}
                   label="Service Name"
                   fullWidth
                   autoComplete="current-password"
@@ -123,7 +117,7 @@ export default function MainService() {
                 <TextField
                   id="Decription"
                   onChange={formik.handleChange}
-                  defaultValue={formik.values.data}
+                  defaultValue={Props.decription}
                   label="Decription"
                   fullWidth
                   autoComplete="current-password"
@@ -132,9 +126,12 @@ export default function MainService() {
                   helperText={formik.errors.Decription}
                 />{" "}
               </Grid>
-              <Grid item xs={6}>
-                <Stack>
-                  <Button variant="contained" component="label" >
+
+             
+            </Grid>
+            <div style={{display:"flex",justifyContent:"space-between",margin:"20px"}}>
+              <Stack>
+                  <Button variant="contained" component="label" style={{width:"200px"}}>
                     Upload
                     <input
                       id="img_upload"
@@ -151,28 +148,22 @@ export default function MainService() {
                           event.currentTarget.files[0] as EventTarget
                         );
                       }}
-                      defaultValue={formik.values.data}
+                      defaultValue={Props.url}
                     />
                   </Button>
                 </Stack>
-              </Grid>
               <Button
                 type="submit"
                 variant="contained"
-                style={{
-                  margin: "20px",
-                  display: "",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}              
+                style={{width:"200px"}}
               >
                 Submit
               </Button>
-            </Grid>
+              </div>
+            
           </form>
         </Box>
       </Modal>
-      </>
-    
+    </div>
   );
 }

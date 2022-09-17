@@ -10,6 +10,10 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useNavigate } from "react-router-dom";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+
+
 import {
   getcityname,
   gettime,
@@ -21,6 +25,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { NestCamWiredStandTwoTone } from "@mui/icons-material";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from '@mui/material/FormControl';
+import "../../../Css/demo.css"
 
 const Booking = () => {
   let arrtime:any=[];
@@ -92,15 +97,18 @@ const Booking = () => {
 
   return (
     <>
-   
-      <div className="bookingservice">
+   <Card  sx={{ display: 'flex',width:"300", mx: '1px', flexDirection: "column", transform: 'scale(0.9)',alignItems: "center", }}>
+    <CardContent>
+    <div className="bookingservice" style={{ display: "flex",
+            flexDirection: "column",
+            alignItems: "center",}}>
         <Typography variant="h5">Book The Service</Typography>
         <div className="User">
           <TextField
             id="outlined-basic"
             value={name}
             onChange={(e)=>setname(e.target.value)}
-            style={{ width: "300px", margin: "10px" }}
+            style={{ width: "250px", margin: "10px" }}
             label="Enter Your Name"
             variant="outlined"
           />
@@ -108,7 +116,7 @@ const Booking = () => {
             value={number}
             onChange={(e)=>setnumber(e.target.value)}
             id="outlined-basic"
-            style={{ width: "300px", margin: "10px" }}
+            style={{ width: "250px", margin: "10px" }}
             label="Enter Your Contact Number"
             variant="outlined"
           />
@@ -118,7 +126,7 @@ const Booking = () => {
            value={billingaddress}
            onChange={(e)=>setbillingaddress(e.target.value)}
             id="outlined-basic"
-            style={{ width: "300px", margin: "10px" }}
+            style={{ width: "250px", margin: "10px" }}
             label="Enter Your BillingAddresss"
             variant="outlined"
           />
@@ -126,13 +134,13 @@ const Booking = () => {
           value={address}
           onChange={(e)=>setaddress(e.target.value)}
             id="outlined-basic"
-            style={{ width: "300px", margin: "10px" }}
+            style={{ width: "250px", margin: "10px" }}
             label="Enter Your DeliveryAddress"
             variant="outlined"
           />
         </div>
-        <div className="select">
-        <FormControl fullWidth>
+        <div className="select" style={{display:"flex"}}>
+        <FormControl >
         <InputLabel id="city_select">City</InputLabel>
         <Select
             labelId="city_select"
@@ -140,13 +148,14 @@ const Booking = () => {
             value={city}
             label="City"
             onChange={handleChangeCity}
-            sx={{ marginLeft: "5px", width: "200px", color: "#000" }}
+            sx={{ width: "250px", color: "#000" ,margin: "10px"}}
           >
             {statecity?.map((item: any) => {
               return <MenuItem value={item?.name}>{item?.name}</MenuItem>;
             })}
           </Select>
         </FormControl>
+       <TextField style={{width:"250px",margin: "10px"}} defaultValue="Pincode"></TextField>
         </div>
         <Typography variant="h5" sx={{ margin: "10px" }}>
           Choose Delivery Time
@@ -172,8 +181,11 @@ const Booking = () => {
           >
             Tommorow
           </Button>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
+        </div>
+        <div style={{ display: "flex",marginTop:"10px"}}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
+              className="date"
               minDate={new Date().toISOString()}
               maxDate="12/31/2022"
               label="select your delivery date"
@@ -193,7 +205,7 @@ const Booking = () => {
               renderInput={(params: any) => <TextField {...params} />}
             />
           </LocalizationProvider>
-          <FormControl fullWidth>
+          <FormControl>
         <InputLabel id="time_select">Time</InputLabel>
         <Select
             labelId="demo-simple-select-label"
@@ -201,7 +213,7 @@ const Booking = () => {
             value={time}
             label="Time"
             onChange={handleChangeTime}
-            sx={{ marginLeft: "5px", width: "200px", color: "#000" }}
+            sx={{ width: "250px", color: "#000",marginLeft:"10px"}}
           >
             {statetime?.map((value: any) => {
               return <MenuItem value={value?.time} disabled={arrtime?.includes(value?.time)}>{value?.time}</MenuItem>
@@ -209,9 +221,8 @@ const Booking = () => {
           </Select>
         </FormControl>
         </div>
-
         <div
-          style={{ display: "flex", margin: "10px" }}
+          style={{ display: "flex", margin: "40px" }}
           className="Processed Payment"
         >
           <Button variant="contained" onClick={handleClick}>
@@ -219,6 +230,10 @@ const Booking = () => {
           </Button>
         </div>
       </div>
+    </CardContent>
+  
+   </Card>
+  
     </>
   );
 };

@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import MainServiceEdit from "../../Admin/Service/MainServiceEdit"
+import "../../../Css/demo.css";
 
 interface Column {
   id:  "ServiceName" | "Decription" |"Edit"|"Delete";
@@ -82,7 +83,8 @@ export default function MainServiceTable() {
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
-                  <TableCell>{column.label}</TableCell>
+          
+                  <TableCell className="textfiealdstyle">{column.label}</TableCell>
                 ))}
               </TableRow>
             </TableHead>

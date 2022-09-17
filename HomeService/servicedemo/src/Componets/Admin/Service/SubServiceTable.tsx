@@ -17,8 +17,10 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import MainServiceEdit from "../../Admin/Service/MainServiceEdit";
+import SubServiceEdit from "../../Admin/Service/SubServiceEdit";
 import { AnyAaaaRecord } from "dns";
+import "../../../Css/demo.css";
+
 
 interface Column {
   id: "MainService" | "ServiceName" | "Decription" | "Edit" | "Delete";
@@ -68,7 +70,7 @@ export default function StickyHeadTable() {
   };
   useEffect(() => {
     dispatch(getsubserviceall);
-  }, []);
+  }, [servicestate?.subservicedataall]);
 
 
   function setdele(id: any) {
@@ -104,6 +106,9 @@ export default function StickyHeadTable() {
                     {column.servicename}
                   </TableCell>{" "}
                   <TableCell key={"Decription"}>{column.decription}</TableCell>
+                  <TableCell key={"Edit"}>{
+                  <SubServiceEdit id={column?._id} servicename={column?.servicename} decription={column?.decription} url={column?.url}/>
+                  }</TableCell>
                   <TableCell key={"Delete"}>
                     {
                       <IconButton>

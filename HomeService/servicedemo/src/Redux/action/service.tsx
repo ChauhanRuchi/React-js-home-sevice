@@ -53,15 +53,12 @@ export const getsubservice = (formdata: any) => (dispatch: DispatchType) => {
   axios
     .get("http://localhost:2009/HomeService/getservicebysub/" + formdata?._id)
     .then((res) => {
-      console.log(res);
       dispatch({
         type: "GET_CURRENT_SERVICE",
         payload: res.data,
       });
     })
     .catch(({ response }) => {
-      console.log(response);
-
       dispatch({
         type: "GET_CURRENT_SERVICE",
         payload: response.data,
@@ -73,15 +70,12 @@ export const getservice = (dispatch: DispatchType) => {
   axios
     .get("http://localhost:2009/HomeService/getservice")
     .then((res) => {
-      console.log(res);
       dispatch({
         type: "GET_CURRENT_MAINSERVICE",
         payload: res.data,
       });
     })
     .catch(({ response }) => {
-      console.log(response);
-
       dispatch({
         type: "GET_CURRENT_MAINSERVICE",
         payload: response.data,
@@ -93,15 +87,12 @@ export const getsubserviceall = (dispatch: DispatchType) => {
   axios
     .get("http://localhost:2009/HomeService/getsubservice")
     .then((res) => {
-      console.log(res);
       dispatch({
         type: "GET_CURRENT_SUBSERVICE",
         payload: res.data,
       });
     })
     .catch(({ response }) => {
-      console.log(response);
-
       dispatch({
         type: "GET_CURRENT_SUBSERVICE",
         payload: response.data,
@@ -124,16 +115,41 @@ export const editmainservice =
         config
       )
       .then((res) => {
-        console.log(res);
         dispatch({
           type: "EDIT_CURRENT_SERVICE",
           payload: res.data,
         });
       })
       .catch(({ response }) => {
-        console.log(response);
         dispatch({
           type: "EDIT_ERROR_SERVICE",
+          payload: response.data,
+        });
+      });
+  };
+  export const editsubservice =
+  (id: string, formdata: any) => (dispatch: DispatchType) => {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${localStorage.getItem("AdminToken")}`,
+      },
+    };
+    axios
+      .patch(
+        "http://localhost:2009/HomeService/editsubservice/" + id,
+        formdata,
+        config
+      )
+      .then((res) => {
+        dispatch({
+          type: "EDIT_SUB_SERVICE",
+          payload: res.data,
+        });
+      })
+      .catch(({ response }) => {
+        dispatch({
+          type: "EDIT_ERROR_SUBSERVICE",
           payload: response.data,
         });
       });
@@ -148,14 +164,12 @@ export const deletemainservice = (id: string) => (dispatch: DispatchType) => {
   axios
     .delete("http://localhost:2009/HomeService/deleteservice/" + id, config)
     .then((res) => {
-      console.log(res);
       dispatch({
         type: "DELETE_CURRENT_SERVICE",
         payload: res.data,
       });
     })
     .catch(({ response }) => {
-      console.log(response);
       dispatch({
         type: "DELETE_CURRENT_SERVICE",
         payload: response.data,
@@ -171,14 +185,12 @@ export const deletesubservice = (id: string) => (dispatch: DispatchType) => {
   axios
     .delete("http://localhost:2009/HomeService/deletesubservice/" + id, config)
     .then((res) => {
-      console.log(res);
       dispatch({
         type: "DELETE_SUB_SERVICE",
         payload: res.data,
       });
     })
     .catch(({ response }) => {
-      console.log(response);
       dispatch({
         type: "DELETE_SUB_SERVICE",
         payload: response.data,
@@ -189,15 +201,12 @@ export const getsearchbyid =(id:string|undefined)=> (dispatch: DispatchType) => 
   axios
     .get("http://localhost:2009/HomeService/getsearchbyid/"+id)
     .then((res) => {
-      console.log(res);
       dispatch({
         type: "GET_SEARCHBYID",
         payload: res.data,
       });
     })
     .catch(({ response }) => {
-      console.log(response);
-
       dispatch({
         type: "GET_SEARCHBYID",
         payload: response.data,

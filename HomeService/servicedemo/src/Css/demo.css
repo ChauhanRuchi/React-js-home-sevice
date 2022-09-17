@@ -35,7 +35,15 @@
   height: 20px;
   animation: zoom-in-zoom-out 5s ease infinite;
 }
-.footer {
+.textfiealdstyle{
+  display: flex;
+flex-direction: row;
+padding: 23px 42px 18px 30px;
+font-size: 12px;
+text-transform: uppercase;
+font-weight: 500;
+color: #9B9B9B;
+position: relative;
 }
 
 @keyframes zoom-in-zoom-out {
@@ -61,5 +69,7 @@
     margin: top 20px;
 }
 .date{
-  margin:5px;
+  width: 250px;
+ position: relative;
+  right: 10px;
 }

@@ -165,18 +165,26 @@ export default function BasicModal() {
                   </Button>
                 </Stack>
               </Grid>
-              <Button
+              <Grid item xs={6}>
+              <TextField
+                  id="Charge"
+                  onChange={formik.handleChange}
+                  defaultValue={formik.values.data}
+                  label="Charge"
+                  fullWidth
+                  autoComplete="current-password"
+                  variant="filled"
+                />
+                </Grid>
+                <Grid>
+                <Button
                 type="submit"
                 variant="contained"
-                style={{
-                  margin: "20px",
-                  display: "",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
               >
                 Submit
               </Button>
+                </Grid>
+              
             </Grid>
           </form>
         </Box>

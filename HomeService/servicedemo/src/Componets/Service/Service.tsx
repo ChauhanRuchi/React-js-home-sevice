@@ -35,6 +35,10 @@ export default function SubServiceCard(Props: any) {
       <Typography variant="body2" color="text.secondary">
         {Props.decription}
       </Typography>
+      <div style={{display:"flex"}}>
+        <Typography gutterBottom variant="h6" component="div">Charge:-</Typography>
+        <Typography gutterBottom variant="h6" color="text.secondary"component="div">45</Typography>
+      </div>
       <Button variant="contained" onClick={()=>{
           navigate("../Bookservice")
         console.log(id)}} style={{background:"#214758",marginTop:"15px"}}>Booking Service</Button>

@@ -18,8 +18,10 @@ const service = (state = initstate, action: any) => {
       return { ...state, subservicedataall: action.payload };
     case "EDIT_CURRENT_SERVICE":
       return { ...state, editmainservice: action.payload ,editsucess:true};
+      case "EDIT_SUB_SERVICE":
+        return { ...state, editsubservice: action.payload ,editsucess:true};
       case "EDIT_ERROR_SERVICE":
-        return { ...state, editmainservice: action.payload ,editsucess:true};
+        return { ...state, editsubservice: action.payload ,editsucess:true};
     case "DELETE_CURRENT_SERVICE":
       return { ...state, deletemainservice: action.payload };
     case "DELETE_SUB_SERVICE":
