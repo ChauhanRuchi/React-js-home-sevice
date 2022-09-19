@@ -61,6 +61,7 @@ export default function BasicModal() {
       Service: "",
       Decription: "",
       img_upload: "",
+      Charge:"",
     
     },
     onSubmit: async(values:any) => {
@@ -68,7 +69,9 @@ export default function BasicModal() {
       
       formData.append("image", values?.["file"]);
       
+      formData.append("charge", values.Charge);
       formData.append("serviceid", service);
+
       formData.append("servicename", values.Service);
 
       formData.append("decription", values.Decription);

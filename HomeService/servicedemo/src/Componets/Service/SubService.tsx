@@ -5,8 +5,7 @@ import service from "../../Redux/Reducer/service";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate,useParams } from "react-router-dom";
-
-
+import { Grid } from "@mui/material";
 import "../../../src/Css/demo.css";
 import { serialize } from "v8";
 
@@ -35,23 +34,23 @@ const Service = (Props:any) => {
   
       <div className="main">
   
-       <Typography variant="h5">{searchbyid}</Typography>
+       <Typography variant="h5" style={{margin:"10px"}}>{searchbyid}</Typography>
         <div
           className="card"
-          style={{ display: "flex", flexDirection: "row", marginTop: "35px" }}
+          style={{ display: "flex", flexDirection: "row"}}
         >
-          {
-           servicearr?.map(function(item:any){
-
-      return    <SubServiceCard
-      title={item?.servicename}
-      decription={item?.decription}
-      image={item?.url}
-      id="1"
-    />
-           })
-        }
-        
+           <Grid container spacing={2}>
+           {
+             servicearr?.map(function(item:any){
+               return  <SubServiceCard
+               title={item?.servicename}
+               decription={item?.decription}
+               image={item?.url}
+               charge={item?.charge}
+             />
+                    })
+                 }
+            </Grid>
         </div>
       </div>
     </>

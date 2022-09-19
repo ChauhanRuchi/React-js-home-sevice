@@ -10,36 +10,34 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useNavigate } from "react-router-dom";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-
-
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
 import {
   getcityname,
   gettime,
   CreBooking,
-  getbookingdata
+  getbookingdata,
 } from "../../../Redux/action/booking";
 import booking from "../../../Redux/Reducer/booking";
 import { useSelector, useDispatch } from "react-redux";
 import { NestCamWiredStandTwoTone } from "@mui/icons-material";
 import InputLabel from "@mui/material/InputLabel";
-import FormControl from '@mui/material/FormControl';
-import "../../../Css/demo.css"
+import FormControl from "@mui/material/FormControl";
+import "../../../Css/demo.css";
+
 
 const Booking = () => {
-  let arrtime:any=[];
-  const [name,setname]=useState("");
-  const [number,setnumber]=useState("");
-  const [billingaddress,setbillingaddress]=useState("");
-  const [address,setaddress]=useState("");
-  const [city,setcity]=useState("");
+  let arrtime: any = [];
+  const [name, setname] = useState("");
+  const [number, setnumber] = useState("");
+  const [billingaddress, setbillingaddress] = useState("");
+  const [address, setaddress] = useState("");
+  const [city, setcity] = useState("");
   const statecity = useSelector((state: any) => state.booking.getcityname);
   const statetime = useSelector((state: any) => state.booking.gettime);
   const statebook = useSelector((state: any) => state.booking.setbooking);
   const stategetbook = useSelector((state: any) => state.booking.getbooking);
-
-  console.log("statebook", stategetbook);
 
   const dispatch = useDispatch<any>();
   let navigate = useNavigate();
@@ -59,21 +57,18 @@ const Booking = () => {
 
   const handleChangeCity = (event: SelectChangeEvent) => {
     setcity(event.target.value as string);
- 
   };
   const handleChangeTime = (event: SelectChangeEvent) => {
-   
     settime(event.target.value as string);
   };
   useEffect(() => {
     dispatch(getcityname);
     dispatch(gettime);
-    dispatch(getbookingdata)
+    dispatch(getbookingdata);
   }, []);
   {
     console.log("cuu", currdate);
   }
-
   function handleClick() {
     var formData = new FormData();
 
@@ -81,158 +76,218 @@ const Booking = () => {
     formData.append("number", number);
     formData.append("billingaddress", billingaddress);
     formData.append("deliveryadress", address);
-    formData.append("date",value);
+    formData.append("date", value);
     formData.append("time", time);
     formData.append("city", city);
     dispatch(CreBooking(formData));
-    navigate("../Payment");
+    // navigate("../Payment");
   }
+  stategetbook?.map((value: any) => {
+    console.log("time..", value.time);
+    return arrtime.push(value.time);
+  });
 
-    stategetbook?.map((value:any)=>{
-      console.log("time..",value.time)
-       return arrtime.push(value.time);
-    })
-  
-  {console.log("arrtt",arrtime)}
+  {
+    console.log("arrtt", arrtime);
+  }
 
   return (
     <>
-   <Card  sx={{ display: 'flex',width:"300", mx: '1px', flexDirection: "column", transform: 'scale(0.9)',alignItems: "center", }}>
-    <CardContent>
-    <div className="bookingservice" style={{ display: "flex",
-            flexDirection: "column",
-            alignItems: "center",}}>
-        <Typography variant="h5">Book The Service</Typography>
-        <div className="User">
+     <Typography variant="h5" textAlign="center" margin={3}>
+        Book The Service
+      </Typography>
+    
+     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid item xs={12} md={3}></Grid>
+        <Grid item xs={12} md={3}>
           <TextField
             id="outlined-basic"
             value={name}
-            onChange={(e)=>setname(e.target.value)}
-            style={{ width: "250px", margin: "10px" }}
+            onChange={(e) => setname(e.target.value)}
             label="Enter Your Name"
             variant="outlined"
+            sx={{
+              width:"100%"
+            }}
+           
+           
           />
+        </Grid>
+        <Grid item xs={12} md={3}>
           <TextField
             value={number}
-            onChange={(e)=>setnumber(e.target.value)}
+            onChange={(e) => setnumber(e.target.value)}
             id="outlined-basic"
-            style={{ width: "250px", margin: "10px" }}
             label="Enter Your Contact Number"
             variant="outlined"
+            sx={{ width: "100%" }}
+            inputProps={{ maxLength: 13 }}
           />
-        </div>
-        <div className="Address">
-          <TextField
-           value={billingaddress}
-           onChange={(e)=>setbillingaddress(e.target.value)}
-            id="outlined-basic"
-            style={{ width: "250px", margin: "10px" }}
-            label="Enter Your BillingAddresss"
-            variant="outlined"
-          />
-          <TextField
+        </Grid>
+        <Grid item xs={12} md={3}></Grid>
+        <Grid item xs={12} md={3}></Grid>
+        <Grid item xs={12} md={3}>
+        <TextField
+          value={billingaddress}
+          onChange={(e) => setbillingaddress(e.target.value)}
+          id="outlined-basic"
+          sx={{ width: "100%" }}
+          label="Enter Your BillingAddresss"
+          variant="outlined"
+        />
+        </Grid>
+        <Grid item xs={12} md={3}>
+        <TextField
           value={address}
-          onChange={(e)=>setaddress(e.target.value)}
-            id="outlined-basic"
-            style={{ width: "250px", margin: "10px" }}
-            label="Enter Your DeliveryAddress"
-            variant="outlined"
-          />
-        </div>
-        <div className="select" style={{display:"flex"}}>
-        <FormControl >
-        <InputLabel id="city_select">City</InputLabel>
-        <Select
+          onChange={(e) => setaddress(e.target.value)}
+          id="outlined-basic"
+          sx={{ width: "100%"}}
+          label="Enter Your DeliveryAddress"
+          variant="outlined"
+        />
+        </Grid>
+        <Grid item xs={12} md={3}></Grid>
+        <Grid item xs={12} md={3}></Grid>
+        <Grid item xs={12} md={3}>
+        <FormControl>
+          <InputLabel id="city_select">City</InputLabel>
+          <Select
             labelId="city_select"
             id="city_select"
             value={city}
             label="City"
             onChange={handleChangeCity}
-            sx={{ width: "250px", color: "#000" ,margin: "10px"}}
+            style={{ width: "315px" }}
           >
             {statecity?.map((item: any) => {
               return <MenuItem value={item?.name}>{item?.name}</MenuItem>;
             })}
           </Select>
         </FormControl>
-       <TextField style={{width:"250px",margin: "10px"}} defaultValue="Pincode"></TextField>
-        </div>
-        <Typography variant="h5" sx={{ margin: "10px" }}>
-          Choose Delivery Time
-        </Typography>
-        <div style={{ display: "flex" }}>
-          <Button
-            variant="outlined"
-            sx={{ width: "130px", margin: "5px" }}
-            onClick={() => {
-              settomorrowdate(false);
-              setcurrdate(true);
-            }}
-          >
-            Today
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ width: "130px", margin: "5px" }}
-            onClick={() => {
-              settomorrowdate(true);
-              setcurrdate(false);
-            }}
-          >
-            Tommorow
-          </Button>
-        </div>
-        <div style={{ display: "flex",marginTop:"10px"}}>
+        </Grid>
+        <Grid item xs={12} md={3}>
+        <TextField
+          style={{ width: "100%"}}
+          defaultValue="Pincode"
+        ></TextField>
+        </Grid>
+        <Grid item xs={12} md={3}></Grid>
+      </Grid>
+      <Typography variant="h5" textAlign="center" margin={2}>
+        Choose Delivery Time
+      </Typography>
+      <div style={{ display: "flex" ,justifyContent:'center'}}>
+        <Button
+          variant="outlined"
+          sx={{ width: "130px", margin: "5px" , "&.MuiButton-root": {
+            border: "2px #214758 solid"
+          },
+          "&.MuiButton-text": {
+            color: "grey"
+          },
+          "&.MuiButton-contained": {
+            color: "yellow"
+          },
+          "&.MuiButton-outlined": {
+            color: "#214758"
+          }}}
+          onClick={() => {
+            settomorrowdate(false);
+            setcurrdate(true);
+          }}
+        >
+          Today
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{ width: "130px", margin: "5px" , "&.MuiButton-root": {
+            border: "2px #214758 solid"
+          },
+          "&.MuiButton-text": {
+            color: "grey"
+          },
+          "&.MuiButton-contained": {
+            color: "yellow"
+          },
+          "&.MuiButton-outlined": {
+            color: "#214758"
+          }}}
+          onClick={() => {
+            settomorrowdate(true);
+            setcurrdate(false);
+          }}
+        >
+          Tommorow
+        </Button>
+      </div>
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid item xs={12} md={3}></Grid>
+        <Grid item xs={12} md={3}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-              className="date"
-              minDate={new Date().toISOString()}
-              maxDate="12/31/2022"
-              label="select your delivery date"
-              value={
-                currdate?new Date().toISOString()
-                :tomorrowdate ? tomorrow : value
+          <DatePicker
+            className="date"
+            minDate={new Date().toISOString()}
+            maxDate="12/31/2022"
+            label="select your delivery date"
+            value={
+              currdate
+                ? new Date().toISOString()
+                : tomorrowdate
+                ? tomorrow
+                : value
+            }
+            onChange={(newValue: any) => {
+              {
+                setcurrdate(false);
+                settomorrowdate(false);
               }
-              onChange={(newValue: any) => {
-                {
-                  setcurrdate(false);
-                  settomorrowdate(false);
-                }
-                console.log(newValue);
+              console.log(newValue);
 
-                setValue(newValue);
-              }}
-              renderInput={(params: any) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-          <FormControl>
-        <InputLabel id="time_select">Time</InputLabel>
-        <Select
+              setValue(newValue);
+            }}
+            renderInput={(params: any) => <TextField {...params} />}
+          />
+        </LocalizationProvider>
+        </Grid>
+        <Grid item xs={12} md={3}>
+        <FormControl>
+          <InputLabel id="time_select">Time</InputLabel>
+          <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={time}
             label="Time"
             onChange={handleChangeTime}
-            sx={{ width: "250px", color: "#000",marginLeft:"10px"}}
+            sx={{ width: "315px", color: "#000" }}
           >
             {statetime?.map((value: any) => {
-              return <MenuItem value={value?.time} disabled={arrtime?.includes(value?.time)}>{value?.time}</MenuItem>
+              return (
+                <MenuItem
+                  value={value?.time}
+                  disabled={arrtime?.includes(value?.time)}
+                >
+                  {value?.time}
+                </MenuItem>
+              );
             })}
           </Select>
         </FormControl>
+        </Grid>
+        </Grid>
+        <div style={{ display: "flex", margin: "15px" ,justifyContent:
+      "center",flexDirection:"row"}}>
+        
+          <Typography sx={{color:"red"}}>{statebook}</Typography>
         </div>
-        <div
-          style={{ display: "flex", margin: "40px" }}
-          className="Processed Payment"
-        >
-          <Button variant="contained" onClick={handleClick}>
-            Procced Payment
-          </Button>
-        </div>
+      <div
+        style={{ display: "flex", margin: "30px" ,justifyContent:
+      "center",flexDirection:"row"}}
+        className="Processed Payment"
+      >
+        <Button variant="contained" onClick={handleClick} style={{background:"#214758"}}>
+          Procced Payment
+        </Button>
       </div>
-    </CardContent>
-  
-   </Card>
   
     </>
   );

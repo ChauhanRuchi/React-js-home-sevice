@@ -35,15 +35,25 @@
   height: 20px;
   animation: zoom-in-zoom-out 5s ease infinite;
 }
-.textfiealdstyle{
+.zoom-in-out-box.Box {
+  width: 100%;
+}
+.Heading {
+  color: "#404040";
+  align-content: center;
+  text-align: center;
+  justify-content: center;
+  margin-top: 10px;}
+
+.textfiealdstyle {
   display: flex;
-flex-direction: row;
-padding: 23px 42px 18px 30px;
-font-size: 12px;
-text-transform: uppercase;
-font-weight: 500;
-color: #9B9B9B;
-position: relative;
+  flex-direction: row;
+  padding: 23px 42px 18px 30px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: #9b9b9b;
+  position: relative;
 }
 
 @keyframes zoom-in-zoom-out {
@@ -65,11 +75,43 @@ position: relative;
   border-color: red;
   border-radius: 1;
 }
-.changepass{
-    margin: top 20px;
+.changepass {
+  margin: top 20px;
 }
-.date{
-  width: 250px;
- position: relative;
-  right: 10px;
+.date {
+  width: 315px;
+  position: relative;
+}
+@media only screen and (min-width: 400px) {
+  .Title {
+    display: flex;
+    color: #404040;
+    size: 4px;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+  }
+  .zoom-in-out-box {
+    margin: 0px;
+    width: 20px;
+    height: 20px;
+    animation: zoom-in-zoom-out 5s ease infinite;
+  }
+  .zoom-in-out-box .Box {
+    width: 100%;
+  }
+  .Heading {
+    color: "#404040";
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+    margin-top: 10px;
+   
+  }
+  .text{
+    width:250px;
+  }
+}
+.text{
+  width:250px;
 }

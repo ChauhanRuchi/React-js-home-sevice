@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import Login from "../Login";
 import { useState } from "react";
 import { useNavigate,useParams } from "react-router-dom";
+import Grid from "@mui/material/Grid";
+
 
 export default function SubServiceCard(Props: any) {
   const [click,setclick]=useState(false);
@@ -15,11 +17,11 @@ export default function SubServiceCard(Props: any) {
   let navigate = useNavigate();
   let Token;
   return (
-   
-<Card sx={{ width: 340 }} style={{ margin: "20px" }}>
+    <Grid xs={6} md={3}>
+      <Card  style={{ margin: "20px" }}>
     <CardMedia
       component="img"
-      height="120"
+      height="140"
       image={Props.image}
       alt="green iguana"
       onClick={() => {
@@ -36,15 +38,17 @@ export default function SubServiceCard(Props: any) {
         {Props.decription}
       </Typography>
       <div style={{display:"flex"}}>
-        <Typography gutterBottom variant="h6" component="div">Charge:-</Typography>
-        <Typography gutterBottom variant="h6" color="text.secondary"component="div">45</Typography>
+        <Typography gutterBottom variant="body2" component="div">Charge:-</Typography>
+        <Typography gutterBottom variant="body2" color="text.secondary"component="div">{Props.charge}</Typography>
       </div>
       <Button variant="contained" onClick={()=>{
           navigate("../Bookservice")
-        console.log(id)}} style={{background:"#214758",marginTop:"15px"}}>Booking Service</Button>
+        console.log(id)}} style={{background:"#214758",marginTop:"5px"}}>Book Now</Button>
     </CardContent>
     <CardActions></CardActions>
   </Card>
+      </Grid>
+
     
    
   );
