@@ -42,7 +42,7 @@ export default function SubServiceCard(Props: any) {
         <Typography gutterBottom variant="body2" color="text.secondary"component="div">{Props.charge}</Typography>
       </div>
       <Button variant="contained" onClick={()=>{
-          navigate("../Bookservice")
+          navigate("../Bookservice/"+Props.id)
         console.log(id)}} style={{background:"#214758",marginTop:"5px"}}>Book Now</Button>
     </CardContent>
     <CardActions></CardActions>

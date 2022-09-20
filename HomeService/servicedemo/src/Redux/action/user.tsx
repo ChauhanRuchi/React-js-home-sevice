@@ -18,7 +18,7 @@ export const signup = (formdata: any) => (dispatch: DispatchType) => {
     })
     .catch(({ response }) => {
       dispatch({
-        type: "SET_CURRENT_USER",
+        type: "SET_CURRENT_USER_ERROR",
         payload: response.data,
       });
     });

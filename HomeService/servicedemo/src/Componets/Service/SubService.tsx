@@ -9,12 +9,10 @@ import { Grid } from "@mui/material";
 import "../../../src/Css/demo.css";
 import { serialize } from "v8";
 
-const Service = (Props:any) => {
+const Service = () => {
   let servicenamebyid="";
   const dispatch = useDispatch<any>();
   let { id } = useParams();
-  console.log("sub",id)
-
   const state1 = useSelector((state: any) => state.service);
   let searchbyid=state1.getsearchbyid;
   let servicearr=state1.subservicedata;
@@ -47,6 +45,7 @@ const Service = (Props:any) => {
                decription={item?.decription}
                image={item?.url}
                charge={item?.charge}
+               id={item?._id}
              />
                     })
                  }

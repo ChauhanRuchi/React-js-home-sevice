@@ -3,7 +3,9 @@ let initstate = {};
 const booking = (state = initstate, action: any) => {
   switch (action.type) {
     case "SET_BOOKING":
-      return { ...state, setbooking: action.payload };
+      return { ...state,createsucess:true};
+      case "SET_ERROR_BOOKING":
+      return { ...state, setbooking: action.payload ,createfail:false};
     case 'GET_BOOINGDATA':
       return { ...state, getbooking: action.payload };
     case "GET_CITY_NAME":

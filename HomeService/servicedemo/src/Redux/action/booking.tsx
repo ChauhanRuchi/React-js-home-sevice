@@ -25,7 +25,7 @@ export const CreBooking = (formdata: any) => (dispatch: DispatchType) => {
     })
     .catch(({ response }) => {
       dispatch({
-        type: "SET_BOOKING",
+        type: "SET_ERROR_BOOKING",
         payload: response.data,
       });
     });

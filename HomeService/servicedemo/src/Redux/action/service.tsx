@@ -154,7 +154,6 @@ export const editmainservice =
         });
       });
   };
-
 export const deletemainservice = (id: string) => (dispatch: DispatchType) => {
   const config = {
     headers: {
@@ -209,6 +208,23 @@ export const getsearchbyid =(id:string|undefined)=> (dispatch: DispatchType) => 
     .catch(({ response }) => {
       dispatch({
         type: "GET_SEARCHBYID",
+        payload: response.data,
+      });
+    });
+};
+
+export const getsubservicebyid = (formdata: any) => (dispatch: DispatchType) => {
+  axios
+    .get("http://localhost:2009/HomeService/getsubservicebyid/" + formdata?._id)
+    .then((res) => {
+      dispatch({
+        type: "GET_SUBSERVICE_BYID",
+        payload: res.data,
+      });
+    })
+    .catch(({ response }) => {
+      dispatch({
+        type: "GET_SUBSERVICE_BYID",
         payload: response.data,
       });
     });

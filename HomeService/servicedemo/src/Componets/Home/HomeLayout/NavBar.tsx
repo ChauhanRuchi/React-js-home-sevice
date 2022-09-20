@@ -257,11 +257,12 @@ const ResponsiveAppBar = () => {
             {pages.map((page) => (
               <Button
                 key={page}
-                onClick={() => {
-                  if ("HOME") {
-                    navigate("/");
-                  } else if ("LOGIN") {
-                    navigate("/Login");
+                onClick={(x) => {
+                  console.log("tab...",page)
+                  if (page=="HOME") {
+                   return navigate("/");
+                  } else if (page=="LOGIN") {
+                   return navigate("/Login")
                   }
                 }}
                 sx={{ my: 2, color: "white", display: "block" }}

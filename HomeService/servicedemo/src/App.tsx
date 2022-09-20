@@ -27,8 +27,8 @@ function App() {
             <Route path="/Register" element={<Register />} />
             <Route path="/Service/:id" element={<Service />} />
             <Route path="/" element={<Home />}></Route>
-            <Route path="/Bookservice" element={<Booking/>}></Route>
-            <Route path="Payment" element={<Payment/>}/>
+            <Route path="/Bookservice/:id" element={<Booking/>}></Route>
+            <Route path="Payment/:id" element={<Payment/>}/>
           </Route>
           <Route path="/admin/Dashboard/" element={<DashbordLayout />}>
             <Route path="ServiceCreate" element={<SubService />} />

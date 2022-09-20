@@ -9,7 +9,7 @@ import { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
@@ -19,14 +19,25 @@ import {
   CreBooking,
   getbookingdata,
 } from "../../../Redux/action/booking";
+import {
+  getsubservicebyid
+} from "../../../Redux/action/service";
+
 import booking from "../../../Redux/Reducer/booking";
 import { useSelector, useDispatch } from "react-redux";
 import { NestCamWiredStandTwoTone } from "@mui/icons-material";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import "../../../Css/demo.css";
+import Payment from "../Payment/payment"
+import axios from "axios";
+import { response } from "express";
 
-
+declare global {
+  interface Window {
+      Razorpay: any;
+     
+  }}
 const Booking = () => {
   let arrtime: any = [];
   const [name, setname] = useState("");
@@ -38,6 +49,10 @@ const Booking = () => {
   const statetime = useSelector((state: any) => state.booking.gettime);
   const statebook = useSelector((state: any) => state.booking.setbooking);
   const stategetbook = useSelector((state: any) => state.booking.getbooking);
+  const statepayment=useSelector((state:any)=>state.booking.createsucess);
+  const stateservice = useSelector((state: any) => state.service.getsubservicebyid);
+  let { id } = useParams();
+
 
   const dispatch = useDispatch<any>();
   let navigate = useNavigate();
@@ -65,6 +80,7 @@ const Booking = () => {
     dispatch(getcityname);
     dispatch(gettime);
     dispatch(getbookingdata);
+    dispatch(getsubservicebyid({_id:id}))
   }, []);
   {
     console.log("cuu", currdate);
@@ -80,7 +96,7 @@ const Booking = () => {
     formData.append("time", time);
     formData.append("city", city);
     dispatch(CreBooking(formData));
-    // navigate("../Payment");
+   
   }
   stategetbook?.map((value: any) => {
     console.log("time..", value.time);
@@ -91,6 +107,44 @@ const Booking = () => {
     console.log("arrtt", arrtime);
   }
 
+  const handlepayment=async(charge:any)=>{
+    const {data}=await axios.post("http://localhost:2009/HomeService/payment",{amount:charge})
+        initpayment(data.data);
+    console.log("data",data)
+}
+const initpayment=(data:any)=>{
+        const option={
+            key:"rzp_test_385yGikINhUWfh",
+            amount:data?.amount ,
+            currency:data?.currency,
+            order_id:data?.id,
+            handler:async(response:any)=>{
+                try{
+                    const verifyurl= "http://localhost:2009/HomeService/verify";
+                      const {data}=await axios.post(verifyurl,response);
+                      if(data.payment==true){
+                        navigate("../Payment/"+id)
+                      }
+                  }
+                  catch(error){
+                      console.log("errppp...",error)
+                  }
+            }
+        }
+     
+        const paymentObject = new window.Razorpay(option);
+        paymentObject.open();
+}
+
+  useEffect(()=>{
+    console.log("...",stateservice)
+    if(statepayment==true)
+    stateservice?.map((item:any)=>
+      handlepayment(item?.charge)
+    )
+      
+  },[statepayment])
+  
   return (
     <>
      <Typography variant="h5" textAlign="center" margin={3}>

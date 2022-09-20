@@ -26,6 +26,9 @@ const service = (state = initstate, action: any) => {
       return { ...state, deletemainservice: action.payload };
     case "DELETE_SUB_SERVICE":
       return { ...state, deletesubervice: action.payload };
+
+      case "GET_SUBSERVICE_BYID":
+        return { ...state, getsubservicebyid: action.payload };
     default:
       return state;
   }
