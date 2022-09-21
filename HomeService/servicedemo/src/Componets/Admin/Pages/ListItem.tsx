@@ -10,17 +10,21 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { NavLink } from "react-router-dom";
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import BookOnlineIcon from '@mui/icons-material/BookOnline';
 export const mainListItems = (
   <React.Fragment>
     <ListItemButton>
       <ListItemIcon>
-        <DashboardIcon />
+        <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Dashboard" />
+      <NavLink to="./User">
+      <ListItemText primary="User" />
+      </NavLink>
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <PeopleIcon />
+        <MiscellaneousServicesIcon />
       </ListItemIcon>
      <NavLink to="./Service">
      <ListItemText primary="Service" />
@@ -29,7 +33,7 @@ export const mainListItems = (
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <MiscellaneousServicesIcon />
       </ListItemIcon>
       <NavLink to="./ServiceCreate">
         <ListItemText primary="SubService" />
@@ -38,9 +42,9 @@ export const mainListItems = (
     
     <ListItemButton>
       <ListItemIcon>
-        <BarChartIcon />
+        <BookOnlineIcon />
       </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="Booking" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>

@@ -148,12 +148,18 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
+import user from "../../../Redux/Reducer/user";
+import { logout } from "../../../Redux/action/user";
+import { useSelector, useDispatch } from "react-redux";
+import { isNullOrUndefined } from "util";
 
 const pages = ["HOME", "SERVICE", "LOGIN"];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Logout"];
 
 const ResponsiveAppBar = () => {
   let navigate = useNavigate();
+  const dispatch = useDispatch<any>();
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -175,10 +181,55 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+    function userprofilr(){
+      if(localStorage.getItem("Token")){
+        return<>
+        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem
+                    key={setting}
+                    onClick={() => {
+                      if ("Logout") {
+                        dispatch(logout());
+                        localStorage.removeItem("Token");
+                        if (localStorage.getItem("Token") == null)
+                          handleCloseUserMenu();
+  
+                        navigate("../");
+                      }
+                    }}
+                  >
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+        </>
+  
+      }
+    
+     
+    }
   return (
     <AppBar position="static" style={{ background: "#214758" }} elevation={0}>
-      <CssBaseline/>
+      <CssBaseline />
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
@@ -254,60 +305,42 @@ const ResponsiveAppBar = () => {
             HomeService
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={(x) => {
-                  console.log("tab...",page)
-                  if (page=="HOME") {
-                   return navigate("/");
-                  } else if (page=="LOGIN") {
-                   return navigate("/Login")
-                  }
-                }}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting}
-                  onClick={() => {
-                    if ("Logout") {
-                      localStorage.removeItem("Token");
-                      if (localStorage.getItem("Token") == null)
-                        navigate("../");
+            {pages.map((page) => {
+              if (localStorage.getItem("Token") && page == "LOGIN") {
+                return;
+              }
+              return (
+                <Button
+                  key={page}
+                  onClick={(x) => {
+                    console.log("tab...", page);
+                    if (page == "HOME") {
+                      return navigate("/");
+                    } else if (page == "LOGIN") {
+                      console.log("...", localStorage.getItem("Token"));
+                      if (
+                        localStorage.getItem("Token") == "" ||
+                        localStorage.getItem("Token") == undefined
+                      ) {
+                        return navigate("/Login");
+                      } else {
+                        return navigate("/");
+                      }
+                    } else if (page == "SERVICE") {
+                      return navigate("/Service");
                     }
                   }}
+                  sx={{ my: 2, color: "white", display: "block" }}
                 >
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
+                  {page}
+                </Button>
+              );
+            })}
+          </Box>
+            
+          <Box sx={{ flexGrow: 0 }}>
+
+            {userprofilr()}
           </Box>
         </Toolbar>
       </Container>

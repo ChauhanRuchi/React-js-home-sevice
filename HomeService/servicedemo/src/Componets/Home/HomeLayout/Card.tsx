@@ -13,7 +13,7 @@ export default function MediaCard(Props: any) {
   let navigate = useNavigate();
   let Token;
   return (
-    <Grid xs={6} md={3}>
+    <Grid xs={6} md={3} style={{marginTop:"20px"}}>
       <Card style={{ margin: "20px" }}>
         <CardMedia
           component="img"

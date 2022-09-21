@@ -42,3 +42,27 @@ export const signin = (formdata: any) => (dispatch: any) => {
       });
     });
 };
+
+export const logout = () => (dispatch: any) => {
+  return dispatch({
+    type: "LOGOUT_USER",
+    payload: null,
+  });
+};
+export const getuserdata =(dispatch: any) => {
+  axios
+    .get("http://localhost:2009/HomeService/userdata", {
+    })
+    .then((res) => {
+      return dispatch({
+        type: "GET_USER_DATA",
+        payload: res.data,
+      });
+    })
+    .catch(({ response }) => {
+      return dispatch({
+        type: "GET_USER_ERROR",
+        payload: response.data,
+      });
+    });
+};

@@ -79,7 +79,7 @@
   margin: top 20px;
 }
 .date {
-  width: 315px;
+  width: "100%";
   position: relative;
 }
 @media only screen and (min-width: 400px) {

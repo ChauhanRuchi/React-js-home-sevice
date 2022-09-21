@@ -39,7 +39,6 @@ export default function MainServiceEdit(Props:any) {
 
   const state = useSelector((state: any) => state.service);
 
-console.log(".....",state?.editsucess)
   var formData = new FormData();
   const dispatch = useDispatch<any>();
   const [open, setOpen] = React.useState(false);
@@ -78,7 +77,7 @@ console.log(".....",state?.editsucess)
     React.useEffect(()=>{
         if(state?.editsucess===true)
         handleClose();
-    },[state?.editsucess])
+    },[state?.editmainservice])
   return (
     <div>
        

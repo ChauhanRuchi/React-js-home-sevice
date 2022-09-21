@@ -18,6 +18,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 
 const style = {
   position: "absolute" as "absolute",
@@ -81,7 +82,8 @@ export default function BasicModal() {
   });
   return (
     <div>
-      <Button onClick={handleOpen} variant="contained">
+      
+      <Button onClick={handleOpen} variant="contained" >
         + Add Service
       </Button>
       <Modal
@@ -91,7 +93,10 @@ export default function BasicModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography variant="h6">Add Service</Typography>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography variant="h6">Add Service</Typography>
+            <CloseIcon style={{ color: "red" }} onClick={() => handleClose()} />
+          </div>
 
           <form onSubmit={formik.handleSubmit}>
             <Grid

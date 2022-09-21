@@ -33,7 +33,6 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 export default function MainService() {
   const state = useSelector((state: any) => state.service);
-  console.log("create.....", state?.createsucess);
 
   var formData = new FormData();
   const dispatch = useDispatch<any>();

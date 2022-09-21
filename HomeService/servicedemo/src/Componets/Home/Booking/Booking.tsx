@@ -9,8 +9,7 @@ import { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { useNavigate,useParams } from "react-router-dom";
-import Card from "@mui/material/Card";
+import { useNavigate, useParams } from "react-router-dom";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Grid";
 import {
@@ -19,9 +18,7 @@ import {
   CreBooking,
   getbookingdata,
 } from "../../../Redux/action/booking";
-import {
-  getsubservicebyid
-} from "../../../Redux/action/service";
+import { getsubservicebyid } from "../../../Redux/action/service";
 
 import booking from "../../../Redux/Reducer/booking";
 import { useSelector, useDispatch } from "react-redux";
@@ -29,15 +26,18 @@ import { NestCamWiredStandTwoTone } from "@mui/icons-material";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import "../../../Css/demo.css";
-import Payment from "../Payment/payment"
+import Payment from "../Payment/payment";
 import axios from "axios";
 import { response } from "express";
+import Card from "@mui/material/Card";
+import Box from "@mui/material/Box";
+import { createIntersectionTypeNode } from "typescript";
 
 declare global {
   interface Window {
-      Razorpay: any;
-     
-  }}
+    Razorpay: any;
+  }
+}
 const Booking = () => {
   let arrtime: any = [];
   const [name, setname] = useState("");
@@ -49,10 +49,11 @@ const Booking = () => {
   const statetime = useSelector((state: any) => state.booking.gettime);
   const statebook = useSelector((state: any) => state.booking.setbooking);
   const stategetbook = useSelector((state: any) => state.booking.getbooking);
-  const statepayment=useSelector((state:any)=>state.booking.createsucess);
-  const stateservice = useSelector((state: any) => state.service.getsubservicebyid);
+  const statepayment = useSelector((state: any) => state.booking.createsucess);
+  const stateservice = useSelector(
+    (state: any) => state.service.getsubservicebyid
+  );
   let { id } = useParams();
-
 
   const dispatch = useDispatch<any>();
   let navigate = useNavigate();
@@ -80,7 +81,7 @@ const Booking = () => {
     dispatch(getcityname);
     dispatch(gettime);
     dispatch(getbookingdata);
-    dispatch(getsubservicebyid({_id:id}))
+    dispatch(getsubservicebyid({ _id: id }));
   }, []);
   {
     console.log("cuu", currdate);
@@ -96,7 +97,6 @@ const Booking = () => {
     formData.append("time", time);
     formData.append("city", city);
     dispatch(CreBooking(formData));
-   
   }
   stategetbook?.map((value: any) => {
     console.log("time..", value.time);
@@ -107,242 +107,292 @@ const Booking = () => {
     console.log("arrtt", arrtime);
   }
 
-  const handlepayment=async(charge:any)=>{
-    const {data}=await axios.post("http://localhost:2009/HomeService/payment",{amount:charge})
-        initpayment(data.data);
-    console.log("data",data)
-}
-const initpayment=(data:any)=>{
-        const option={
-            key:"rzp_test_385yGikINhUWfh",
-            amount:data?.amount ,
-            currency:data?.currency,
-            order_id:data?.id,
-            handler:async(response:any)=>{
-                try{
-                    const verifyurl= "http://localhost:2009/HomeService/verify";
-                      const {data}=await axios.post(verifyurl,response);
-                      if(data.payment==true){
-                        navigate("../Payment/"+id)
-                      }
-                  }
-                  catch(error){
-                      console.log("errppp...",error)
-                  }
-            }
+  const handlepayment = async (charge: any) => {
+    const { data } = await axios.post(
+      "http://localhost:2009/HomeService/payment",
+      { amount: charge }
+    );
+    initpayment(data.data);
+    console.log("data", data);
+  };
+  const initpayment = (data: any) => {
+    const option = {
+      key: "rzp_test_385yGikINhUWfh",
+      amount: data?.amount,
+      currency: data?.currency,
+      order_id: data?.id,
+      handler: async (response: any) => {
+        try {
+          const verifyurl = "http://localhost:2009/HomeService/verify";
+          const { data } = await axios.post(verifyurl, response);
+          if (data.payment == true) {
+            navigate("../Payment/" + id);
+          }
+        } catch (error) {
+          console.log("errppp...", error);
         }
-     
-        const paymentObject = new window.Razorpay(option);
-        paymentObject.open();
-}
+      },
+    };
 
-  useEffect(()=>{
-    console.log("...",stateservice)
-    if(statepayment==true)
-    stateservice?.map((item:any)=>
-      handlepayment(item?.charge)
-    )
-      
-  },[statepayment])
-  
+    const paymentObject = new window.Razorpay(option);
+    paymentObject.open();
+  };
+
+  useEffect(() => {
+    console.log("...", stateservice);
+    if (statepayment == true)
+      stateservice?.map((item: any) => handlepayment(item?.charge));
+  }, [statepayment]);
+
   return (
     <>
-     <Typography variant="h5" textAlign="center" margin={3}>
+      <Typography variant="h5" margin={3} textAlign="center">
         Book The Service
       </Typography>
-    
-     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid item xs={12} md={3}></Grid>
-        <Grid item xs={12} md={3}>
-          <TextField
-            id="outlined-basic"
-            value={name}
-            onChange={(e) => setname(e.target.value)}
-            label="Enter Your Name"
-            variant="outlined"
-            sx={{
-              width:"100%"
-            }}
-           
-           
-          />
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <TextField
-            value={number}
-            onChange={(e) => setnumber(e.target.value)}
-            id="outlined-basic"
-            label="Enter Your Contact Number"
-            variant="outlined"
-            sx={{ width: "100%" }}
-            inputProps={{ maxLength: 13 }}
-          />
-        </Grid>
-        <Grid item xs={12} md={3}></Grid>
-        <Grid item xs={12} md={3}></Grid>
-        <Grid item xs={12} md={3}>
-        <TextField
-          value={billingaddress}
-          onChange={(e) => setbillingaddress(e.target.value)}
-          id="outlined-basic"
-          sx={{ width: "100%" }}
-          label="Enter Your BillingAddresss"
-          variant="outlined"
-        />
-        </Grid>
-        <Grid item xs={12} md={3}>
-        <TextField
-          value={address}
-          onChange={(e) => setaddress(e.target.value)}
-          id="outlined-basic"
-          sx={{ width: "100%"}}
-          label="Enter Your DeliveryAddress"
-          variant="outlined"
-        />
-        </Grid>
-        <Grid item xs={12} md={3}></Grid>
-        <Grid item xs={12} md={3}></Grid>
-        <Grid item xs={12} md={3}>
-        <FormControl>
-          <InputLabel id="city_select">City</InputLabel>
-          <Select
-            labelId="city_select"
-            id="city_select"
-            value={city}
-            label="City"
-            onChange={handleChangeCity}
-            style={{ width: "315px" }}
-          >
-            {statecity?.map((item: any) => {
-              return <MenuItem value={item?.name}>{item?.name}</MenuItem>;
-            })}
-          </Select>
-        </FormControl>
-        </Grid>
-        <Grid item xs={12} md={3}>
-        <TextField
-          style={{ width: "100%"}}
-          defaultValue="Pincode"
-        ></TextField>
-        </Grid>
-        <Grid item xs={12} md={3}></Grid>
-      </Grid>
-      <Typography variant="h5" textAlign="center" margin={2}>
-        Choose Delivery Time
-      </Typography>
-      <div style={{ display: "flex" ,justifyContent:'center'}}>
-        <Button
-          variant="outlined"
-          sx={{ width: "130px", margin: "5px" , "&.MuiButton-root": {
-            border: "2px #214758 solid"
-          },
-          "&.MuiButton-text": {
-            color: "grey"
-          },
-          "&.MuiButton-contained": {
-            color: "yellow"
-          },
-          "&.MuiButton-outlined": {
-            color: "#214758"
-          }}}
-          onClick={() => {
-            settomorrowdate(false);
-            setcurrdate(true);
-          }}
+      <Box width="100%" sx={{ textAlign: "-webkit-center" }}>
+        <Box
+          maxWidth="40%"
+          justifyContent="center"
+          alignItems="center"
+          margin="10px"
         >
-          Today
-        </Button>
-        <Button
-          variant="outlined"
-          sx={{ width: "130px", margin: "5px" , "&.MuiButton-root": {
-            border: "2px #214758 solid"
-          },
-          "&.MuiButton-text": {
-            color: "grey"
-          },
-          "&.MuiButton-contained": {
-            color: "yellow"
-          },
-          "&.MuiButton-outlined": {
-            color: "#214758"
-          }}}
-          onClick={() => {
-            settomorrowdate(true);
-            setcurrdate(false);
-          }}
-        >
-          Tommorow
-        </Button>
-      </div>
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid item xs={12} md={3}></Grid>
-        <Grid item xs={12} md={3}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            className="date"
-            minDate={new Date().toISOString()}
-            maxDate="12/31/2022"
-            label="select your delivery date"
-            value={
-              currdate
-                ? new Date().toISOString()
-                : tomorrowdate
-                ? tomorrow
-                : value
-            }
-            onChange={(newValue: any) => {
-              {
-                setcurrdate(false);
-                settomorrowdate(false);
-              }
-              console.log(newValue);
-
-              setValue(newValue);
-            }}
-            renderInput={(params: any) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
-        </Grid>
-        <Grid item xs={12} md={3}>
-        <FormControl>
-          <InputLabel id="time_select">Time</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={time}
-            label="Time"
-            onChange={handleChangeTime}
-            sx={{ width: "315px", color: "#000" }}
-          >
-            {statetime?.map((value: any) => {
-              return (
-                <MenuItem
-                  value={value?.time}
-                  disabled={arrtime?.includes(value?.time)}
+          <Card variant="outlined" style={{ width: "100%", padding: "20px" }}>
+            {
+              <>
+                <Grid
+                  container
+                  rowSpacing={3}
+                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                 >
-                  {value?.time}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-        </Grid>
-        </Grid>
-        <div style={{ display: "flex", margin: "15px" ,justifyContent:
-      "center",flexDirection:"row"}}>
-        
-          <Typography sx={{color:"red"}}>{statebook}</Typography>
-        </div>
-      <div
-        style={{ display: "flex", margin: "30px" ,justifyContent:
-      "center",flexDirection:"row"}}
-        className="Processed Payment"
-      >
-        <Button variant="contained" onClick={handleClick} style={{background:"#214758"}}>
-          Procced Payment
-        </Button>
-      </div>
-  
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      id="outlined-basic"
+                      value={name}
+                      onChange={(e) => setname(e.target.value)}
+                      label="Enter Your Name"
+                      error={name==""?true:false}
+                      helperText={name==""?"Required":""}
+                      variant="outlined"
+                      sx={{
+                        width: "100%",
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      value={number}
+                      onChange={(e) => setnumber(e.target.value)}
+                      id="outlined-basic"
+                      label="Enter Your Contact Number"
+                      variant="outlined"
+                      error={number==""?true:false}
+                      helperText={number==""?"Required":""}                    sx={{ width: "100%" }}
+                      inputProps={{ maxLength: 13 }}
+                    />
+                  </Grid>
+
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      value={billingaddress}
+                      onChange={(e) => setbillingaddress(e.target.value)}
+                      id="outlined-basic"
+                      sx={{ width: "100%" }}
+                      error={billingaddress==""?true:false}
+                      helperText={billingaddress==""?"Required":""}
+                      label="Enter Your BillingAddresss"
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      value={address}
+                      onChange={(e) => setaddress(e.target.value)}
+                      error={address==""?true:false}
+                      helperText={address==""?"Required":""}
+                      id="outlined-basic"
+                      sx={{ width: "100%" }}
+                      label="Enter Your DeliveryAddress"
+                      variant="outlined"
+                    />
+                  </Grid>
+                  
+                  <Grid item xs={12} md={6}>
+                    <FormControl style={{width:"100%"}}>
+                      <InputLabel id="city_select">City</InputLabel>
+                      <Select
+                        labelId="city_select"
+                        id="city_select"
+                        value={city}
+                        error={city==""?true:false}
+                        label="City"
+                        onChange={handleChangeCity}
+                        
+                      >
+                        {statecity?.map((item: any) => {
+                          return (
+                            <MenuItem value={item?.pincode}>{item?.name}</MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField
+                      style={{ width: "100%" }}
+                      value={city}
+                      error={city==""?true:false}
+                      helperText={city==""?"Required":""}
+                    ></TextField>
+                  </Grid>
+                  <Grid item xs={12} md={6}></Grid>
+                </Grid>
+                <Typography variant="h5" textAlign="center" margin={2}>
+                  Choose Delivery Time
+                </Typography>
+                <div style={{ display: "flex", justifyContent: "center"}}>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      width: "46%",
+                      margin: "5px",
+                      "&.MuiButton-root": {
+                        border: "2px #214758 solid",
+                      },
+                      "&.MuiButton-text": {
+                        color: "grey",
+                      },
+                      "&.MuiButton-contained": {
+                        color: "yellow",
+                      },
+                      "&.MuiButton-outlined": {
+                        color: "#214758",
+                      },
+                    }}
+                    onClick={() => {
+                      settomorrowdate(false);
+                      setcurrdate(true);
+                    }}
+                  >
+                    Today
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      width: "46%",
+                      margin: "5px",
+                      "&.MuiButton-root": {
+                        border: "2px #214758 solid",
+                      },
+                      "&.MuiButton-text": {
+                        color: "grey",
+                      },
+                      "&.MuiButton-contained": {
+                        color: "yellow",
+                      },
+                      "&.MuiButton-outlined": {
+                        color: "#214758",
+                      },
+                    }}
+                    onClick={() => {
+                      settomorrowdate(true);
+                      setcurrdate(false);
+                    }}
+                  >
+                    Tommorow
+                  </Button>
+                </div>
+                <Grid
+                  container
+                  rowSpacing={1}
+                  columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                  marginTop={1}
+                >
+                 
+                  <Grid item xs={12} md={6}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs} >
+                      <DatePicker
+                        className="date"
+                        minDate={new Date().toISOString()}
+                        maxDate="12/31/2022"
+                        label="select your delivery date"
+                        value={
+                          currdate
+                            ? new Date().toISOString()
+                            : tomorrowdate
+                            ? tomorrow
+                            : value
+                        }
+                        onChange={(newValue: any) => {
+                          {
+                            setcurrdate(false);
+                            settomorrowdate(false);
+                          }
+                          console.log(newValue);
+
+                          setValue(newValue);
+                        }}
+                        renderInput={(params: any) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <FormControl sx={{ width: "100%" }}>
+                      <InputLabel id="time_select">Time</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={time}
+                        label="Time"
+                        error={time==""?true:false}
+                        helperText={time==""?"Required":""}
+                        onChange={handleChangeTime}
+                      >
+                        {statetime?.map((value: any) => {
+                          return (
+                            <MenuItem
+                              value={value?.time}
+                              disabled={arrtime?.includes(value?.time)}
+                            >
+                              {value?.time}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+                <div
+                  style={{
+                    display: "flex",
+                    margin: "15px",
+                    justifyContent: "center",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Typography sx={{ color: "red" }}>{statebook}</Typography>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    margin: "30px",
+                    justifyContent: "center",
+                    flexDirection: "row",
+                  }}
+                  className="Processed Payment"
+                >
+                  <Button
+                    variant="contained"
+                    onClick={handleClick}
+                    style={{ background: "#214758" }}
+                  >
+                    Procced Payment
+                  </Button>
+                </div>
+              </>
+            }
+          </Card>
+        </Box>
+      </Box>
     </>
   );
 };

@@ -62,9 +62,13 @@ export default function Login() {
 
     React.useEffect(()=>{
       localStorage.setItem("Token", state1?.data?.Token || "");
-      localStorage.setItem("AdminToken", adminstate?.data?.Token || "");
-
-    },[state1,adminstate])
+      if(state1?.data?.Token!=null){
+        navigate("../")
+      }
+    },[state1])
+    React.useEffect(()=>{
+       localStorage.setItem("AdminToken", adminstate?.data?.Token || "");
+    },[adminstate])
   const [currentemail, setemail] = useState("");
   const [currentpass, setpass] = useState("");
   // Tab Changed
@@ -187,6 +191,9 @@ export default function Login() {
               label="Password"
               type="password"
               id="password"
+              inputProps={{
+                maxLength:6,
+                }}
               autoComplete="current-password"
               value={currentpass}
               onChange={(e: any) => setpass(e.target.value)}
@@ -248,24 +255,22 @@ export default function Login() {
                     })
                   );
                 }
-                if(localStorage.getItem("Token")!=undefined){
-                  navigate("../")
-                }
+            
               }}
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link
+                {/* <Link
                   href="#/"
                   variant="body2"
                   style={{ textDecorationColor: "#214758", color: "#214758" }}
                 >
                   Forgot password?
-                </Link>
+                </Link> */}
               </Grid>
-              <Grid item>
+              <Grid item style={{marginBottom:"15px"}}>
                 <Link
                   href="/Register"
                   variant="body2"
@@ -277,7 +282,7 @@ export default function Login() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
     </ThemeProvider>
   );

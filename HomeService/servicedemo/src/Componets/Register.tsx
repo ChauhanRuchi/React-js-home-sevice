@@ -14,10 +14,14 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { signup } from "../Redux/action/user";
+import { signup ,signin} from "../Redux/action/user";
+import user from "../Redux/Reducer/user";
+
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { stat } from "fs/promises";
+import { useNavigate } from "react-router-dom";
+
 // some code, then in the test I have:
 
 function Copyright(props: any) {
@@ -41,10 +45,13 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignUp() {
+  let navigate = useNavigate();
   const [currentemail, setemail] = useState("");
   const [currentpass, setpass] = useState("");
   const [showalert, setShowAlert] = useState(false);
-  const state1 = useSelector((state: any) => state.signup);
+  const statesigin = useSelector((state: any) => state.signin);
+
+  const state1 = useSelector((state: any) => state?.signup);
   console.log("state111...", state1);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -63,6 +70,22 @@ export default function SignUp() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
+  React.useEffect(()=>{
+    localStorage.setItem("Token", state1?.data?.Token || "");
+    if(statesigin?.data?.Token!=null){
+      navigate("../")
+    }
+  },[statesigin])
+      React.useEffect(()=>{
+          if(state1?.signup==true){
+            dispatch(
+              signin({
+                email: currentemail,
+                password: currentpass,
+              })
+            );
+          }
+      },[state1])
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -75,7 +98,7 @@ export default function SignUp() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <Avatar sx={{ m: 1,bgcolor: "#214758"}}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -129,6 +152,9 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  inputProps={{
+                    maxLength:6,
+                    }}
                   autoComplete="new-password"
                   value={currentpass}
                   onChange={(e: any) => setpass(e.target.value)}
@@ -173,12 +199,13 @@ export default function SignUp() {
                     password: currentpass,
                   })
                 );
+               
               }}
             >
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
-              <Grid item>
+              <Grid item style={{marginBottom:"15px"}}>
                 <Link
                   href="/Login"
                   variant="body2"
@@ -190,7 +217,7 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        {/* <Copyright sx={{ mt: 5 }} /> */}
       </Container>
     </ThemeProvider>
   );

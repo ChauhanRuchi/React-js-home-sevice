@@ -76,7 +76,8 @@ export default function MainServiceEdit(Props:any) {
     React.useEffect(()=>{
         if(state?.editsucess===true)
         handleClose();
-    },[state?.editsucess])
+    },[state?.editsubservice])
+    
   return (
     <div>
        

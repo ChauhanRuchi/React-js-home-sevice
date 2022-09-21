@@ -27,6 +27,7 @@ export default function Footer() {
           sx={{ backgroundColor: "#214758", color: "#efefef" }}
           mt={0}
           p={2}
+        
         >
           <Grid item xs={12} md={4}>
             <Typography variant="body1" component="h2">
@@ -35,17 +36,11 @@ export default function Footer() {
             <Divider color="#ffffff" />
             <br />
             <Typography variant="body2">
-              Gym and Fitness was founded in 2002 as a family owned and operated
-              business specialising in supplying high-quality gym equipment at
-              great prices.
+              HomeService Provide all service online booking.
             </Typography>
             <br />
             <Typography variant="body2">
-              Instead of being just another gym equipment retailer, our founders
-              wanted to be the best in the industry and set their minds to doing
-              so! Over the last two decades Gym and Fitness has grown into one
-              of Australia’s largest online fitness equipment retailers, helping
-              thousands of customers live longer, happier and healthier lives.
+              we are provide service online booking listing
             </Typography>
           </Grid>
           <Grid item xs={12} md={4}>
@@ -72,9 +67,8 @@ export default function Footer() {
             </Typography>
             <Divider color="#ffffff" />
             <br />
-            <Typography variant="body2">Supplements</Typography>
-            <Typography variant="body2">Brands</Typography>
-            <Typography variant="body2">Blogs</Typography>
+            <Typography variant="body2">Service</Typography>
+            <Typography variant="body2">Booking</Typography>
           </Grid>
 
           <Grid item xs={12} md={2}>
@@ -94,7 +88,7 @@ export default function Footer() {
               component="h2"
               sx={{ textAlign: "center", fontFamily: "unset" }}
             >
-              TERMS OF USE © 2022 | www.fitness.com | ALL RIGHTS RESERVED
+              TERMS OF USE © 2022 | www.HomeService.com | ALL RIGHTS RESERVED
             </Typography>
           </Grid>
         </Grid>
