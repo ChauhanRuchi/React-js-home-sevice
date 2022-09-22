@@ -17,13 +17,14 @@ import * as Yup from "yup";
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector, useDispatch } from "react-redux";
 import { __String } from "typescript";
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 700,
+  width: "40%",
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 2,
@@ -53,20 +54,20 @@ export default function MainServiceEdit(Props:any) {
   const formik = useFormik({
     validationSchema:ValidationSchema,
     initialValues: {
-      data: "fg",
-      SubService: "gg",
-      Service:"jj",
-      Decription: "gg",
-      Admin: "gg",
-      img_upload: "gg",
-      Serviceid:"gg",
+      data: "",
+      SubService: "",
+      Service:Props.servicename,
+      Decription:Props.decription,
+      Admin: "",
+      img_upload: "",
+      Serviceid:"",
     },
     onSubmit: (values:any) => {
       formData.append("image", values?.["file"]);
     
-      formData.append("servicename", values.Service);
+      formData.append("servicename", values.Service||Props.servicename);
 
-      formData.append("decription", values.Decription);
+      formData.append("decription", values.Decription||Props.decription);
 
       for (var pair of formData.entries()) {
         console.log(pair[0] + ", " + pair[1]);
@@ -91,18 +92,11 @@ export default function MainServiceEdit(Props:any) {
       >
         <Box sx={style}>
           <div style={{display:"flex",justifyContent:"space-between"}}>
-          <Typography variant="h6">Add Service</Typography>
+          <Typography variant="h6">Edit Service</Typography>
           <CloseIcon style={{color:"red"}} onClick={()=>handleClose()}/>
           </div>
           <form onSubmit={formik.handleSubmit}>
-            <Grid
-              container
-              spacing={2}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              style={{ padding: 1 }}
-            >             
-              <Grid item xs={6}>
-                <TextField
+               <TextField
                   id="Service"
                   onChange={formik.handleChange}
                   defaultValue={Props.servicename}
@@ -111,11 +105,9 @@ export default function MainServiceEdit(Props:any) {
                   autoComplete="current-password"
                   variant="filled"
                   error={!!formik.errors.Service}
-                  helperText={formik.errors.Service}
+                  helperText={formik && formik?.errors?.Service}
                 />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
+                 <TextField
                   id="Decription"
                   onChange={formik.handleChange}
                   defaultValue={Props.decription}
@@ -125,15 +117,12 @@ export default function MainServiceEdit(Props:any) {
                   variant="filled"
                   error={!!formik.errors.Decription}
                   helperText={formik.errors.Decription}
-                />{" "}
-              </Grid>
-
-             
-            </Grid>
-            <div style={{display:"flex",justifyContent:"space-between",margin:"20px"}}>
-              <Stack>
-                  <Button variant="contained" component="label" style={{width:"200px"}}>
-                    Upload
+                />
+          
+            <div style={{display:"flex",justifyContent:"space-around"}}>
+              <Stack style={{width:"50%",margin:"10px"}}>
+                  <Button variant="contained" component="label" style={{background:"#214758"}}>
+                  {  <UploadFileIcon/>} Upload 
                     <input
                       id="img_upload"
                       hidden
@@ -156,7 +145,7 @@ export default function MainServiceEdit(Props:any) {
               <Button
                 type="submit"
                 variant="contained"
-                style={{width:"200px"}}
+                style={{width:"50%",margin:"10px",background:"#214758"}}
               >
                 Submit
               </Button>

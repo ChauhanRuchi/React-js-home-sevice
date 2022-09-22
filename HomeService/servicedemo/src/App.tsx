@@ -16,6 +16,7 @@ import Booking from "./Componets/Home/Booking/Booking";
 import MainProfiile from "./Componets/Admin/Profile/MainProfile";
 import Payment from "./Componets/Home/Payment/payment";
 import User from "./Componets/Admin/Profile/User"
+import BookingData from "./Componets/Admin/Booking/Booking"
 
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
             <Route path="ServiceCreate" element={<SubService />} />
             <Route path="Service" element={<ServiceCreate/>} />
             <Route path="Profile" element={<MainProfiile/>}/>
+            <Route path="Booking" element={<BookingData/>}/>
+
           </Route>
         </Routes>
       </BrowserRouter>

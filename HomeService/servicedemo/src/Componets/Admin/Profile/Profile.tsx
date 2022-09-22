@@ -3,9 +3,12 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import CircleIcon from '@mui/icons-material/Circle';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Typography from '@mui/material/Typography';
 import { IconButton } from '@mui/material';
+import { useSelector, useDispatch } from "react-redux";
+import admin from "../../../Redux/Reducer/admin"
+
 
 const bull = (
   <Box
@@ -20,9 +23,11 @@ const card = (
   <React.Fragment>
   
     <CardContent>
-     
-      <CircleIcon sx={{ fontSize: 70,color:"#a9a9a9" }}/>
-
+     <div style={{display:"flex"}}>
+     <AccountCircleIcon sx={{ fontSize: 70,color:"#a9a9a9" }}/>   
+      <Typography marginTop={3}>Owner212@gmail.com</Typography>
+     </div>
+    
     </CardContent>
     <CardActions>
       {/* <Button size="small">Learn More</Button> */}
@@ -31,10 +36,12 @@ const card = (
 );
 
 export default function Profile() {
+  const state = useSelector((state: any) => state.admin.data);
+    console.log("dtaa",state)
   return (
-    <Box sx={{width:"300px", margin:"20px"}}>
+    <Box sx={{width:"300px", margin:"20px",height:"100px"}}>
         <Typography variant='h5' >Admin Profile</Typography>
-      <Card variant="outlined" style={{marginTop:"10px"}}>{card}</Card>
+      <Card variant="outlined" >{card}</Card>
     </Box>
   );
 }

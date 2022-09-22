@@ -37,13 +37,13 @@ export const subservice = (formdata: any) => (dispatch: DispatchType) => {
     .post("http://localhost:2009/HomeService/subservice", formdata, config)
     .then((res) => {
       dispatch({
-        type: "SET_CURRENT_SERVICE",
+        type: "SET_CURRENT_SUBSERVICE",
         payload: res.data,
       });
     })
     .catch(({ response }) => {
       dispatch({
-        type: "SET_CURRENT_SERVICE",
+        type: "SET_SUBSERVICE_ERROR",
         payload: response.data,
       });
     });
@@ -228,4 +228,10 @@ export const getsubservicebyid = (formdata: any) => (dispatch: DispatchType) => 
         payload: response.data,
       });
     });
+};
+export const clearservicedata = () => (dispatch: any) => {
+  return dispatch({
+    type: "CLEAR_STATE",
+    payload: null,
+  });
 };

@@ -9,17 +9,21 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
-import { getservice, servicecre } from "../../../Redux/action/service";
+import { getservice, servicecre,clearservicedata } from "../../../Redux/action/service";
 import service from "../../../Redux/Reducer/service";
 import CloseIcon from "@mui/icons-material/Close";
 import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import LoadingButton from '@mui/lab/LoadingButton';
+
+
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width:" 80%",
+  width:" 40%",
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 2,
@@ -33,7 +37,10 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 export default function MainService() {
   const state = useSelector((state: any) => state.service);
-
+  const [loading, setLoading] = React.useState(false);
+  function handleClick() {
+    setLoading(true);
+  }
   var formData = new FormData();
   const dispatch = useDispatch<any>();
   const [open, setOpen] = React.useState(false);
@@ -72,16 +79,22 @@ export default function MainService() {
 
   React.useEffect(() => {
     if (state?.createsucess === true) {
+     
       handleClose();
+
+      setTimeout(()=>{
+       dispatch(clearservicedata())
+      },2000)
     }
   }, [state]);
 
+ 
   return (
     <>
       <div
         style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
       >
-        <Button onClick={handleOpen} variant="contained">
+        <Button onClick={handleOpen} variant="contained" style={{background:"#214758"}}>
           + Add Service
         </Button>
       </div>
@@ -97,14 +110,8 @@ export default function MainService() {
             <CloseIcon style={{ color: "red" }} onClick={() => handleClose()} />
           </div>
           <form onSubmit={formik.handleSubmit}>
-            <Grid
-              container
-              spacing={2}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              style={{ padding: 1 }}
-            >
-              <Grid item xs={6}>
-                <TextField
+            <div  style={{  justifyContent: "center" ,width:"100%",textAlign:"center"}}>
+            <TextField
                   id="Service"
                   onChange={formik.handleChange}
                   defaultValue={formik.values.data}
@@ -115,57 +122,62 @@ export default function MainService() {
                   error={!!formik.errors.Service}
                   helperText={formik.errors.Service}
                 />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
+                 <TextField
                   id="Decription"
                   onChange={formik.handleChange}
                   defaultValue={formik.values.data}
                   label="Decription"
+                  style={{marginBottom:"15px"}}
                   fullWidth
                   autoComplete="current-password"
                   variant="filled"
                   error={!!formik.errors.Decription}
                   helperText={formik.errors.Decription}
                 />{" "}
-              </Grid>
-              <Grid item xs={6}>
-                <Stack>
-                  <Button variant="contained" component="label">
-                    Upload
-                    <input
-                      id="img_upload"
-                      hidden
-                      accept="image/*"
-                      multiple
-                      type="file"
-                      name="image"
-                      value={link}
-                      // onChange={formik.handleChange}
-                      onChange={(event?: any) => {
-                        formik.setFieldValue(
-                          "file",
-                          event.currentTarget.files[0] as EventTarget
-                        );
-                      }}
-                      defaultValue={formik.values.data}
-                    />
-                  </Button>
-                </Stack>
-              </Grid>
-              <Button
+                 <div style={{display: "flex", justifyContent: "space-around"}}>
+                 <Stack style={{width:"50%",margin:"10px"}}>
+                   
+                   <Button 
+                   variant="contained" component="label" style={{background:"#214758"}} >
+                    {  <UploadFileIcon/>} Upload 
+                     <input
+                       id="img_upload"
+                       hidden
+                       accept="image/*"
+                       multiple
+                       type="file"
+                       name="image"
+                       value={link}
+                       // onChange={formik.handleChange}
+                       onChange={(event?: any) => {
+                         formik.setFieldValue(
+                           "file",
+                           event.currentTarget.files[0] as EventTarget
+                         );
+                       }}
+                       defaultValue={formik.values.data}
+                     >
+                     
+                     </input>
+                   </Button>
+                 </Stack>
+                 <LoadingButton
                 type="submit"
                 variant="contained"
                 style={{
-                  margin: "20px",
-                  display: "",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  width:"50%",
+                  margin:"10px" ,
+                  background:"#214758"
                 }}
               >
                 Submit
-              </Button>
-            </Grid>
+              </LoadingButton>
+</div>
+            
+                
+            </div>
+         
+   
           </form>
         </Box>
       </Modal>

@@ -9,7 +9,7 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
-import { subservice } from "../../../Redux/action/service";
+import { subservice,clearservicedata } from "../../../Redux/action/service";
 import { getservice } from "../../../Redux/action/service";
 import service from "../../../Redux/Reducer/service"
 import InputLabel from '@mui/material/InputLabel';
@@ -19,13 +19,16 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
+import UploadFileIcon from '@mui/icons-material/UploadFile';
+import * as Yup from "yup";
+
 
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 700,
+  width: "40%",
   bgcolor: "background.paper",
   boxShadow: 24,
   p: 2,
@@ -40,7 +43,6 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function BasicModal() {
   const state =useSelector((state: any) => state.service);
   let data="";
-  
   const [service, setService] = React.useState('');
   var formData = new FormData();
   const dispatch = useDispatch<any>();
@@ -55,7 +57,14 @@ export default function BasicModal() {
   const handleChange = (event: SelectChangeEvent) => {
     setService(event.target.value as string);
   };
+  const ValidationSchema = Yup.object().shape({
+    Service: Yup.string().required("Required"),
+    Decription: Yup.string().required("Required"),
+    Charge: Yup.string().required("Required"),
+    service:Yup.string().required("Required")
+  });
   const formik = useFormik({
+    validationSchema: ValidationSchema,
     initialValues: {
       data: "",
       SubService: "",
@@ -77,18 +86,27 @@ export default function BasicModal() {
 
       formData.append("decription", values.Decription);
     
-     await dispatch(subservice(formData));
+      dispatch(subservice(formData));
     },
   });
+  React.useEffect(() => {
+    if (state?.createsucess === true) {
+      dispatch(clearservicedata());
+      handleClose();
+    }
+  }, [state]);
   return (
-    <div>
-      
-      <Button onClick={handleOpen} variant="contained" >
+   <>
+        <div
+        style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
+      >
+        <Button onClick={handleOpen} variant="contained" style={{background:"#214758"}} >
         + Add Service
       </Button>
+      </div>
+      
       <Modal
         open={open}
-        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -99,14 +117,7 @@ export default function BasicModal() {
           </div>
 
           <form onSubmit={formik.handleSubmit}>
-            <Grid
-              container
-              spacing={2}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-              style={{ padding: 1 }}
-            >
-              <Grid item xs={6}>
-              <Box sx={{ minWidth: 120 }}>
+          <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">MainService</InputLabel>
         <Select
@@ -115,7 +126,8 @@ export default function BasicModal() {
           value={service}
           label="SubService"
           onChange={handleChange}
-          defaultValue={formik.values.data}        >
+          error={service==""?true:false}
+          defaultValue={formik.values.data} >
         {
           state?.mainservicedata?.map((item:any)=>{
            return <MenuItem value={item?._id}>
@@ -125,10 +137,8 @@ export default function BasicModal() {
         }
         </Select>
       </FormControl>
-    </Box>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
+          </Box>
+             <TextField
                   id="Service"
                   onChange={formik.handleChange}
                   defaultValue={formik.values.data}
@@ -136,10 +146,10 @@ export default function BasicModal() {
                   fullWidth
                   autoComplete="current-password"
                   variant="filled"
+                  error={!!formik.errors.Service}
+                  helperText={formik.errors.Service}
                 />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
+                  <TextField
                   id="Decription"
                   onChange={formik.handleChange}
                   defaultValue={formik.values.data}
@@ -147,12 +157,25 @@ export default function BasicModal() {
                   fullWidth
                   autoComplete="current-password"
                   variant="filled"
+                  error={!!formik.errors.Decription}
+                  helperText={formik.errors.Decription}
                 />{" "}
-              </Grid>
-              <Grid item xs={6}>
-                <Stack>
-                  <Button variant="contained" component="label">
-                    Upload
+                
+                <TextField
+                  id="Charge"
+                  onChange={formik.handleChange}
+                  defaultValue={formik.values.data}
+                  label="Charge"
+                  fullWidth
+                  autoComplete="current-password"
+                  variant="filled"
+                  error={!!formik.errors.Charge}
+                  helperText={formik.errors.Charge}
+                />
+                 <div style={{display: "flex", justifyContent: "space-around"}}>
+                 <Stack style={{width:"50%",margin:"10px"}}>
+                  <Button variant="contained" component="label" style={{ background:"#214758"}}>
+                  {  <UploadFileIcon/>} Upload 
                     <input
                       id="img_upload"
                       hidden
@@ -172,31 +195,19 @@ export default function BasicModal() {
                     />
                   </Button>
                 </Stack>
-              </Grid>
-              <Grid item xs={6}>
-              <TextField
-                  id="Charge"
-                  onChange={formik.handleChange}
-                  defaultValue={formik.values.data}
-                  label="Charge"
-                  fullWidth
-                  autoComplete="current-password"
-                  variant="filled"
-                />
-                </Grid>
-                <Grid>
-                <Button
+                      <Button
                 type="submit"
                 variant="contained"
+                style={{width:"50%",margin:"10px", background:"#214758"}}
               >
                 Submit
               </Button>
-                </Grid>
-              
-            </Grid>
+                 </div>
+                     
+       
           </form>
         </Box>
       </Modal>
-    </div>
+    </>
   );
 }

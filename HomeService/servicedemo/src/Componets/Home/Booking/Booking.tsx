@@ -32,6 +32,7 @@ import { response } from "express";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import { createIntersectionTypeNode } from "typescript";
+import moment from 'moment'
 
 declare global {
   interface Window {
@@ -69,7 +70,7 @@ const Booking = () => {
   const [currdate, setcurrdate] = useState(false);
   const [tomorrowdate, settomorrowdate] = useState(false);
 
-  const [value, setValue] = useState<any>(null);
+  const [datevalue, setValue] = useState<any>(null);
 
   const handleChangeCity = (event: SelectChangeEvent) => {
     setcity(event.target.value as string);
@@ -93,7 +94,7 @@ const Booking = () => {
     formData.append("number", number);
     formData.append("billingaddress", billingaddress);
     formData.append("deliveryadress", address);
-    formData.append("date", value);
+    formData.append("date", datevalue);
     formData.append("time", time);
     formData.append("city", city);
     dispatch(CreBooking(formData));
@@ -115,6 +116,7 @@ const Booking = () => {
     initpayment(data.data);
     console.log("data", data);
   };
+ 
   const initpayment = (data: any) => {
     const option = {
       key: "rzp_test_385yGikINhUWfh",
@@ -170,8 +172,7 @@ const Booking = () => {
                       value={name}
                       onChange={(e) => setname(e.target.value)}
                       label="Enter Your Name"
-                      error={name==""?true:false}
-                      helperText={name==""?"Required":""}
+                      error={name == "" ? true : false}
                       variant="outlined"
                       sx={{
                         width: "100%",
@@ -185,8 +186,8 @@ const Booking = () => {
                       id="outlined-basic"
                       label="Enter Your Contact Number"
                       variant="outlined"
-                      error={number==""?true:false}
-                      helperText={number==""?"Required":""}                    sx={{ width: "100%" }}
+                      error={number == "" ? true : false}
+                      sx={{ width: "100%" }}
                       inputProps={{ maxLength: 13 }}
                     />
                   </Grid>
@@ -197,8 +198,7 @@ const Booking = () => {
                       onChange={(e) => setbillingaddress(e.target.value)}
                       id="outlined-basic"
                       sx={{ width: "100%" }}
-                      error={billingaddress==""?true:false}
-                      helperText={billingaddress==""?"Required":""}
+                      error={billingaddress == "" ? true : false}
                       label="Enter Your BillingAddresss"
                       variant="outlined"
                     />
@@ -207,30 +207,30 @@ const Booking = () => {
                     <TextField
                       value={address}
                       onChange={(e) => setaddress(e.target.value)}
-                      error={address==""?true:false}
-                      helperText={address==""?"Required":""}
+                      error={address == "" ? true : false}
                       id="outlined-basic"
                       sx={{ width: "100%" }}
                       label="Enter Your DeliveryAddress"
                       variant="outlined"
                     />
                   </Grid>
-                  
+
                   <Grid item xs={12} md={6}>
-                    <FormControl style={{width:"100%"}}>
+                    <FormControl style={{ width: "100%" }}>
                       <InputLabel id="city_select">City</InputLabel>
                       <Select
                         labelId="city_select"
                         id="city_select"
                         value={city}
-                        error={city==""?true:false}
+                        error={city == "" ? true : false}
                         label="City"
                         onChange={handleChangeCity}
-                        
                       >
                         {statecity?.map((item: any) => {
                           return (
-                            <MenuItem value={item?.pincode}>{item?.name}</MenuItem>
+                            <MenuItem value={item?.pincode}>
+                              {item?.name}
+                            </MenuItem>
                           );
                         })}
                       </Select>
@@ -240,8 +240,7 @@ const Booking = () => {
                     <TextField
                       style={{ width: "100%" }}
                       value={city}
-                      error={city==""?true:false}
-                      helperText={city==""?"Required":""}
+                      error={city == "" ? true : false}
                     ></TextField>
                   </Grid>
                   <Grid item xs={12} md={6}></Grid>
@@ -249,7 +248,7 @@ const Booking = () => {
                 <Typography variant="h5" textAlign="center" margin={2}>
                   Choose Delivery Time
                 </Typography>
-                <div style={{ display: "flex", justifyContent: "center"}}>
+                <div style={{ display: "flex", justifyContent: "center" }}>
                   <Button
                     variant="outlined"
                     sx={{
@@ -307,23 +306,50 @@ const Booking = () => {
                   columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                   marginTop={1}
                 >
-                 
                   <Grid item xs={12} md={6}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs} >
+                    {/* <TextField
+                      id="date"
+                      label="Select Date"
+                      type="date"
+                      sx={{ width: 220 }}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                     
+                        value={
+                          currdate
+                            ? moment(new Date().toISOString()).format('YYYY-MM-DD')
+                            : tomorrowdate
+                            ? moment(tomorrow).format('YYYY-MM-DD')
+                            : value
+                        }
+                        onChange={(e: any) => {
+                          {
+                            setcurrdate(false);
+                            settomorrowdate(false);
+                          }
+
+                          setValue(e.target.value);
+                        }}
+
+                    /> */}
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
                         className="date"
                         minDate={new Date().toISOString()}
                         maxDate="12/31/2022"
                         label="select your delivery date"
                         value={
+                        
                           currdate
                             ? new Date().toISOString()
                             : tomorrowdate
                             ? tomorrow
-                            : value
+                            : datevalue
                         }
                         onChange={(newValue: any) => {
                           {
+                            
                             setcurrdate(false);
                             settomorrowdate(false);
                           }
@@ -331,9 +357,17 @@ const Booking = () => {
 
                           setValue(newValue);
                         }}
-                        renderInput={(params: any) => <TextField {...params} />}
+                        renderInput={(params: any) => (
+                          <TextField
+                            // error={true}
+                            // helperText="select date"
+                            {...params}
+                            
+                          />
+                        )}
                       />
                     </LocalizationProvider>
+                    <Typography style={{color:"red"}}>{currdate==false&&tomorrowdate==false&&datevalue==null?"please select date":""}</Typography>
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <FormControl sx={{ width: "100%" }}>
@@ -343,8 +377,7 @@ const Booking = () => {
                         id="demo-simple-select"
                         value={time}
                         label="Time"
-                        error={time==""?true:false}
-                        helperText={time==""?"Required":""}
+                        error={time == "" ? true : false}
                         onChange={handleChangeTime}
                       >
                         {statetime?.map((value: any) => {

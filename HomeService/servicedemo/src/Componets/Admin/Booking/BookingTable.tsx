@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { getservice ,deletemainservice} from "../../../Redux/action/service";
+import { getuserdata} from "../../../Redux/action/user";
 import service from "../../../Redux/Reducer/service";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,7 +17,7 @@ import MainServiceEdit from "../../Admin/Service/MainServiceEdit"
 import "../../../Css/demo.css";
 
 interface Column {
-  id:  "ServiceName" | "Decription" |"Edit"|"Delete";
+  id:  "Email" | "Password" ;
   label: string;
   minWidth?: number;
   align?: "right";
@@ -25,32 +25,29 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "ServiceName", label: "ServiceName"},
+  { id: "Email", label: "EMAIL"},
   {
-    id: "Decription",
-    label: "Decription",
+    id: "Password",
+    label: "PASSWORD",
     align: "right",
     format: (value: number) => value.toLocaleString("en-US"),
   },
-  { id: "Edit", label: "Edit"},
-  { id: "Delete", label: "Delete"},
  
 ];
 
 interface Data {
-  ServiceName: string;
-  Decription: string;
+  EMAIL: string;
+  PASSWORD: string;
 
 }
 
-export default function MainServiceTable() {
+export default function BookingTable() {
   const [page, setPage] = React.useState(0);
-  const [deletestate, setdelete] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsData, setRowsData] = React.useState([]);
   const dispatch = useDispatch<any>();
-  const servicestate = useSelector((state: any) => state.service);
-
+  const userdata = useSelector((state: any) => state.signup);
+    console.log("userdata....",userdata)
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -62,22 +59,19 @@ export default function MainServiceTable() {
     setPage(0);
   };
   useEffect(() => {
-    dispatch(getservice);
-  }, [servicestate?.mainservicedata]);
+    dispatch(getuserdata);
+  },);
      
-      function setdele(id:any){
-        dispatch(deletemainservice(id))
-        dispatch(getservice);
-      }
+  
   useEffect(() => {
-    if (servicestate?.mainservicedata) {
-      setRowsData(servicestate.mainservicedata);
+    if (userdata?.getuserdata) {
+      setRowsData(userdata.getuserdata);
     }
-  }, [servicestate]);
-
+  }, [userdata]);
+    console.log("...row",rowsData)
   return (
     <>
-      <Paper sx={{ width: "100%", overflow: "hidden", margin: "20px" }}>
+      <Paper sx={{ width: "100%", overflow: "hidden", margin: "30px"}}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -91,18 +85,8 @@ export default function MainServiceTable() {
             <TableBody>
               {[...rowsData]?.map((column: any) => (
                 <TableRow hover role="checkbox">
-                  <TableCell key={"ServiceName"}>{column.servicename}</TableCell>{" "}
-                  <TableCell key={"Decription"}>{column.decription}</TableCell>
-                  <TableCell key={"Edit"}>{
-                    <MainServiceEdit id={column?._id} servicename={column?.servicename} decription={column?.decription} url={column?.url}/>
-                  }</TableCell>
-      <TableCell key={"Delete"}>{
-                    <IconButton>
-                    <DeleteIcon onClick={()=>{
-                      setdele(column?._id)
-                    }}/>
-                    </IconButton>
-                  }</TableCell>
+                  <TableCell key={"Email"}>{column.email}</TableCell>{" "}
+                  <TableCell key={"Password"}>{column.password}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

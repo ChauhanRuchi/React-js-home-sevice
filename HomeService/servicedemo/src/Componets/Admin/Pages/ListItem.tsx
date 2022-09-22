@@ -12,13 +12,14 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import { NavLink } from "react-router-dom";
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import BookOnlineIcon from '@mui/icons-material/BookOnline';
+import "../../../Css/demo.css"
 export const mainListItems = (
   <React.Fragment>
     <ListItemButton>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <NavLink to="./User">
+      <NavLink to="./User" className="tab">
       <ListItemText primary="User" />
       </NavLink>
     </ListItemButton>
@@ -26,7 +27,7 @@ export const mainListItems = (
       <ListItemIcon>
         <MiscellaneousServicesIcon />
       </ListItemIcon>
-     <NavLink to="./Service">
+     <NavLink to="./Service" className="tab">
      <ListItemText primary="Service" />
      </NavLink>
    
@@ -35,7 +36,7 @@ export const mainListItems = (
       <ListItemIcon>
         <MiscellaneousServicesIcon />
       </ListItemIcon>
-      <NavLink to="./ServiceCreate">
+      <NavLink to="./ServiceCreate" className="tab">
         <ListItemText primary="SubService" />
       </NavLink>
     </ListItemButton>
@@ -43,8 +44,11 @@ export const mainListItems = (
     <ListItemButton>
       <ListItemIcon>
         <BookOnlineIcon />
-      </ListItemIcon>
+      </ListItemIcon >
+      <NavLink to="./Booking" className="tab">
       <ListItemText primary="Booking" />
+
+        </NavLink>
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>

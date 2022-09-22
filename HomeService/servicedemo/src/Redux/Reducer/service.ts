@@ -2,8 +2,10 @@ let initstate = {};
 
 const service = (state = initstate, action: any) => {
   switch (action.type) {
-    case "SET_CURRENT_SERVICE":
-      return { ...state, subservicedata: action.payload };
+    case "SET_CURRENT_SUBSERVICE":
+      return { ...state, subservicedata: action.payload ,createsucess: true};
+      case "CLEAR_STATE":
+        return { ...state,createsucess: false};
     case "GET_SEARCHBYID":
       return { ...state, getsearchbyid: action.payload };
     case "GET_CURRENT_SERVICE":
