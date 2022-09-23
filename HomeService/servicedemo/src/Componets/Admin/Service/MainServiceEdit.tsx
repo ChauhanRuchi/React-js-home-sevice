@@ -9,7 +9,7 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
-import {editmainservice,getservice} from "../../../Redux/action/service"
+import {editmainservice,getservice,cleareditservicedata} from "../../../Redux/action/service"
 import service from "../../../Redux/Reducer/service"
 import { IconButton } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
@@ -77,7 +77,10 @@ export default function MainServiceEdit(Props:any) {
   });
     React.useEffect(()=>{
         if(state?.editsucess===true)
-        handleClose();
+           handleClose();
+           setTimeout(()=>{
+            dispatch(cleareditservicedata())
+           },2000)
     },[state?.editmainservice])
   return (
     <div>

@@ -11,7 +11,6 @@ export default function ServiceCreate() {
   const state = useSelector((state: any) => state.service);
   const dispatch = useDispatch<any>();
 
-
   return (
     <>
       <MainService />
@@ -29,6 +28,20 @@ export default function ServiceCreate() {
           </Alert>
         </div>
       )}
+       {state?.editsucess && (
+        <div
+          style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
+        >
+          <Alert
+            severity="success"
+            color="info"
+            style={{ color: "#fff", background: "#214758" }}
+          >
+            successfully edit Service
+          </Alert>
+        </div>
+      )}
+ 
     </>
   );
 }

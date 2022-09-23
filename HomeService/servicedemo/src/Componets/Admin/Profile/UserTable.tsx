@@ -75,10 +75,10 @@ export default function UserTable() {
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow>
+              <TableRow style={{background:"#214758"}}>
                 {columns.map((column) => (
           
-                  <TableCell className="textfiealdstyle">{column.label}</TableCell>
+                  <TableCell className="textfiealdstyle" style={{background:"#214758",color:"#fff"}}>{column.label}</TableCell>
                 ))}
               </TableRow>
             </TableHead>

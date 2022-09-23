@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { getuserdata} from "../../../Redux/action/user";
+import {getbookingdata } from "../../../Redux/action/booking";
 import service from "../../../Redux/Reducer/service";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,7 +17,7 @@ import MainServiceEdit from "../../Admin/Service/MainServiceEdit"
 import "../../../Css/demo.css";
 
 interface Column {
-  id:  "Email" | "Password" ;
+  id:  "UserName" | "ContactNumber"|"BillingAddress"|"DeliveryAddress"|"Date"|"Time"|"Pincode"|"ServiceName"|"ServiceCharge"|"Status";
   label: string;
   minWidth?: number;
   align?: "right";
@@ -25,20 +25,28 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "Email", label: "EMAIL"},
+  { id: "UserName", label: "USERNAME"},
   {
-    id: "Password",
-    label: "PASSWORD",
+    id: "ContactNumber",
+    label: "CONTACTNUMBER",
     align: "right",
     format: (value: number) => value.toLocaleString("en-US"),
   },
- 
+  { id: "BillingAddress", label: "BILLINGADDRESS"},
+  { id: "DeliveryAddress", label: "DELIVERYADDRESS"},
+  { id: "Date", label: "DATE"},
+  { id: "Time", label: "TIME"},
+  { id: "Pincode", label: "PINCODE"},
+  { id: "ServiceName", label: "SERVICENAME"},
+  { id: "ServiceCharge", label: "SERVICECHARGE"},
+  { id: "Status", label: "STATUS"},
+
 ];
 
 interface Data {
   EMAIL: string;
   PASSWORD: string;
-
+  CONTACTNUMBER:string
 }
 
 export default function BookingTable() {
@@ -46,8 +54,7 @@ export default function BookingTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsData, setRowsData] = React.useState([]);
   const dispatch = useDispatch<any>();
-  const userdata = useSelector((state: any) => state.signup);
-    console.log("userdata....",userdata)
+  const statebookingdata = useSelector((state: any) => state.booking);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -59,34 +66,41 @@ export default function BookingTable() {
     setPage(0);
   };
   useEffect(() => {
-    dispatch(getuserdata);
+    dispatch(getbookingdata);
   },);
      
   
   useEffect(() => {
-    if (userdata?.getuserdata) {
-      setRowsData(userdata.getuserdata);
+    if (statebookingdata?.getbooking) {
+      setRowsData(statebookingdata.getbooking);
     }
-  }, [userdata]);
-    console.log("...row",rowsData)
+  }, [statebookingdata]);
   return (
     <>
-      <Paper sx={{ width: "100%", overflow: "hidden", margin: "30px"}}>
+      <Paper sx={{ width: "70%", overflow: "hidden", margin: "30px",justifyContent:"center"}}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow>
+              <TableRow style={{background:"#214758"}}>
                 {columns.map((column) => (
           
-                  <TableCell className="textfiealdstyle">{column.label}</TableCell>
+                  <TableCell className="textfiealdstyle" style={{background:"#214758",color:"#fff"}}>{column.label}</TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {[...rowsData]?.map((column: any) => (
+              {[...rowsData]?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((column: any) => (
                 <TableRow hover role="checkbox">
-                  <TableCell key={"Email"}>{column.email}</TableCell>{" "}
-                  <TableCell key={"Password"}>{column.password}</TableCell>
+                  <TableCell key={"UserName"}>{column.name}</TableCell>{" "}
+                  <TableCell key={"ContactNumber"}>{column.contactnumber}</TableCell>
+                  <TableCell key={"BillingAddress"}>{column.billingaddress}</TableCell>{" "}
+                  <TableCell key={"DeliveryAddress"}>{column.deliveryadress}</TableCell>
+                  <TableCell key={"Date"}>{column.date}</TableCell>{" "}
+                  <TableCell key={"Time"}>{column.time}</TableCell>
+                  <TableCell key={"Pincode"}>{column.city}</TableCell>{" "}
+                  <TableCell key={"ServiceName"}>{column.servicename}</TableCell>
+                  <TableCell key={"ServiceCharge"}>{column.charge}</TableCell>{" "}
+                  <TableCell key={"Status"}>{column.status}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -95,12 +109,13 @@ export default function BookingTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={rowsData.length}
+          count={56}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+        
       </Paper>
     </>
   );

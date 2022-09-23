@@ -17,6 +17,7 @@ import {
   gettime,
   CreBooking,
   getbookingdata,
+  bookingdataclear,
 } from "../../../Redux/action/booking";
 import { getsubservicebyid } from "../../../Redux/action/service";
 
@@ -32,13 +33,14 @@ import { response } from "express";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import { createIntersectionTypeNode } from "typescript";
-import moment from 'moment'
+import moment from "moment";
 
 declare global {
   interface Window {
     Razorpay: any;
   }
 }
+
 const Booking = () => {
   let arrtime: any = [];
   const [name, setname] = useState("");
@@ -50,7 +52,10 @@ const Booking = () => {
   const statetime = useSelector((state: any) => state.booking.gettime);
   const statebook = useSelector((state: any) => state.booking.setbooking);
   const stategetbook = useSelector((state: any) => state.booking.getbooking);
-  const statepayment = useSelector((state: any) => state.booking.createsucess);
+  const statepayment = useSelector(
+    (state: any) => state?.booking?.createsucess
+  );
+
   const stateservice = useSelector(
     (state: any) => state.service.getsubservicebyid
   );
@@ -84,17 +89,33 @@ const Booking = () => {
     dispatch(getbookingdata);
     dispatch(getsubservicebyid({ _id: id }));
   }, []);
+
+  useEffect(() => {
+    debugger;
+    if (statepayment == true) {
+      stateservice?.map((item: any) => handlepayment(item?.charge));
+    }
+  }, [statepayment]);
+
   {
     console.log("cuu", currdate);
   }
   function handleClick() {
     var formData = new FormData();
-
+    stateservice?.map((item: any) => formData.append("charge", item?.charge));
+    stateservice?.map((item: any) =>
+      formData.append("servicename", item?.servicename)
+    );
+    formData.append("status", "Padding");
     formData.append("name", name);
     formData.append("number", number);
     formData.append("billingaddress", billingaddress);
     formData.append("deliveryadress", address);
-    formData.append("date", datevalue);
+    formData.append("date",  currdate
+    ? new Date().toISOString()
+    : tomorrowdate
+    ? tomorrow
+    : datevalue);
     formData.append("time", time);
     formData.append("city", city);
     dispatch(CreBooking(formData));
@@ -116,7 +137,7 @@ const Booking = () => {
     initpayment(data.data);
     console.log("data", data);
   };
- 
+
   const initpayment = (data: any) => {
     const option = {
       key: "rzp_test_385yGikINhUWfh",
@@ -128,7 +149,7 @@ const Booking = () => {
           const verifyurl = "http://localhost:2009/HomeService/verify";
           const { data } = await axios.post(verifyurl, response);
           if (data.payment == true) {
-            navigate("../Payment/" + id);
+            navigate("../Payment/" + statebook?._id);
           }
         } catch (error) {
           console.log("errppp...", error);
@@ -140,11 +161,14 @@ const Booking = () => {
     paymentObject.open();
   };
 
-  useEffect(() => {
-    console.log("...", stateservice);
-    if (statepayment == true)
-      stateservice?.map((item: any) => handlepayment(item?.charge));
-  }, [statepayment]);
+  // if (statepayment == true) {
+  //   stateservice?.map((item: any) => handlepayment(item?.charge));
+  // }
+
+  // useEffect(() => {
+  //   console.log("...", stateservice);
+
+  // }, [statepayment]);
 
   return (
     <>
@@ -340,7 +364,6 @@ const Booking = () => {
                         maxDate="12/31/2022"
                         label="select your delivery date"
                         value={
-                        
                           currdate
                             ? new Date().toISOString()
                             : tomorrowdate
@@ -349,7 +372,6 @@ const Booking = () => {
                         }
                         onChange={(newValue: any) => {
                           {
-                            
                             setcurrdate(false);
                             settomorrowdate(false);
                           }
@@ -362,12 +384,17 @@ const Booking = () => {
                             // error={true}
                             // helperText="select date"
                             {...params}
-                            
                           />
                         )}
                       />
                     </LocalizationProvider>
-                    <Typography style={{color:"red"}}>{currdate==false&&tomorrowdate==false&&datevalue==null?"please select date":""}</Typography>
+                    <Typography style={{ color: "red" }}>
+                      {currdate == false &&
+                      tomorrowdate == false &&
+                      datevalue == null
+                        ? "please select date"
+                        : ""}
+                    </Typography>
                   </Grid>
                   <Grid item xs={12} md={6}>
                     <FormControl sx={{ width: "100%" }}>
@@ -394,7 +421,7 @@ const Booking = () => {
                     </FormControl>
                   </Grid>
                 </Grid>
-                <div
+                {/* <div
                   style={{
                     display: "flex",
                     margin: "15px",
@@ -403,7 +430,7 @@ const Booking = () => {
                   }}
                 >
                   <Typography sx={{ color: "red" }}>{statebook}</Typography>
-                </div>
+                </div> */}
                 <div
                   style={{
                     display: "flex",

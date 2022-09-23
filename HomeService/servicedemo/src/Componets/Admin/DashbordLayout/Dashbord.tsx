@@ -18,7 +18,6 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { secondaryListItems } from "../Pages/ListItem";
 import { mainListItems } from "../Pages/ListItem";
 import { Outlet } from "react-router-dom";
 import Chart from "../Pages/Chart";
@@ -155,8 +154,8 @@ function DashboardContent() {
           <Divider />
           <List component="nav">
             {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            {/* <Divider sx={{ my: 1 }} />
+            */}
           </List>
         </Drawer>
         <Box

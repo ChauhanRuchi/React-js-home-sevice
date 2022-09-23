@@ -300,7 +300,7 @@ const ResponsiveAppBar = () => {
                             return navigate("/");
                           }
                         } else if (page == "SERVICE") {
-                          return navigate("/Service");
+                          return navigate("/SubServiceAll");
                         }
                       }}
                     >
@@ -352,7 +352,7 @@ const ResponsiveAppBar = () => {
                         return navigate("/");
                       }
                     } else if (page == "SERVICE") {
-                      return navigate("/Service");
+                      return navigate("/SubServiceAll");
                     }
                   }}
                   sx={{ my: 2, color: "white", display: "block" }}

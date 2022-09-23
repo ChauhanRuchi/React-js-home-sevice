@@ -2,8 +2,10 @@ let initstate = {};
 
 const booking = (state = initstate, action: any) => {
   switch (action.type) {
+    case "SET_START_BOOKING":
+      return { ...state,setbooking: action.payload ,createsucess:false};
     case "SET_BOOKING":
-      return { ...state,createsucess:true};
+      return { ...state,setbooking: action.payload ,createsucess:true};
       case "SET_ERROR_BOOKING":
       return { ...state, setbooking: action.payload ,createfail:false};
     case 'GET_BOOINGDATA':
@@ -12,7 +14,12 @@ const booking = (state = initstate, action: any) => {
       return { ...state, getcityname: action.payload };
     case "GET_AVAILABLE_TIME":
     return { ...state, gettime: action.payload };
-    
+    case "STATUS_UPDATE":
+      return { ...state, statusupdate: action.payload ,status:true};
+     case "STATUS_UPDATE_ERROR":
+        return { ...state, statusupdate: action.payload ,status:true};
+     case "GET_BOOKINGDATA_BYID":
+          return { ...state, getbookingdatabyid: action.payload };
     default:
       return state;
   }

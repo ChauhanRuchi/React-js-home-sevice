@@ -7,17 +7,18 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { getservice ,deletemainservice} from "../../../Redux/action/service";
+import { getservice, deletemainservice } from "../../../Redux/action/service";
 import service from "../../../Redux/Reducer/service";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
-import MainServiceEdit from "../../Admin/Service/MainServiceEdit"
+import DeleteIcon from "@mui/icons-material/Delete";
+import MainServiceEdit from "../../Admin/Service/MainServiceEdit";
 import "../../../Css/demo.css";
+import MainServiceDelete from "../../../Componets/Admin/Service/MainServiceDelete";
 
 interface Column {
-  id:  "ServiceName" | "Decription" |"Edit"|"Delete";
+  id: "ServiceName" | "Decription" | "Edit" | "Delete";
   label: string;
   minWidth?: number;
   align?: "right";
@@ -25,22 +26,20 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "ServiceName", label: "ServiceName"},
+  { id: "ServiceName", label: "ServiceName" },
   {
     id: "Decription",
     label: "Decription",
     align: "right",
     format: (value: number) => value.toLocaleString("en-US"),
   },
-  { id: "Edit", label: "Edit"},
-  { id: "Delete", label: "Delete"},
- 
+  { id: "Edit", label: "Edit" },
+  { id: "Delete", label: "Delete" },
 ];
 
 interface Data {
   ServiceName: string;
   Decription: string;
-
 }
 
 export default function MainServiceTable() {
@@ -64,11 +63,11 @@ export default function MainServiceTable() {
   useEffect(() => {
     dispatch(getservice);
   }, [servicestate?.mainservicedata]);
-     
-      function setdele(id:any){
-        dispatch(deletemainservice(id))
-        dispatch(getservice);
-      }
+
+  function setdele(id: any) {
+    dispatch(deletemainservice(id));
+    dispatch(getservice);
+  }
   useEffect(() => {
     if (servicestate?.mainservicedata) {
       setRowsData(servicestate.mainservicedata);
@@ -81,28 +80,37 @@ export default function MainServiceTable() {
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow>
+              <TableRow style={{ background: "#214758" }}>
                 {columns.map((column) => (
-          
-                  <TableCell className="textfiealdstyle">{column.label}</TableCell>
+                  <TableCell
+                    className="textfiealdstyle"
+                    style={{ background: "#214758", color: "#fff" }}
+                  >
+                    {column.label}
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
               {[...rowsData]?.map((column: any) => (
                 <TableRow hover role="checkbox">
-                  <TableCell key={"ServiceName"}>{column.servicename}</TableCell>{" "}
+                  <TableCell key={"ServiceName"}>
+                    {column.servicename}
+                  </TableCell>{" "}
                   <TableCell key={"Decription"}>{column.decription}</TableCell>
-                  <TableCell key={"Edit"}>{
-                    <MainServiceEdit id={column?._id} servicename={column?.servicename} decription={column?.decription} url={column?.url}/>
-                  }</TableCell>
-      <TableCell key={"Delete"}>{
-                    <IconButton>
-                    <DeleteIcon onClick={()=>{
-                      setdele(column?._id)
-                    }}/>
-                    </IconButton>
-                  }</TableCell>
+                  <TableCell key={"Edit"}>
+                    {
+                      <MainServiceEdit
+                        id={column?._id}
+                        servicename={column?.servicename}
+                        decription={column?.decription}
+                        url={column?.url}
+                      />
+                    }
+                  </TableCell>
+                  <TableCell key={"Delete"}>
+                    {<MainServiceDelete id={column?._id} />}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -20,6 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SubServiceEdit from "../../Admin/Service/SubServiceEdit";
 import { AnyAaaaRecord } from "dns";
 import "../../../Css/demo.css";
+import SubServiceDelete from "../../Admin/Service/SubServiceDelete"
 
 
 interface Column {
@@ -91,9 +92,9 @@ export default function StickyHeadTable() {
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow>
+              <TableRow style={{background:"#214758"}}>
                 {columns.map((column) => (
-                  <TableCell>{column.label}</TableCell>
+                  <TableCell style={{background:"#214758",color:"#fff"}}>{column.label}</TableCell>
                 ))}
               </TableRow>
             </TableHead>
@@ -111,13 +112,14 @@ export default function StickyHeadTable() {
                   }</TableCell>
                   <TableCell key={"Delete"}>
                     {
-                      <IconButton>
-                        <DeleteIcon
-                          onClick={() => {
-                            setdele(column?._id);
-                          }}
-                        />
-                      </IconButton>
+                      // <IconButton>
+                      //   <DeleteIcon
+                      //     onClick={() => {
+                      //       setdele(column?._id);
+                      //     }}
+                      //   />
+                      // </IconButton>
+                      <SubServiceDelete id={column?._id}/>
                     }
                   </TableCell>
                 </TableRow>

@@ -235,3 +235,15 @@ export const clearservicedata = () => (dispatch: any) => {
     payload: null,
   });
 };
+export const cleareditservicedata = () => (dispatch: any) => {
+  return dispatch({
+    type: "CLEAR_STATE_EDIT",
+    payload: null,
+  });
+};
+export const cleareditsubservicedata = () => (dispatch: any) => {
+  return dispatch({
+    type: "CLEAR_STATE_SUBSERVICE_EDIT",
+    payload: null,
+  });
+};
