@@ -6,8 +6,8 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getsubserviceall ,deletesubservice} from "../../../Redux/action/service";
-import service from "../../../Redux/Reducer/service";
+import { getsubserviceall ,deletesubservice} from "../../../store/action/service";
+import service from "../../../store/Reducer/service";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 const style = {
@@ -57,7 +57,7 @@ export default function SubServiceDelete(Props:any) {
         {
           setdele(Props.id)
         }
-        {    handleClose
+        {    handleClose()
             }
         </>}}/>
         </div>

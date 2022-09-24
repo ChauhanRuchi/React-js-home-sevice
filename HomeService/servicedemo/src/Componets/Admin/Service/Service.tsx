@@ -2,8 +2,8 @@ import * as React from "react";
 import MainService from "./MainService";
 import MainServiceTable from "./MainServiceTable";
 import Alert from "@mui/material/Alert";
-import service from "../../../Redux/Reducer/service";
-import { clearservicedata } from "../../../Redux/action/service";
+import service from "../../../store/Reducer/service";
+import { clearservicedata } from "../../../store/action/service";
 
 import { useSelector, useDispatch } from "react-redux";
 

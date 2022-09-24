@@ -6,11 +6,11 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { changepass } from "../../../Redux/action/admin";
-import admin from "../../../Redux/Reducer/admin";
+import { changepass,clearstatepassword } from "../../../store/action/admin";
+import admin from "../../../store/Reducer/admin";
 import { useState } from "react";
 import { useEffect } from "react";
-import "../../../Css/demo.css";
+import "../../../styles/demo.css";
 import { useSelector, useDispatch } from "react-redux";
 import * as Yup from "yup";
 import {
@@ -31,18 +31,18 @@ const bull = (
 
 export default function ChangePassword() {
   var formData = new FormData();
-  const statepassword = useSelector((state: any) => state.admin.datapassword);
+  const statepassword = useSelector((state: any) => state.admin);
   const dispatch = useDispatch<any>();
 
   const ValidationSchema = Yup.object().shape({
-    passwordinput: Yup.string().required("Required"),
+     passwordinput: Yup.string().required("Required"),
     newpasswordinput: Yup.string().required('Required')
     .min(6, 'Password is too short - should be 6 chars minimum.')
     .matches(/[a-zA-Z]/, 'Password should be contain letters and numbers.'),
     confirmpasswordinput: Yup.string().required('Required')
     .min(6, 'Password is too short - should be 6 chars minimum.')
     .matches(/[a-zA-Z]/, 'Password should be contain letters and numbers.')
-    .oneOf([Yup.ref('newpassword'), null], 'Password must match'),
+    
     
   });
   const formik = useFormik({
@@ -60,9 +60,19 @@ export default function ChangePassword() {
       formData.append("confirmpassword", values?.confirmpasswordinput);
 
       dispatch(changepass(formData));
+
     }
   });
   console.log("errors", formik.errors);
+
+  useEffect(()=>{
+      if(statepassword?.changepassword===true)
+      {
+        setTimeout(()=>{
+          dispatch(clearstatepassword())
+         },2000)
+      }
+  },[statepassword])
 
   const card = (
     <React.Fragment>

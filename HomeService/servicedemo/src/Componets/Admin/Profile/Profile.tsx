@@ -7,7 +7,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Typography from '@mui/material/Typography';
 import { IconButton } from '@mui/material';
 import { useSelector, useDispatch } from "react-redux";
-import admin from "../../../Redux/Reducer/admin"
+import admin from "../../../store/Reducer/admin"
 
 
 const bull = (

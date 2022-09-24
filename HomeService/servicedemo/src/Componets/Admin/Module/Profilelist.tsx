@@ -6,10 +6,14 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
+import {logout} from "../../../store/action/admin";
+import { useSelector, useDispatch } from "react-redux";
 
 
 export default function MenuAppBar() {
   let navigate = useNavigate();
+  const dispatch = useDispatch<any>();
+
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -54,6 +58,7 @@ export default function MenuAppBar() {
             <MenuItem onClick={()=>{ setAnchorEl(null); navigate("./Profile")}}>Profile</MenuItem>
             <MenuItem onClick={()=>{
               setAnchorEl(null);
+              dispatch(logout())
               localStorage.removeItem("AdminToken")
               navigate("../")
             }

@@ -9,8 +9,8 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
-import {editmainservice,getservice,cleareditservicedata} from "../../../Redux/action/service"
-import service from "../../../Redux/Reducer/service"
+import {editmainservice,getservice,cleareditservicedata} from "../../../store/action/service"
+import service from "../../../store/Reducer/service"
 import { IconButton } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import * as Yup from "yup";

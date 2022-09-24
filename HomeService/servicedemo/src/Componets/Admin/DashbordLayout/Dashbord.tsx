@@ -20,8 +20,8 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../Pages/ListItem";
 import { Outlet } from "react-router-dom";
-import Chart from "../Pages/Chart";
 import Profilelist from "../Module/Profilelist";
+import User from "../Profile/User";
 
 function Copyright(props: any) {
   return (
@@ -131,9 +131,9 @@ function DashboardContent() {
               Dashboard
             </Typography>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
+              {/* <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
-              </Badge>
+              </Badge> */}
             </IconButton>
             <Profilelist />
           </Toolbar>
@@ -173,6 +173,7 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
+            
               <Outlet />
             </Grid>
           </Container>

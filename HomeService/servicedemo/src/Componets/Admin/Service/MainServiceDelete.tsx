@@ -6,10 +6,11 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { getservice ,deletemainservice} from "../../../Redux/action/service";
-import service from "../../../Redux/Reducer/service";
+import { getservice ,deletemainservice,clearstatedelete} from "../../../store/action/service";
+import service from "../../../store/Reducer/service";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { idText } from 'typescript';
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -31,10 +32,17 @@ export default function MainServiceDelete(Props:any) {
   const servicestate = useSelector((state: any) => state.service);
 
   function setdele(id:any){
-  
     dispatch(deletemainservice(id))
      dispatch(getservice)
   }
+  useEffect(()=>{
+    if(servicestate?.deletesucess==true){
+        dispatch(clearstatedelete())
+    }
+    else{
+      
+    }
+  },[servicestate])
   return (
     <div>
       <IconButton>
@@ -59,8 +67,8 @@ export default function MainServiceDelete(Props:any) {
         {
           setdele(Props.id)
         }
-        {    handleClose
-}
+        {    handleClose()
+        }
         </>}}/>
         </div>
         </Box>

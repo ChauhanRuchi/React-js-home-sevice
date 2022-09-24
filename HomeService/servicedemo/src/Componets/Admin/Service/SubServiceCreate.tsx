@@ -9,9 +9,9 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
-import { subservice,clearservicedata } from "../../../Redux/action/service";
-import { getservice } from "../../../Redux/action/service";
-import service from "../../../Redux/Reducer/service"
+import { subservice,clearservicedatasub } from "../../../store/action/service";
+import { getservice } from "../../../store/action/service";
+import service from "../../../store/Reducer/service"
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -61,7 +61,7 @@ export default function BasicModal() {
     Service: Yup.string().required("Required"),
     Decription: Yup.string().required("Required"),
     Charge: Yup.string().required("Required"),
-    service:Yup.string().required("Required")
+    // service:Yup.string().required("Required")
   });
   const formik = useFormik({
     validationSchema: ValidationSchema,
@@ -75,8 +75,6 @@ export default function BasicModal() {
     
     },
     onSubmit: async(values:any) => {
-
-      
       formData.append("image", values?.["file"]);
       
       formData.append("charge", values.Charge);
@@ -90,9 +88,12 @@ export default function BasicModal() {
     },
   });
   React.useEffect(() => {
-    if (state?.createsucess === true) {
-      dispatch(clearservicedata());
+    if (state?.createsucesssub === true) {
       handleClose();
+
+      setTimeout(()=>{
+        dispatch(clearservicedatasub());
+      },2000)
     }
   }, [state]);
   return (
@@ -111,7 +112,7 @@ export default function BasicModal() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", justifyContent: "space-between" ,marginBottom:"20px"}}>
             <Typography variant="h6">Add Service</Typography>
             <CloseIcon style={{ color: "red" }} onClick={() => handleClose()} />
           </div>

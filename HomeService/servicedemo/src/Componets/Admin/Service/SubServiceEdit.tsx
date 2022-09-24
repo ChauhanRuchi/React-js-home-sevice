@@ -9,8 +9,8 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
-import {editsubservice,getsubserviceall,cleareditsubservicedata} from "../../../Redux/action/service"
-import service from "../../../Redux/Reducer/service"
+import {editsubservice,getsubserviceall,cleareditsubservicedata} from "../../../store/action/service"
+import service from "../../../store/Reducer/service"
 import { IconButton } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import * as Yup from "yup";
@@ -73,15 +73,16 @@ export default function MainServiceEdit(Props:any) {
         console.log(pair[0] + ", " + pair[1]);
       }
       dispatch(editsubservice(Props.id,formData));
+      
      },
   });
     React.useEffect(()=>{
-        if(state?.editsucesssub===true)
-        handleClose();
+        if(state?.editsucesssub==true)
+        setOpen(false)
         setTimeout(()=>{
           dispatch(cleareditsubservicedata())
          },2000)
-    },[state?.editsubservice])
+    },[state?.editsucesssub])
     
   return (
     <div>
@@ -96,7 +97,7 @@ export default function MainServiceEdit(Props:any) {
       >
         <Box sx={style}>
           <div style={{display:"flex",justifyContent:"space-between"}}>
-          <Typography variant="h6">Add Service</Typography>
+          <Typography variant="h6">Edit Service</Typography>
           <CloseIcon style={{color:"red"}} onClick={()=>handleClose()}/>
           </div>
           <form onSubmit={formik.handleSubmit}>

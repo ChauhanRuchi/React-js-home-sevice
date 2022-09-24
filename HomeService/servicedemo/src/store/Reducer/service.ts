@@ -3,9 +3,12 @@ let initstate = {};
 const service = (state = initstate, action: any) => {
   switch (action.type) {
   case "SET_CURRENT_SUBSERVICE":
-      return { ...state, subservicedata: action.payload ,createsucess: true};
+      return { ...state, subservicedata: action.payload ,createsucesssub: true};
   case "CLEAR_STATE":
         return { ...state,createsucess: false};
+  case "CLEAR_STATE_SUBSERVICE":
+    return { ...state,createsucesssub: false};
+
   case "CLEAR_STATE_EDIT":
           return { ...state,editsucess: false};
     case "CLEAR_STATE_SUBSERVICE_EDIT":
@@ -29,9 +32,13 @@ const service = (state = initstate, action: any) => {
       case "EDIT_ERROR_SERVICE":
         return { ...state, editsubservice: action.payload };
     case "DELETE_CURRENT_SERVICE":
-      return { ...state, deletemainservice: action.payload };
+      return { ...state, deletemainservice: action.payload,deletesucess:true };
+    case "DELETE_MAINSERVICE":
+      return { ...state, deletemainservice: action.payload,deletesucess:false };
+      case "DELETE_SUBSERVICE":
+        return { ...state, deletemainservice: action.payload,deletesucesssub:true};
     case "DELETE_SUB_SERVICE":
-      return { ...state, deletesubervice: action.payload };
+      return { ...state, deletesubervice: action.payload ,deletesucesssub:true};
       case "GET_SUBSERVICE_BYID":
         return { ...state, getsubservicebyid: action.payload };
     default:

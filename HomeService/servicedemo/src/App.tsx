@@ -1,23 +1,23 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import NavBar from "../src/Componets/Home/HomeLayout/NavBar";
-import Login from "./Componets/Login";
-import Register from "./Componets/Register";
-import Home from "./Componets/Home";
-import Service from "./Componets/Service/SubService";
-import Profile from "./Componets/Admin/Profile/MainProfile"
-import Logout from "../src/Componets/Home/HomeLayout/Logout";
-import HomeLayout from "./Componets/Home/HomeLayout/HomeLayout";
+import NavBar from "./componets/Home/HomeLayout/NavBar";
+import Login from "./componets/Login";
+import Register from "./componets/Register";
+import Home from "./componets/Home";
+import Service from "./componets/Service/SubService";
+import Profile from "./componets/Admin/Profile/MainProfile";
+import Logout from "./componets/Home/HomeLayout/Logout";
+import HomeLayout from "./componets/Home/HomeLayout/HomeLayout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import DashbordLayout from "./Componets/Admin/DashbordLayout/DashBordlayout";
-import SubService from "./Componets/Admin/Service/SubService";
-import ServiceCreate from "./Componets/Admin/Service/Service";
-import Booking from "./Componets/Home/Booking/Booking";
-import MainProfiile from "./Componets/Admin/Profile/MainProfile";
-import Payment from "./Componets/Home/Payment/payment";
-import User from "./Componets/Admin/Profile/User"
-import BookingData from "./Componets/Admin/Booking/Booking"
-import SubServiceAll from "./Componets/Service/Subserviceall";
+import DashbordLayout from "./componets/Admin/DashbordLayout/Dashbord";
+import SubService from "./componets/Admin/Service/SubService";
+import ServiceCreate from "./componets/Admin/Service/Service";
+import Booking from "./componets/Home/Booking/Booking";
+import MainProfiile from "./componets/Admin/Profile/MainProfile";
+import Payment from "./componets/Home/Payment/payment";
+import User from "./componets/Admin/Profile/User";
+import BookingData from "./componets/Admin/Booking/Booking";
+import SubServiceAll from "./componets/Service/Subserviceall";
 
 function App() {
   return (
@@ -30,16 +30,16 @@ function App() {
             <Route path="/Register" element={<Register />} />
             <Route path="/Service/:id" element={<Service />} />
             <Route path="/" element={<Home />}></Route>
-            <Route path="/Bookservice/:id" element={<Booking/>}></Route>
-            <Route path="Payment/:id" element={<Payment/>}/>
+            <Route path="/Bookservice/:id" element={<Booking />}></Route>
+            <Route path="Payment/:id" element={<Payment />} />
           </Route>
-          <Route path="/admin/Dashboard/" element={<DashbordLayout />}>
-          <Route path="User" element={<User/>} />
+          <Route path="/admin/Dashboard" element={<DashbordLayout />}>
+            <Route path="/admin/Dashboard" element={<User />} />
+            <Route path="User" element={<User />} />
             <Route path="ServiceCreate" element={<SubService />} />
-            <Route path="Service" element={<ServiceCreate/>} />
-            <Route path="Profile" element={<MainProfiile/>}/>
-            <Route path="Booking" element={<BookingData/>}/>
-
+            <Route path="Service" element={<ServiceCreate />} />
+            <Route path="Profile" element={<MainProfiile />} />
+            <Route path="Booking" element={<BookingData />} />
           </Route>
         </Routes>
       </BrowserRouter>

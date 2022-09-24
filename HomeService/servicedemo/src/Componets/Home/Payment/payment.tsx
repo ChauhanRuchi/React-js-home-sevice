@@ -8,10 +8,10 @@ import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getbookingdatabyid } from "../../../Redux/action/booking";
-import { statusupdate } from "../../../Redux/action/booking";
-import service from "../../../Redux/Reducer/service";
-import booking from "../../../Redux/Reducer/booking";
+import { getbookingdatabyid } from "../../../store/action/booking";
+import { statusupdate } from "../../../store/action/booking";
+import service from "../../../store/Reducer/service";
+import booking from "../../../store/Reducer/booking";
 import { CardMedia } from "@mui/material";
 import "../../../Css/demo.css"
 

@@ -17,7 +17,7 @@ export default function SubServiceCard(Props: any) {
   let Token;
   return (
     <Grid xs={6} md={3}>
-      <Card style={{ margin: "20px" }}>
+      <Card style={{ margin: "20px"}}>
         <CardMedia
           component="img"
           height="140"

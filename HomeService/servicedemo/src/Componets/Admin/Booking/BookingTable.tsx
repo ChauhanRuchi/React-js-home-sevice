@@ -7,14 +7,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import {getbookingdata } from "../../../Redux/action/booking";
-import service from "../../../Redux/Reducer/service";
+import {getbookingdata } from "../../../store/action/booking";
+import service from "../../../store/Reducer/service";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import MainServiceEdit from "../../Admin/Service/MainServiceEdit"
-import "../../../Css/demo.css";
+import MainServiceEdit from "../Service/MainServiceEdit"
+import "../../../styles/demo.css";
 
 interface Column {
   id:  "UserName" | "ContactNumber"|"BillingAddress"|"DeliveryAddress"|"Date"|"Time"|"Pincode"|"ServiceName"|"ServiceCharge"|"Status";
@@ -109,7 +109,7 @@ export default function BookingTable() {
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
           component="div"
-          count={56}
+          count={rowsData.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

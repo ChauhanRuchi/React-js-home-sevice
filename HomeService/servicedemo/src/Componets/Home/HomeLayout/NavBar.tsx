@@ -1,136 +1,3 @@
-// import * as React from "react";
-// import AppBar from "@mui/material/AppBar";
-// import Box from "@mui/material/Box";
-// import Divider from "@mui/material/Divider";
-// import Drawer from "@mui/material/Drawer";
-// import IconButton from "@mui/material/IconButton";
-// import Toolbar from "@mui/material/Toolbar";
-// import Typography from "@mui/material/Typography";
-// import { render } from "@testing-library/react";
-// import { Navigate, NavLink } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
-
-// import "../../../Css/demo.css";
-
-// interface Props {
-//   window?: () => Window;
-// }
-
-// const drawerWidth = 240;
-// export default function DrawerAppBar(props: Props, className = "back") {
-//   let navigate = useNavigate();
-//   const { window } = props;
-//   const [mobileOpen, setMobileOpen] = React.useState(false);
-
-//   const handleDrawerToggle = () => {
-//     setMobileOpen(!mobileOpen);
-//   };
-
-//   const drawer = (
-//     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-//       <Typography variant="h6" sx={{ my: 2 }}>
-//         HomeServiceProvider
-//       </Typography>
-//       <Divider />
-//     </Box>
-//   );
-
-//   const container =
-//     window !== undefined ? () => window().document.body : undefined;
-
-//   return (
-//     <Box sx={{ display: "flex" }}>
-//       <AppBar
-//         component="nav"
-//         style={{ backgroundColor: "#214758", color: "#efefef" }}
-//       >
-//         <Toolbar>
-//           <IconButton
-//             color="inherit"
-//             aria-label="open drawer"
-//             edge="start"
-//             onClick={handleDrawerToggle}
-//             sx={{ mr: 2, display: { sm: "none" } }}
-//           ></IconButton>
-//           <Typography
-//             variant="h6"
-//             component="div"
-//             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-//           >
-//             HomeServiceProvider
-//           </Typography>
-//           <Box sx={{ height: "100%" }}>
-//             <NavLink
-//               to="/"
-//               className={"tab"}
-
-//             >
-//               Home
-//             </NavLink>
-//             <NavLink
-//               to="/Service"
-//               className={"tab"}
-//             >
-//               Service
-//             </NavLink>
-//             <NavLink
-//               to="/Login"
-//               className={"tab"}
-//               onClick={()=>{
-//                 if(localStorage.getItem("Token")!=undefined){
-//                   return navigate("/")
-//                 }
-//                 else{
-//                   return navigate("/Login")
-//                 }
-//               }}
-//             >
-//               Login
-//             </NavLink>
-//             <NavLink
-//               to="/"
-//               className={"tab"}
-//               onClick={
-//                 ()=>{
-//                   localStorage.removeItem("Token")
-//                   if(localStorage.getItem("Token")==null)
-//                   navigate("../")
-//                 }
-//               }
-
-//             >
-//               Logout
-//             </NavLink>
-
-//           </Box>
-//         </Toolbar>
-//       </AppBar>
-//       <Box component="nav">
-//         <Drawer
-//           container={container}
-//           variant="temporary"
-//           open={mobileOpen}
-//           onClose={handleDrawerToggle}
-//           ModalProps={{
-//             keepMounted: true, // Better open performance on mobile.
-//           }}
-//           sx={{
-//             display: { xs: "block", sm: "none" },
-//             "& .MuiDrawer-paper": {
-//               boxSizing: "border-box",
-//               width: drawerWidth,
-//             },
-//           }}
-//         >
-//           {drawer}
-//         </Drawer>
-//       </Box>
-//       <Box component="main" sx={{ p: 1 }}>
-//         <Toolbar />
-//       </Box>
-//     </Box>
-//   );
-// }
 
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
@@ -148,13 +15,14 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
-import user from "../../../Redux/Reducer/user";
-import { logout } from "../../../Redux/action/user";
+import user from "../../../store/Reducer/user";
+import { logout } from "../../../store/action/user";
 import { useSelector, useDispatch } from "react-redux";
 import { isNullOrUndefined } from "util";
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 
 const pages = ["HOME", "SERVICE", "LOGIN"];
-const settings = ["Profile", "Logout"];
+const settings = ["Logout"];
 
 const ResponsiveAppBar = () => {
   let navigate = useNavigate();
@@ -231,7 +99,8 @@ const ResponsiveAppBar = () => {
       <CssBaseline />
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <MiscellaneousServicesIcon sx={{ display: { xs: "none", md: "flex",fontSize:"40px" }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
           <Typography
             variant="h6"
             noWrap

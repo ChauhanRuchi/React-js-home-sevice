@@ -47,3 +47,17 @@ export const changepass = (formdata: any) => (dispatch: DispatchType) => {
       });
     });
 };
+export const logout = () => (dispatch: any) => {
+  return dispatch({
+    type: "LOGOUT_ADMIN",
+    payload: null,
+  });
+};
+
+
+export const clearstatepassword = () => (dispatch: any) => {
+  return dispatch({
+    type: "CLEAR_PASSWORD",
+    payload: null,
+  });
+};

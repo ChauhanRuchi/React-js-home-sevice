@@ -1,8 +1,8 @@
 import signup from "./user";
 import signin from "./user";
-import service from "../Reducer/service";
-import admin from "../Reducer/admin";
-import booking from "../Reducer/booking";
+import service from "./service";
+import admin from "./admin";
+import booking from "./booking";
 
 import { combineReducers } from "redux";
 

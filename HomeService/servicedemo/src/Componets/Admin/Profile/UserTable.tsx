@@ -7,13 +7,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { getuserdata} from "../../../Redux/action/user";
-import service from "../../../Redux/Reducer/service";
+import { getuserdata} from "../../../store/action/user";
+import service from "../../../store/Reducer/service";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import MainServiceEdit from "../../Admin/Service/MainServiceEdit"
+import MainServiceEdit from "../Service/MainServiceEdit"
 import "../../../Css/demo.css";
 
 interface Column {

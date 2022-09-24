@@ -7,15 +7,15 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { getservice, deletemainservice } from "../../../Redux/action/service";
-import service from "../../../Redux/Reducer/service";
+import { getservice, deletemainservice } from "../../../store/action/service";
+import service from "../../../store/Reducer/service";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import MainServiceEdit from "../../Admin/Service/MainServiceEdit";
-import "../../../Css/demo.css";
-import MainServiceDelete from "../../../Componets/Admin/Service/MainServiceDelete";
+import MainServiceEdit from "../Service/MainServiceEdit";
+import "../../../styles/demo.css";
+import MainServiceDelete from "../Service/MainServiceDelete";
 
 interface Column {
   id: "ServiceName" | "Decription" | "Edit" | "Delete";

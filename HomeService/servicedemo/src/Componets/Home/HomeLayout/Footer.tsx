@@ -40,7 +40,8 @@ export default function Footer() {
             </Typography>
             <br />
             <Typography variant="body2">
-              we are provide service online booking listing
+              we are provide Medical service,Car Service,Laundary Service,All other service and booking and listing
+              user can see alll service and booking and payment..
             </Typography>
           </Grid>
           <Grid item xs={12} md={4}>

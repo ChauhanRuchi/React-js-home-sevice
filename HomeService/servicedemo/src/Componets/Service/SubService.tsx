@@ -1,7 +1,7 @@
 import SubServiceCard from "./Service";
 import Typography from "@mui/material/Typography";
-import { getsubservice,getsearchbyid } from "../../Redux/action/service";
-import service from "../../Redux/Reducer/service";
+import { getsubservice,getsearchbyid } from "../../store/action/service";
+import service from "../../store/Reducer/service";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate,useParams } from "react-router-dom";

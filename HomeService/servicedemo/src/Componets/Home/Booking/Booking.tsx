@@ -18,10 +18,10 @@ import {
   CreBooking,
   getbookingdata,
   bookingdataclear,
-} from "../../../Redux/action/booking";
-import { getsubservicebyid } from "../../../Redux/action/service";
+} from "../../../store/action/booking";
+import { getsubservicebyid } from "../../../store/action/service";
 
-import booking from "../../../Redux/Reducer/booking";
+import booking from "../../../store/Reducer/booking";
 import { useSelector, useDispatch } from "react-redux";
 import { NestCamWiredStandTwoTone } from "@mui/icons-material";
 import InputLabel from "@mui/material/InputLabel";

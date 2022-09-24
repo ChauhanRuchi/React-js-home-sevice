@@ -12,9 +12,10 @@ import { useSelector, useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { signin } from "../Redux/action/user";
-import user from "../Redux/Reducer/user";
-import { adminlogin } from "../Redux/action/admin";
+import { signin } from "../store/action/user";
+import user from "../store/Reducer/user";
+import admin from "../store/Reducer/admin"
+import { adminlogin } from "../store/action/admin";
 import { useState } from "react";
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
@@ -238,8 +239,7 @@ export default function Login() {
                 setShowAlert(true);
                 setShowAlert1(true);
 
-                if (userType == "User")
-              
+                if (userType == "User")            
                   dispatch(
                     signin({
                       email: currentemail,

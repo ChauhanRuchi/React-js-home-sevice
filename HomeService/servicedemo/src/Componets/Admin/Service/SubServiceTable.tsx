@@ -11,16 +11,16 @@ import {
   getsubserviceall,
   getsearchbyid,
   deletesubservice,
-} from "../../../Redux/action/service";
-import service from "../../../Redux/Reducer/service";
+} from "../../../store/action/service";
+import service from "../../../store/Reducer/service";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SubServiceEdit from "../../Admin/Service/SubServiceEdit";
+import SubServiceEdit from "../Service/SubServiceEdit";
 import { AnyAaaaRecord } from "dns";
-import "../../../Css/demo.css";
-import SubServiceDelete from "../../Admin/Service/SubServiceDelete"
+import "../../../styles/demo.css";
+import SubServiceDelete from "../Service/SubServiceDelete"
 
 
 interface Column {
