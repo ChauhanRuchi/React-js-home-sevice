@@ -14,7 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import MainServiceEdit from "../Service/MainServiceEdit"
-import "../../../Css/demo.css";
+import "../../../styles/demo.css";
 
 interface Column {
   id:  "Email" | "Password" ;

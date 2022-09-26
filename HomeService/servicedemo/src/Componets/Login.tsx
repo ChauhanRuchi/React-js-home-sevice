@@ -20,7 +20,7 @@ import { useState } from "react";
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
-import "../Css/demo.css";
+import "../styles/demo.css";
 //tab selection
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -60,8 +60,7 @@ export default function Login() {
       navigate("/admin/Dashboard");
     }
   }, [adminstate]);
-
-    React.useEffect(()=>{
+   React.useEffect(()=>{
       localStorage.setItem("Token", state1?.data?.Token || "");
       if(state1?.data?.Token!=null){
         navigate("../")
@@ -70,6 +69,7 @@ export default function Login() {
     React.useEffect(()=>{
        localStorage.setItem("AdminToken", adminstate?.data?.Token || "");
     },[adminstate])
+
   const [currentemail, setemail] = useState("");
   const [currentpass, setpass] = useState("");
   // Tab Changed

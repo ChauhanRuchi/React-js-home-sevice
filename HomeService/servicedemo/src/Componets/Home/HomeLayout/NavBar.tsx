@@ -22,7 +22,7 @@ import { isNullOrUndefined } from "util";
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 
 const pages = ["HOME", "SERVICE", "LOGIN"];
-const settings = ["Logout"];
+const settings = ["Profile","Logout"];
 
 const ResponsiveAppBar = () => {
   let navigate = useNavigate();
@@ -76,7 +76,7 @@ const ResponsiveAppBar = () => {
               <MenuItem
                 key={setting}
                 onClick={() => {
-                  if ("Logout") {
+                  if (setting=="Logout") {
                     dispatch(logout());
                     localStorage.removeItem("Token");
                     if (localStorage.getItem("Token") == null)
@@ -84,6 +84,10 @@ const ResponsiveAppBar = () => {
 
                     navigate("../");
                   }
+                  else if(setting=="Profile"){
+                    navigate("../Profile")
+                  }
+                  
                 }}
               >
                 <Typography textAlign="center">{setting}</Typography>

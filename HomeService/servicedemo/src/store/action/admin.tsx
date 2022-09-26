@@ -1,11 +1,14 @@
 import axios from "axios";
 
 import store from "../../store";
-
 type DispatchType = typeof store.dispatch;
+
+let adminloginurl=process.env.REACT_APP_URl_ADMINLOGIN||"";
+let changepassurl=process.env.REACT_APP_URl_CHANGEPASS||"";
+
 export const adminlogin = (formdata: any) => (dispatch: DispatchType) => {
   axios
-    .post("http://localhost:2009/HomeService/admin/signin", {
+    .post(adminloginurl, {
       formdata,
     })
     .then((res) => {
@@ -30,7 +33,7 @@ export const changepass = (formdata: any) => (dispatch: DispatchType) => {
     },
   };
   axios
-    .patch("http://localhost:2009/HomeService/admin/changepassword", 
+    .patch(changepassurl, 
       formdata,
       config
     )
@@ -53,7 +56,6 @@ export const logout = () => (dispatch: any) => {
     payload: null,
   });
 };
-
 
 export const clearstatepassword = () => (dispatch: any) => {
   return dispatch({

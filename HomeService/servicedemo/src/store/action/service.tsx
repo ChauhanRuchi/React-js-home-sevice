@@ -5,6 +5,20 @@ import store from "../../store";
 
 type DispatchType = typeof store.dispatch;
 
+let setserviceurl=process.env.REACT_APP_URl_SETSERVICE||"";
+let setsubserviceurl=process.env.REACT_APP_URl_SETSUBSERVICE||"";
+let getsubserviceurl=process.env.REACT_APP_URl_GETSUBSERVICE||"";
+let getserviceurl=process.env.REACT_APP_URl_GETSERVICE||"";
+let getsubserviceallurl=process.env.REACT_APP_URl_GETSUBSERVICEALL||"";
+let seteditservice=process.env.REACT_APP_URl_SETEDITSERVICE||"";
+let seteditsubservice=process.env.REACT_APP_URl_SETEDITSUBSERVICE||"";
+let setdeleteservice=process.env.REACT_APP_URl_SETDELETESERVICE||"";
+let setdeletesubservice=process.env.REACT_APP_URl_SETDELETESUBSERVICE||"";
+let getsearchbyidurl=process.env.REACT_APP_URl_GETSEARCHBYID||"";
+let getsubservicebyidurl=process.env.REACT_APP_URl_GETSUBSERVICEBYID||"";
+
+
+
 export const servicecre = (formdata: any) => (dispatch: DispatchType) => {
   const config = {
     headers: {
@@ -13,7 +27,7 @@ export const servicecre = (formdata: any) => (dispatch: DispatchType) => {
     },
   };
   axios
-    .post("http://localhost:2009/HomeService/service", formdata, config)
+    .post(setserviceurl, formdata, config)
     .then((res) => {
       dispatch({
         type: "SET_CURRENT_MAINSERVICE",
@@ -27,6 +41,7 @@ export const servicecre = (formdata: any) => (dispatch: DispatchType) => {
       });
     });
 };
+
 export const subservice = (formdata: any) => (dispatch: DispatchType) => {
   const config = {
     headers: {
@@ -34,7 +49,7 @@ export const subservice = (formdata: any) => (dispatch: DispatchType) => {
     },
   };
   axios
-    .post("http://localhost:2009/HomeService/subservice", formdata, config)
+    .post(setsubserviceurl, formdata, config)
     .then((res) => {
       dispatch({
         type: "SET_CURRENT_SUBSERVICE",
@@ -51,7 +66,7 @@ export const subservice = (formdata: any) => (dispatch: DispatchType) => {
 
 export const getsubservice = (formdata: any) => (dispatch: DispatchType) => {
   axios
-    .get("http://localhost:2009/HomeService/getservicebysub/" + formdata?._id)
+    .get(getsubserviceurl + formdata?._id)
     .then((res) => {
       dispatch({
         type: "GET_CURRENT_SERVICE",
@@ -68,7 +83,7 @@ export const getsubservice = (formdata: any) => (dispatch: DispatchType) => {
 
 export const getservice = (dispatch: DispatchType) => {
   axios
-    .get("http://localhost:2009/HomeService/getservice")
+    .get(getserviceurl)
     .then((res) => {
       dispatch({
         type: "GET_CURRENT_MAINSERVICE",
@@ -85,7 +100,7 @@ export const getservice = (dispatch: DispatchType) => {
 
 export const getsubserviceall = (dispatch: DispatchType) => {
   axios
-    .get("http://localhost:2009/HomeService/getsubservice")
+    .get(getsubserviceallurl)
     .then((res) => {
       dispatch({
         type: "GET_CURRENT_SUBSERVICE",
@@ -110,7 +125,7 @@ export const editmainservice =
     };
     axios
       .patch(
-        "http://localhost:2009/HomeService/editservice/" + id,
+       seteditservice + id,
         formdata,
         config
       )
@@ -137,7 +152,7 @@ export const editmainservice =
     };
     axios
       .patch(
-        "http://localhost:2009/HomeService/editsubservice/" + id,
+       seteditsubservice + id,
         formdata,
         config
       )
@@ -161,7 +176,7 @@ export const deletemainservice = (id: string) => (dispatch: DispatchType) => {
     },
   };
   axios
-    .delete("http://localhost:2009/HomeService/deleteservice/" + id, config)
+    .delete(setdeleteservice + id, config)
     .then((res) => {
       dispatch({
         type: "DELETE_CURRENT_SERVICE",
@@ -182,7 +197,7 @@ export const deletesubservice = (id: string) => (dispatch: DispatchType) => {
     },
   };
   axios
-    .delete("http://localhost:2009/HomeService/deletesubservice/" + id, config)
+    .delete(setdeletesubservice + id, config)
     .then((res) => {
       dispatch({
         type: "DELETE_SUB_SERVICE",
@@ -198,7 +213,7 @@ export const deletesubservice = (id: string) => (dispatch: DispatchType) => {
 };
 export const getsearchbyid =(id:string|undefined)=> (dispatch: DispatchType) => {
   axios
-    .get("http://localhost:2009/HomeService/getsearchbyid/"+id)
+    .get(getsearchbyidurl+id)
     .then((res) => {
       dispatch({
         type: "GET_SEARCHBYID",
@@ -215,7 +230,7 @@ export const getsearchbyid =(id:string|undefined)=> (dispatch: DispatchType) => 
 
 export const getsubservicebyid = (formdata: any) => (dispatch: DispatchType) => {
   axios
-    .get("http://localhost:2009/HomeService/getsubservicebyid/" + formdata?._id)
+    .get(getsubservicebyidurl + formdata?._id)
     .then((res) => {
       dispatch({
         type: "GET_SUBSERVICE_BYID",
@@ -229,6 +244,7 @@ export const getsubservicebyid = (formdata: any) => (dispatch: DispatchType) => 
       });
     });
 };
+
 export const clearservicedata = () => (dispatch: any) => {
   return dispatch({
     type: "CLEAR_STATE",
@@ -253,7 +269,6 @@ export const cleareditsubservicedata = () => (dispatch: any) => {
     payload: null,
   });
 };
-
 export const clearstatedelete = () => (dispatch: any) => {
   return dispatch({
     type: "DELETE_MAINSERVICE",

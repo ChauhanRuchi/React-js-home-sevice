@@ -1,13 +1,16 @@
 import axios from "axios";
-
+import { string } from "yup";
 import store from "../../store";
 
 type DispatchType = typeof store.dispatch;
 
-let url = process.env.REACT_APP_URl_SIGNUP;
+let signupurl = process.env.REACT_APP_URl_SIGNUP||"";
+let signinurl = process.env.REACT_APP_URl_SIGNIN||"";
+let userdata=process.env.REACT_APP_URl_GETUSERDATA||"";
+
 export const signup = (formdata: any) => (dispatch: DispatchType) => {
   axios
-    .post("http://localhost:2009/HomeService/signup", {
+    .post(signupurl, {
       formdata,
     })
     .then((res) => {
@@ -26,7 +29,7 @@ export const signup = (formdata: any) => (dispatch: DispatchType) => {
 
 export const signin = (formdata: any) => (dispatch: any) => {
   axios
-    .post("http://localhost:2009/HomeService/signin", {
+    .post(signinurl, {
       formdata,
     })
     .then((res) => {
@@ -51,7 +54,7 @@ export const logout = () => (dispatch: any) => {
 };
 export const getuserdata =(dispatch: any) => {
   axios
-    .get("http://localhost:2009/HomeService/userdata", {
+    .get(userdata, {
     })
     .then((res) => {
       return dispatch({

@@ -20,6 +20,9 @@ const booking = (state = initstate, action: any) => {
         return { ...state, statusupdate: action.payload ,status:true};
      case "GET_BOOKINGDATA_BYID":
           return { ...state, getbookingdatabyid: action.payload };
+    case "CLEAR_SET_BOOKING":
+      return { ...state,setbooking: action.payload ,createsucess:false};
+
     default:
       return state;
   }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import "../Css/demo.css";
+import "../styles/demo.css";
 import MediaCard from "./Home/HomeLayout/Card";
 import { Margin } from "@mui/icons-material";
 import { getservice } from "../store/action/service";

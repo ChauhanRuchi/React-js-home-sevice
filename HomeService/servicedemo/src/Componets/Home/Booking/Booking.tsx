@@ -3,7 +3,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
-import "../../../Css/demo.css";
+import "../../../styles/demo.css";
 import { useState, useEffect } from "react";
 import { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -17,7 +17,7 @@ import {
   gettime,
   CreBooking,
   getbookingdata,
-  bookingdataclear,
+  clearstatebooking,
 } from "../../../store/action/booking";
 import { getsubservicebyid } from "../../../store/action/service";
 
@@ -26,7 +26,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { NestCamWiredStandTwoTone } from "@mui/icons-material";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import "../../../Css/demo.css";
+import "../../../styles/demo.css";
 import Payment from "../Payment/payment";
 import axios from "axios";
 import { response } from "express";
@@ -94,6 +94,7 @@ const Booking = () => {
     debugger;
     if (statepayment == true) {
       stateservice?.map((item: any) => handlepayment(item?.charge));
+      dispatch(clearstatebooking())
     }
   }, [statepayment]);
 
@@ -122,7 +123,7 @@ const Booking = () => {
   }
   stategetbook?.map((value: any) => {
     console.log("time..", value.time);
-    return arrtime.push(value.time);
+    return arrtime.push(value.time+value.date);
   });
 
   {
@@ -169,7 +170,7 @@ const Booking = () => {
   //   console.log("...", stateservice);
 
   // }, [statepayment]);
-
+ 
   return (
     <>
       <Typography variant="h5" margin={3} textAlign="center">

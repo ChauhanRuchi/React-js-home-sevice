@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate,useParams } from "react-router-dom";
 import { Grid } from "@mui/material";
-import "../../../src/Css/demo.css";
+import "../../../src/styles/demo.css";
 import { serialize } from "v8";
 
 const Service = () => {

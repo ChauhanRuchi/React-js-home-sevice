@@ -18,6 +18,7 @@ import Payment from "./componets/Home/Payment/payment";
 import User from "./componets/Admin/Profile/User";
 import BookingData from "./componets/Admin/Booking/Booking";
 import SubServiceAll from "./componets/Service/Subserviceall";
+import UserProfile from "./componets/Home/Proflle/Profile";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomeLayout />}>
             <Route path="/Login" element={<Login />} />
+            <Route path="/Profile" element={<UserProfile/>} />
             <Route path="/SubServiceAll" element={<SubServiceAll />} />
             <Route path="/Register" element={<Register />} />
             <Route path="/Service/:id" element={<Service />} />

@@ -3,6 +3,14 @@ import axios from "axios";
 import store from "../../store";
 
 type DispatchType = typeof store.dispatch;
+
+let setbookingurl=process.env.REACT_APP_URl_SETBOOKING||"";
+let gettimeurl=process.env.REACT_APP_URl_GETTIME||"";
+let getcitynameurl=process.env.REACT_APP_URl_CITYNAME||"";
+let getbookdataurl=process.env.REACT_APP_URl_GETBOOKDATA||"";
+let statusupdateurl=process.env.REACT_APP_URl_STATUSUPDATE||"";
+let getbookinddatabyidurl=process.env.REACT_APP_URl_GETBOOKINGBYIDl
+
 export const CreBooking = (formdata: any) => (dispatch: DispatchType) => {
   const config = {
     headers: {
@@ -10,11 +18,8 @@ export const CreBooking = (formdata: any) => (dispatch: DispatchType) => {
       Authorization: `Bearer ${localStorage.getItem("Token")}`,
     },
   };
-
-  
-
   axios
-    .post("http://localhost:2009/HomeService/Booking", formdata, {
+    .post(setbookingurl, formdata, {
       headers: {
         ...config.headers,
         "Content-Type": "application/x-www-form-urlencoded",
@@ -35,7 +40,7 @@ export const CreBooking = (formdata: any) => (dispatch: DispatchType) => {
 };
 export const gettime = (dispatch: DispatchType) => {
   axios
-    .get("http://localhost:2009/HomeService/Booking/getavailabletime")
+    .get(gettimeurl)
     .then((res) => {
       dispatch({
         type: "GET_AVAILABLE_TIME",
@@ -51,7 +56,7 @@ export const gettime = (dispatch: DispatchType) => {
 };
 export const getcityname = (dispatch: DispatchType) => {
   axios
-    .get("http://localhost:2009/HomeService/Booking/getcityname")
+    .get(getcitynameurl)
     .then((res) => {
       dispatch({
         type: "GET_CITY_NAME",
@@ -67,7 +72,7 @@ export const getcityname = (dispatch: DispatchType) => {
 };
 export const getbookingdata = (dispatch: DispatchType) => {
   axios
-    .get("http://localhost:2009/HomeService/Booking/getbooingdata")
+    .get(getbookdataurl)
     .then((res) => {
       dispatch({
         type: "GET_BOOINGDATA",
@@ -89,8 +94,7 @@ export const statusupdate =
       },
     };
     axios
-      .patch(
-        "http://localhost:2009/HomeService/Booking/StatusUpdate/" + id,
+      .patch(statusupdateurl + id,
         formdata,
         config
       )
@@ -107,15 +111,9 @@ export const statusupdate =
         });
       });
   };
-  export const bookingdataclear = () => (dispatch: any) => {
-   return dispatch({
-      type: "SET_START_BOOKING",
-      payload: [],
-    });
-  };
   export const getbookingdatabyid = (id:any) => (dispatch: DispatchType) => {
     axios
-      .get("http://localhost:2009/HomeService/Booking/getbookingdatabyid/" + id)
+      .get(getbookinddatabyidurl + id)
       .then((res) => {
         dispatch({
           type: "GET_BOOKINGDATA_BYID",
@@ -128,4 +126,17 @@ export const statusupdate =
           payload: response.data,
         });
       });
+  };
+ export const bookingdataclear = () => (dispatch: any) => {
+   return dispatch({
+      type: "SET_START_BOOKING",
+      payload: [],
+    });
+  };
+
+  export const clearstatebooking = () => (dispatch: any) => {
+    return dispatch({
+      type: "CLEAR_SET_BOOKING",
+      payload: null,
+    });
   };

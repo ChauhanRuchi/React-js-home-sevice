@@ -13,7 +13,7 @@ import { statusupdate } from "../../../store/action/booking";
 import service from "../../../store/Reducer/service";
 import booking from "../../../store/Reducer/booking";
 import { CardMedia } from "@mui/material";
-import "../../../Css/demo.css"
+import "../../../styles/demo.css"
 
 export default function Payment() {
   let { id } = useParams();
