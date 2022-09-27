@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { IconButton } from '@mui/material';
 import { useSelector, useDispatch } from "react-redux";
 import user from "../../../store/Reducer/user"
+import ChangePassword from '../../Home/Proflle/Changepassword';
 
 const bull = (
   <Box
@@ -39,9 +40,13 @@ export default function UserProfile() {
     </React.Fragment>
   );
   return (
-    <Box sx={{width:"400px", margin:"20px",height:"100px"}}>
+    <>
+    <Box sx={{width:"400px", margin:"20px"}}>
         <Typography variant='h5' >User Profile</Typography>
       <Card variant="outlined" >{card}</Card>
     </Box>
+    <ChangePassword/>
+    </>
+   
   );
 }
