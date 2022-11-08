@@ -16,7 +16,7 @@ export default function SubServiceCard(Props: any) {
   let navigate = useNavigate();
   let Token;
   return (
-    <Grid xs={6} md={3}>
+    <Grid xs={6} md={3} sx={{marginLeft:"15px",marginRight:"15px"}}>
       <Card style={{ margin: "20px"}}>
         <CardMedia
           component="img"
@@ -29,7 +29,7 @@ export default function SubServiceCard(Props: any) {
           }}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h5" component="div" >
             {Props.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">

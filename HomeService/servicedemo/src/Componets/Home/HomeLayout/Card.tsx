@@ -5,7 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Login from "../../../componets/Login";
+import Login from "../../../Componets/Login";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 
@@ -13,7 +13,7 @@ export default function MediaCard(Props: any) {
   let navigate = useNavigate();
   let Token;
   return (
-    <Grid xs={6} md={3} style={{ marginTop: "20px" }}>
+    <Grid xs={6} md={3} style={{ marginTop: "20px" ,marginLeft:"15px",marginRight:"15px" }}>
       <Card style={{ margin: "20px", height: "90%" }}>
         <CardMedia
           component="img"

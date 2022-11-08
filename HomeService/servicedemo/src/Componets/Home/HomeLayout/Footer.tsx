@@ -24,7 +24,7 @@ export default function Footer() {
         <Grid
           container
           spacing={2}
-          sx={{ backgroundColor: "#214758", color: "#efefef" }}
+          sx={{ backgroundColor: "#214758", color: "#efefef" ,bottom:"0%",position:"sticky"}}
           mt={0}
           p={2}
         

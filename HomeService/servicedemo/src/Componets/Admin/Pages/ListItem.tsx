@@ -51,7 +51,17 @@ export const mainListItems = (
       <ListItemText primary="Booking" />
     </ListItemButton>
         </NavLink>
+        
 
+        <NavLink to="./City" className="tab">
+    <ListItemButton>
+      <ListItemIcon>
+        <BookOnlineIcon />
+      </ListItemIcon >
+      <ListItemText primary="City" />
+    </ListItemButton>
+        </NavLink>
+        
   </React.Fragment>
 );
 

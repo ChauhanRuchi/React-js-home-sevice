@@ -110,7 +110,7 @@ export default function MainServiceEdit(Props:any) {
                   autoComplete="current-password"
                   variant="filled"
                   error={!!formik.errors.Service}
-                  helperText={formik.errors.Service}
+                  helperText={formik.errors.Service as string}
                 />
                 <TextField
                   id="Decription"
@@ -121,7 +121,7 @@ export default function MainServiceEdit(Props:any) {
                   autoComplete="current-password"
                   variant="filled"
                   error={!!formik.errors.Decription}
-                  helperText={formik.errors.Decription}
+                  helperText={formik?.errors?.Decription as string}
                 />{" "}
             
             <div style={{display:"flex",justifyContent:"space-around"}}>

@@ -6,7 +6,10 @@ const HomeLayout = () => {
   return (
     <>
       <NavBar />
-      <Outlet />
+      <div
+      style={{maxHeight:"500px" ,overflowY:"auto",paddingBottom:"40px"}}>
+              <Outlet/>
+      </div>
       <Footer />
     </>
   );

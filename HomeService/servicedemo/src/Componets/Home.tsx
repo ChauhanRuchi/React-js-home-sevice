@@ -20,9 +20,9 @@ const Home = () => {
     dispatch(getservice);
   }, []);
   return (
-    <>
+    <div > 
       <Stack spacing={3}>
-        <Box className="zoom-in-out-box Box">
+        <Box >
           <Typography variant="h5" className="Title">
             We are Provide On-Demand Home Services
           </Typography>
@@ -47,7 +47,7 @@ const Home = () => {
           );
         })}
       </Grid>
-    </>
+    </div>
   );
 };
 export default Home;

@@ -213,7 +213,7 @@ const Booking = () => {
                       variant="outlined"
                       error={number == "" ? true : false}
                       sx={{ width: "100%" }}
-                      inputProps={{ maxLength: 13 }}
+                      inputProps={{ maxLength: 10 }}
                     />
                   </Grid>
 

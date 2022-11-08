@@ -32,7 +32,7 @@ const Service = () => {
   
       <div className="main">
   
-       <Typography variant="h5" style={{margin:"10px"}}>{searchbyid}</Typography>
+       <Typography variant="h5" style={{margin:"10px",fontFamily:"sans-serif",fontSize:"25px"}}>{searchbyid}</Typography>
         <div
           className="card"
           style={{ display: "flex", flexDirection: "row"}}

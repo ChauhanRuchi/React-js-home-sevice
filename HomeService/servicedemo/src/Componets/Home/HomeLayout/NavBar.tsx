@@ -20,6 +20,7 @@ import { logout } from "../../../store/action/user";
 import { useSelector, useDispatch } from "react-redux";
 import { isNullOrUndefined } from "util";
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import { Token } from "@mui/icons-material";
 
 const pages = ["HOME", "SERVICE", "LOGIN"];
 const settings = ["Profile","Logout"];
@@ -82,7 +83,7 @@ const ResponsiveAppBar = () => {
                     if (localStorage.getItem("Token") == null)
                       handleCloseUserMenu();
 
-                    navigate("../");
+                    navigate("../Login");
                   }
                   else if(setting=="Profile"){
                     navigate("../Profile")
@@ -173,7 +174,14 @@ const ResponsiveAppBar = () => {
                             return navigate("/");
                           }
                         } else if (page == "SERVICE") {
-                          return navigate("/SubServiceAll");
+                          if (
+                            localStorage.getItem("Token") == "" ||
+                            localStorage.getItem("Token") == undefined
+                          ) {
+                            return navigate("/Login");
+                          } else {
+                            return navigate("/SubServiceAll");
+                          }
                         }
                       }}
                     >
@@ -225,7 +233,15 @@ const ResponsiveAppBar = () => {
                         return navigate("/");
                       }
                     } else if (page == "SERVICE") {
-                      return navigate("/SubServiceAll");
+                      if (
+                        localStorage.getItem("Token") == "" ||
+                        localStorage.getItem("Token") == undefined
+                      ) {
+                        return navigate("/Login");
+                      } else {
+                        return navigate("/SubServiceAll");                      }
+
+                     
                     }
                   }}
                   sx={{ my: 2, color: "white", display: "block" }}

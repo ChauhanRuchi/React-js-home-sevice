@@ -71,11 +71,13 @@ export default function SignUp() {
   });
 
   React.useEffect(()=>{
+
     localStorage.setItem("Token", state1?.data?.Token || "");
     if(statesigin?.data?.Token!=null){
       navigate("../")
     }
   },[statesigin])
+
       React.useEffect(()=>{
           if(state1?.signup==true){
             dispatch(
@@ -86,9 +88,10 @@ export default function SignUp() {
             );
           }
       },[state1])
+      
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" >
         <CssBaseline />
         <Box
           sx={{
@@ -192,16 +195,17 @@ export default function SignUp() {
                 background: "#214758",
               }}
               onClick={() => {
-                setShowAlert(true);
+
+                                                                                                                        setShowAlert(true);           
                 dispatch(
-                  signup({
-                    email: currentemail,
-                    password: currentpass,
+                  signup({                              
+                    email: currentemail,                    
+                    password: currentpass,                                  
                   })
                 );
-               
-              }}
-            >
+
+              }}                                                  
+            >                             
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
