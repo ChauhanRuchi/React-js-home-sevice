@@ -24,7 +24,6 @@ const style = {
 };
 
 export default function MainServiceDelete(Props:any) {
-  console.log("id.....",Props.id)
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

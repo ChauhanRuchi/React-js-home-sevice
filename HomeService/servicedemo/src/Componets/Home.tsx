@@ -38,12 +38,13 @@ const Home = () => {
       <Grid container spacing={2}>
         {arr?.map(function (item: any) {
           return (
-            <MediaCard
+             <MediaCard
               title={item?.servicename}
               decription={item?.decription}
               image={item?.url}
               id={item?._id}
             />
+          
           );
         })}
       </Grid>

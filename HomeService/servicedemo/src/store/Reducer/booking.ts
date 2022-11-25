@@ -22,6 +22,8 @@ const booking = (state = initstate, action: any) => {
           return { ...state, getbookingdatabyid: action.payload };
     case "CLEAR_SET_BOOKING":
       return { ...state,setbooking: action.payload ,createsucess:false};
+    case "SET_CITY":
+      return { ...state,setcity: action.payload ,createsucess:true};
 
     default:
       return state;

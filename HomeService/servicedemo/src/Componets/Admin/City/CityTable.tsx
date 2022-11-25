@@ -7,8 +7,8 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { getuserdata} from "../../../store/action/user";
-import service from "../../../store/Reducer/service";
+import { getcityname} from "../../../store/action/booking";
+import booking from "../../../store/Reducer/booking";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
@@ -17,7 +17,7 @@ import MainServiceEdit from "../Service/MainServiceEdit"
 import "../../../styles/demo.css";
 
 interface Column {
-  id:  "Email" | "Password" ;
+  id:  "CityName" | "Pincode" ;
   label: string;
   minWidth?: number;
   align?: "right";
@@ -25,10 +25,10 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "Email", label: "EMAIL"},
+  { id: "CityName", label: "CITYNAME"},
   {
-    id: "Password",
-    label: "PASSWORD",
+    id: "Pincode",
+    label: "PINCODE",
     align: "right",
     format: (value: number) => value.toLocaleString("en-US"),
   },
@@ -36,7 +36,7 @@ const columns: readonly Column[] = [
 ];
 
 interface Data {
-  EMAIL: string;
+  CITYNAME: string;
   PASSWORD: string;
 
 }
@@ -46,7 +46,7 @@ export default function UserTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsData, setRowsData] = React.useState([]);
   const dispatch = useDispatch<any>();
-  const userdata = useSelector((state: any) => state.signup);
+  const userdata = useSelector((state: any) => state.booking);
     console.log("userdata....",userdata)
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -59,13 +59,13 @@ export default function UserTable() {
     setPage(0);
   };
   useEffect(() => {
-    dispatch(getuserdata);
+    dispatch(getcityname);
   },);
      
   
   useEffect(() => {
-    if (userdata?.getuserdata) {
-      setRowsData(userdata.getuserdata);
+    if (userdata?.getcityname) {
+      setRowsData(userdata.getcityname);
     }
   }, [userdata]);
     console.log("...row",rowsData)
@@ -85,8 +85,8 @@ export default function UserTable() {
             <TableBody>
               {[...rowsData]?.map((column: any) => (
                 <TableRow hover role="checkbox">
-                  <TableCell key={"Email"}>{column.email}</TableCell>{" "}
-                  <TableCell key={"Password"}>{column.password}</TableCell>
+                  <TableCell key={"CityName"}>{column.name}</TableCell>{" "}
+                  <TableCell key={"Pincode"}>{column.pincode}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

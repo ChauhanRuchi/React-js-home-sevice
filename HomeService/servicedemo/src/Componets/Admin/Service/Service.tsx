@@ -4,8 +4,9 @@ import MainServiceTable from "./MainServiceTable";
 import Alert from "@mui/material/Alert";
 import service from "../../../store/Reducer/service";
 import { clearservicedata } from "../../../store/action/service";
-
+import MainServiceFillter from "./MainServiceFillter";
 import { useSelector, useDispatch } from "react-redux";
+import FillterSidePanel from "./FillterSidePanel";
 
 export default function ServiceCreate() {
   const state = useSelector((state: any) => state.service);
@@ -14,7 +15,12 @@ export default function ServiceCreate() {
   return (
     <>
       <MainService />
+      <MainServiceFillter/>
+      <div style={{display:"flex",width:"100%"}}>
+        {/* <FillterSidePanel/> */}
       <MainServiceTable />
+      </div>
+      
       {state?.createsucess && (
         <div
           style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}

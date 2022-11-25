@@ -9,7 +9,8 @@ let gettimeurl=process.env.REACT_APP_URl_GETTIME||"";
 let getcitynameurl=process.env.REACT_APP_URl_CITYNAME||"";
 let getbookdataurl=process.env.REACT_APP_URl_GETBOOKDATA||"";
 let statusupdateurl=process.env.REACT_APP_URl_STATUSUPDATE||"";
-let getbookinddatabyidurl=process.env.REACT_APP_URl_GETBOOKINGBYIDl
+let getbookinddatabyidurl=process.env.REACT_APP_URl_GETBOOKINGBYIDl||""
+let setcity=process.env.REACT_APP_URl_CITY||"";
 
 export const CreBooking = (formdata: any) => (dispatch: DispatchType) => {
   const config = {
@@ -140,3 +141,29 @@ export const statusupdate =
       payload: null,
     });
   };
+export const setCityData = (formdata: any) => (dispatch: DispatchType) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  };
+  axios
+    .post(setcity, formdata, {
+      headers: {
+        ...config.headers,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    })
+    .then((res) => {
+      dispatch({
+        type: "SET_CITY",
+        payload: res.data,
+      });
+    })
+    .catch(({ response }) => {
+      dispatch({
+        type: "SET_ERROR_CITY",
+        payload: response.data,
+      });
+    });
+};

@@ -11,8 +11,9 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
-import { getservice, servicecre,clearservicedata } from "../../../store/action/service";
-import service from "../../../store/Reducer/service";
+import { setCityData }
+ from "../../../store/action/booking";
+import booking from "../../../store/Reducer/booking";
 import CloseIcon from "@mui/icons-material/Close";
 import * as Yup from "yup";
 import { useSelector, useDispatch } from "react-redux";
@@ -66,30 +67,30 @@ export default function CityData() {
       Serviceid: "",
     },
     onSubmit: async (values: any) => {
-      formData.append("image", values?.["file"]);
+      
 
-      formData.append("servicename", values.Service);
+      formData.append("name", values.Service);
 
-      formData.append("decription", values.Decription);
+      formData.append("pincode", values.Decription);
 
       for (var pair of formData.entries()) {
         console.log(pair[0] + ", " + pair[1]);
       }
 
-      dispatch(servicecre(formData));
+      dispatch(setCityData(formData));
     },
   });
 
-  React.useEffect(() => {
-    if (state?.createsucess === true) {
+  // React.useEffect(() => {
+  //   if (state?.createsucess === true) {
      
-      handleClose();
+  //     handleClose();
 
-      setTimeout(()=>{
-       dispatch(clearservicedata())
-      },2000)
-    }
-  }, [state]);
+  //     setTimeout(()=>{
+  //      dispatch(clearservicedata())
+  //     },2000)
+  //   }
+  // }, [state]);
 
  
   return (
