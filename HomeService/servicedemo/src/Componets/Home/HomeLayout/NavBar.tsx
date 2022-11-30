@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -15,15 +14,14 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
-import user from "../../../store/Reducer/user";
-import { logout } from "../../../store/action/user";
+import { clearState } from "../../../store/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { isNullOrUndefined } from "util";
-import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
 import { Token } from "@mui/icons-material";
 
-const pages = ["HOME", "SERVICE", "LOGIN"];
-const settings = ["Profile","Logout"];
+const pages = ["HOME", "SERVICE", "CONTACT", "LOGIN"];
+const settings = ["Profile", "Logout"];
 
 const ResponsiveAppBar = () => {
   let navigate = useNavigate();
@@ -77,18 +75,16 @@ const ResponsiveAppBar = () => {
               <MenuItem
                 key={setting}
                 onClick={() => {
-                  if (setting=="Logout") {
-                    dispatch(logout());
+                  if (setting == "Logout") {
+                    dispatch(clearState());
                     localStorage.removeItem("Token");
                     if (localStorage.getItem("Token") == null)
                       handleCloseUserMenu();
 
                     navigate("../Login");
+                  } else if (setting == "Profile") {
+                    navigate("../Profile");
                   }
-                  else if(setting=="Profile"){
-                    navigate("../Profile")
-                  }
-                  
                 }}
               >
                 <Typography textAlign="center">{setting}</Typography>
@@ -104,7 +100,12 @@ const ResponsiveAppBar = () => {
       <CssBaseline />
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <MiscellaneousServicesIcon sx={{ display: { xs: "none", md: "flex",fontSize:"40px" }, mr: 1 }} />
+          <MiscellaneousServicesIcon
+            sx={{
+              display: { xs: "none", md: "flex", fontSize: "40px" },
+              mr: 1,
+            }}
+          />
           {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
           <Typography
             variant="h6"
@@ -182,6 +183,8 @@ const ResponsiveAppBar = () => {
                           } else {
                             return navigate("/SubServiceAll");
                           }
+                        } else if (page == "CONTACT") {
+                          navigate("/contact");
                         }
                       }}
                     >
@@ -239,9 +242,10 @@ const ResponsiveAppBar = () => {
                       ) {
                         return navigate("/Login");
                       } else {
-                        return navigate("/SubServiceAll");                      }
-
-                     
+                        return navigate("/SubServiceAll");
+                      }
+                    } else if (page == "CONTACT") {
+                      navigate("/contact");
                     }
                   }}
                   sx={{ my: 2, color: "white", display: "block" }}

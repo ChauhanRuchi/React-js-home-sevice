@@ -8,12 +8,9 @@ import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getbookingdatabyid } from "../../../store/action/booking";
-import { statusupdate } from "../../../store/action/booking";
-import service from "../../../store/Reducer/service";
-import booking from "../../../store/Reducer/booking";
+import { getbookingdatabyid, statusupdate } from "../../../store/bookingSlice";
 import { CardMedia } from "@mui/material";
-import "../../../styles/demo.css"
+import "../../../styles/demo.css";
 
 export default function Payment() {
   let { id } = useParams();
@@ -21,14 +18,14 @@ export default function Payment() {
   formData.append("status", "Completed");
   const dispatch = useDispatch<any>();
   const statebooking = useSelector(
-    (state: any) => state.booking.getbookingdatabyid
+    (state: any) => state.booking.getbookingdatabyId
   );
-  console.log("id....", id);
+  console.log("id....", id, statebooking);
   const card = (
     <React.Fragment>
       <CardContent>
         <Typography
-          sx={{ fontSize: 16, color: "#008000" ,textAlign:"center"}}
+          sx={{ fontSize: 16, color: "#008000", textAlign: "center" }}
           color="text.secondary"
           gutterBottom
         >
@@ -51,7 +48,6 @@ export default function Payment() {
               {new Date().toLocaleTimeString()}
             </Typography>
           </div>
-          
         </div>
         <div>
           {statebooking?.map((item: any) => {
@@ -64,7 +60,7 @@ export default function Payment() {
                     justifyContent: "left",
                   }}
                 >
-                  <Typography sx={{fontWeight:"700"}}>NAME :</Typography>
+                  <Typography sx={{ fontWeight: "700" }}>NAME :</Typography>
                   <Typography marginLeft="3px">{item?.name}</Typography>
                 </div>
                 <div
@@ -74,8 +70,12 @@ export default function Payment() {
                     justifyContent: "left",
                   }}
                 >
-                  <Typography sx={{fontWeight:"700"}}>CONTACT NUMBER :</Typography>
-                  <Typography marginLeft="3px">{item?.contactnumber}</Typography>
+                  <Typography sx={{ fontWeight: "700" }}>
+                    CONTACT NUMBER :
+                  </Typography>
+                  <Typography marginLeft="3px">
+                    {item?.contactnumber}
+                  </Typography>
                 </div>
                 <div
                   style={{
@@ -84,8 +84,12 @@ export default function Payment() {
                     justifyContent: "left",
                   }}
                 >
-                  <Typography sx={{fontWeight:"700"}}>BILLING ADDRESS :</Typography>
-                  <Typography marginLeft="3px">{item?.billingaddress}</Typography>
+                  <Typography sx={{ fontWeight: "700" }}>
+                    BILLING ADDRESS :
+                  </Typography>
+                  <Typography marginLeft="3px">
+                    {item?.billingaddress}
+                  </Typography>
                 </div>
                 <div
                   style={{
@@ -94,8 +98,12 @@ export default function Payment() {
                     justifyContent: "left",
                   }}
                 >
-                  <Typography sx={{fontWeight:"700"}}>DELIVERY ADDRESS :</Typography>
-                  <Typography marginLeft="3px">{item?.deliveryadress}</Typography>
+                  <Typography sx={{ fontWeight: "700" }}>
+                    DELIVERY ADDRESS :
+                  </Typography>
+                  <Typography marginLeft="3px">
+                    {item?.deliveryadress}
+                  </Typography>
                 </div>
                 <div
                   style={{
@@ -104,7 +112,9 @@ export default function Payment() {
                     justifyContent: "left",
                   }}
                 >
-                  <Typography sx={{fontWeight:"700"}}>SERVICE NAME :</Typography>
+                  <Typography sx={{ fontWeight: "700" }}>
+                    SERVICE NAME :
+                  </Typography>
                   <Typography marginLeft="3px">{item?.servicename}</Typography>
                 </div>
                 <div
@@ -114,7 +124,9 @@ export default function Payment() {
                     justifyContent: "left",
                   }}
                 >
-                  <Typography sx={{fontWeight:"700"}}>SERVICE CHARGE :</Typography>
+                  <Typography sx={{ fontWeight: "700" }}>
+                    SERVICE CHARGE :
+                  </Typography>
                   <Typography marginLeft="3px">{item?.charge}</Typography>
                 </div>
                 <div
@@ -124,7 +136,7 @@ export default function Payment() {
                     justifyContent: "left",
                   }}
                 >
-                  <Typography sx={{fontWeight:"700"}}>DATE :</Typography>
+                  <Typography sx={{ fontWeight: "700" }}>DATE :</Typography>
                   <Typography marginLeft="3px">{item?.date}</Typography>
                 </div>
                 <div
@@ -134,7 +146,7 @@ export default function Payment() {
                     justifyContent: "left",
                   }}
                 >
-                  <Typography sx={{fontWeight:"700"}}>TIME :</Typography>
+                  <Typography sx={{ fontWeight: "700" }}>TIME :</Typography>
                   <Typography marginLeft="3px">{item?.time}</Typography>
                 </div>
                 <div
@@ -144,7 +156,7 @@ export default function Payment() {
                     justifyContent: "left",
                   }}
                 >
-                  <Typography sx={{fontWeight:"700"}}>PINCODE :</Typography>
+                  <Typography sx={{ fontWeight: "700" }}>PINCODE :</Typography>
                   <Typography marginLeft="3px">{item?.city} </Typography>
                 </div>
                 <div
@@ -154,7 +166,7 @@ export default function Payment() {
                     justifyContent: "center",
                   }}
                 >
-                  <Typography sx={{fontWeight:"700"}}>TOTAL :</Typography>
+                  <Typography sx={{ fontWeight: "700" }}>TOTAL :</Typography>
                   <Typography marginLeft="3px">{item?.charge}</Typography>
                 </div>
               </>
@@ -173,9 +185,10 @@ export default function Payment() {
       •
     </Box>
   );
+  let data = { user: formData, id: id };
   useEffect(() => {
     dispatch(getbookingdatabyid(id));
-    dispatch(statusupdate(id, formData));
+    dispatch(statusupdate(data));
   }, []);
   return (
     <>

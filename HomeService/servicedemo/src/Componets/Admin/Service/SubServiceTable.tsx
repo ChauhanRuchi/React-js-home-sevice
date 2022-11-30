@@ -7,12 +7,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import {
-  getsubserviceall,
-  getsearchbyid,
-  deletesubservice,
-} from "../../../store/action/service";
-import service from "../../../store/Reducer/service";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
@@ -20,8 +14,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SubServiceEdit from "../Service/SubServiceEdit";
 import { AnyAaaaRecord } from "dns";
 import "../../../styles/demo.css";
-import SubServiceDelete from "../Service/SubServiceDelete"
-
+import SubServiceDelete from "../Service/SubServiceDelete";
+import {
+  deletesubcategory,
+  getsubcategoryall,
+} from "../../../store/categorySlice";
 
 interface Column {
   id: "MainService" | "ServiceName" | "Decription" | "Edit" | "Delete";
@@ -57,7 +54,7 @@ export default function StickyHeadTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsData, setRowsData] = React.useState([]);
   const dispatch = useDispatch<any>();
-  const servicestate = useSelector((state: any) => state.service);
+  const servicestate = useSelector((state: any) => state.category);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -70,19 +67,16 @@ export default function StickyHeadTable() {
     setPage(0);
   };
   useEffect(() => {
-    dispatch(getsubserviceall);
-  }, [servicestate?.subservicedataall]);
-
-
-  function setdele(id: any) {
-    dispatch(deletesubservice(id));
-    dispatch(getsubserviceall);
-  }
-
+    dispatch(getsubcategoryall());
+  }, [
+    servicestate.createsubCategory?.data,
+    servicestate.deletesubCategory,
+    servicestate?.editsubCategory?.edit,
+  ]);
 
   useEffect(() => {
-    if (servicestate?.subservicedataall) {
-      setRowsData(servicestate?.subservicedataall);
+    if (servicestate?.getsubCategoryAll) {
+      setRowsData(servicestate?.getsubCategoryAll);
     }
   }, [servicestate]);
 
@@ -92,24 +86,34 @@ export default function StickyHeadTable() {
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow style={{background:"#214758"}}>
+              <TableRow style={{ background: "#214758" }}>
                 {columns.map((column) => (
-                  <TableCell style={{background:"#214758",color:"#fff"}}>{column.label}</TableCell>
+                  <TableCell style={{ background: "#214758", color: "#fff" }}>
+                    {column.label}
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
               {rowsData.map((column: any, mainindex: any) => (
-          
-               <TableRow hover role="checkbox">
-                  <TableCell key={"MainService"}>{column.mainservice}</TableCell>
+                <TableRow hover role="checkbox">
+                  <TableCell key={"MainService"}>
+                    {column.mainservice}
+                  </TableCell>
                   <TableCell key={"ServiceName"}>
                     {column.servicename}
                   </TableCell>{" "}
                   <TableCell key={"Decription"}>{column.decription}</TableCell>
-                  <TableCell key={"Edit"}>{
-                  <SubServiceEdit id={column?._id} servicename={column?.servicename} decription={column?.decription} url={column?.url}/>
-                  }</TableCell>
+                  <TableCell key={"Edit"}>
+                    {
+                      <SubServiceEdit
+                        id={column?._id}
+                        servicename={column?.servicename}
+                        decription={column?.decription}
+                        url={column?.url}
+                      />
+                    }
+                  </TableCell>
                   <TableCell key={"Delete"}>
                     {
                       // <IconButton>
@@ -119,7 +123,7 @@ export default function StickyHeadTable() {
                       //     }}
                       //   />
                       // </IconButton>
-                      <SubServiceDelete id={column?._id}/>
+                      <SubServiceDelete id={column?._id} />
                     }
                   </TableCell>
                 </TableRow>

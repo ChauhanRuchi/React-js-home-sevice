@@ -4,8 +4,7 @@ import Typography from "@mui/material/Typography";
 import "../styles/demo.css";
 import MediaCard from "./Home/HomeLayout/Card";
 import { Margin } from "@mui/icons-material";
-import { getservice } from "../store/action/service";
-import service from "../store/Reducer/service";
+import { getcategory } from "../store/categorySlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import Stack from "@mui/material/Stack";
@@ -13,16 +12,16 @@ import { Container, Grid } from "@mui/material";
 
 const Home = () => {
   const dispatch = useDispatch<any>();
-  const state1 = useSelector((state: any) => state.service);
-  let arr = state1.mainservicedata;
+  const state1 = useSelector((state: any) => state.category);
+  let arr = state1?.getcategoryData;
 
   useEffect(() => {
-    dispatch(getservice);
+    dispatch(getcategory());
   }, []);
   return (
-    <div > 
+    <div>
       <Stack spacing={3}>
-        <Box >
+        <Box>
           <Typography variant="h5" className="Title">
             We are Provide On-Demand Home Services
           </Typography>
@@ -38,13 +37,12 @@ const Home = () => {
       <Grid container spacing={2}>
         {arr?.map(function (item: any) {
           return (
-             <MediaCard
+            <MediaCard
               title={item?.servicename}
               decription={item?.decription}
               image={item?.url}
               id={item?._id}
             />
-          
           );
         })}
       </Grid>

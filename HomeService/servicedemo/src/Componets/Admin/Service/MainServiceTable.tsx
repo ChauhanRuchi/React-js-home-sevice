@@ -7,8 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { getservice, deletemainservice } from "../../../store/action/service";
-import service from "../../../store/Reducer/service";
+import { getcategory, deletecategory } from "../../../store/categorySlice";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
@@ -48,7 +47,7 @@ export default function MainServiceTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsData, setRowsData] = React.useState([]);
   const dispatch = useDispatch<any>();
-  const servicestate = useSelector((state: any) => state.service);
+  const servicestate = useSelector((state: any) => state.category);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -61,16 +60,16 @@ export default function MainServiceTable() {
     setPage(0);
   };
   useEffect(() => {
-    dispatch(getservice);
-  }, [servicestate?.mainservicedata]);
+    dispatch(getcategory());
+  }, [
+    servicestate?.deleteCategory?.delete,
+    servicestate?.createCategory?.data,
+    servicestate?.editCategory?.edit,
+  ]);
 
-  function setdele(id: any) {
-    dispatch(deletemainservice(id));
-    dispatch(getservice);
-  }
   useEffect(() => {
-    if (servicestate?.mainservicedata) {
-      setRowsData(servicestate.mainservicedata);
+    if (servicestate?.getcategoryData) {
+      setRowsData(servicestate.getcategoryData);
     }
   }, [servicestate]);
 

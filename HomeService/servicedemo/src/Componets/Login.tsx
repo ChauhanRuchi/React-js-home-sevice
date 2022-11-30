@@ -12,10 +12,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { signin } from "../store/action/user";
-import user from "../store/Reducer/user";
-import admin from "../store/Reducer/admin"
-import { adminlogin } from "../store/action/admin";
+import { userSignin } from "../store/authSlice";
+import { adminlogin } from "../store/adminSlice";
 import { useState } from "react";
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
@@ -50,25 +48,24 @@ export default function Login() {
   localStorage.removeItem("Token");
 
   let navigate = useNavigate();
-  const state1 = useSelector((state: any) => state.signin);
-  console.log("...",localStorage.getItem("Token"));
-  const adminstate = useSelector((state: any) => state.admin);
+  const userstate = useSelector((state: any) => state.userdata?.userData);
+  const adminstate = useSelector((state: any) => state?.admin?.adminData);
 
   console.log("adminstate", adminstate);
   React.useEffect(() => {
-    if (adminstate?.data?.login == true) {
+    if (adminstate?.login == true) {
       navigate("/admin/Dashboard");
     }
   }, [adminstate]);
-   React.useEffect(()=>{
-      localStorage.setItem("Token", state1?.data?.Token || "");
-      if(state1?.data?.Token!=null){
-        navigate("../")
-      }
-    },[state1])
-    React.useEffect(()=>{
-       localStorage.setItem("AdminToken", adminstate?.data?.Token || "");
-    },[adminstate])
+  React.useEffect(() => {
+    localStorage.setItem("Token", userstate?.Token || "");
+    if (userstate?.Token != null) {
+      navigate("../");
+    }
+  }, [userstate]);
+  React.useEffect(() => {
+    localStorage.setItem("AdminToken", adminstate?.Token || "");
+  }, [adminstate]);
 
   const [currentemail, setemail] = useState("");
   const [currentpass, setpass] = useState("");
@@ -94,7 +91,6 @@ export default function Login() {
   ) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
- 
 
   const handleChangeUserType = (event: any, newTabIndex: Number) => {
     if (newTabIndex === 0) {
@@ -121,6 +117,11 @@ export default function Login() {
   let getStyle = (isActive: any) => {
     return isActive ? tabStyle.active_tab : tabStyle.default_tab;
   };
+  let data = {
+    email: currentemail,
+    password: currentpass,
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -193,8 +194,8 @@ export default function Login() {
               type="password"
               id="password"
               inputProps={{
-                maxLength:6,
-                }}
+                maxLength: 6,
+              }}
               autoComplete="current-password"
               value={currentpass}
               onChange={(e: any) => setpass(e.target.value)}
@@ -213,7 +214,7 @@ export default function Login() {
               }
               label="Remember me"
             />
-            {showalert && (state1?.data?.mes || adminstate?.data?.mes) && (
+            {showalert && (userstate?.mes || adminstate?.mes) && (
               <Stack spacing={0} sx={{ width: "100%" }}>
                 <Alert
                   severity="error"
@@ -221,7 +222,7 @@ export default function Login() {
                     backgroundColor: "#FF0000",
                   }}
                 >
-                  {state1?.data?.mes || adminstate?.data?.mes}
+                  {userstate?.mes || adminstate?.mes}
                 </Alert>
               </Stack>
             )}
@@ -239,23 +240,16 @@ export default function Login() {
                 setShowAlert(true);
                 setShowAlert1(true);
 
-                if (userType == "User")            
+                if (userType == "User")
                   dispatch(
-                    signin({
-                      email: currentemail,
-                      password: currentpass,
-                    })                    
-                  );
-                 
-                else {
-                  dispatch(
-                    adminlogin({
+                    userSignin({
                       email: currentemail,
                       password: currentpass,
                     })
                   );
+                else {
+                  dispatch(adminlogin(data));
                 }
-            
               }}
             >
               Sign In
@@ -270,7 +264,7 @@ export default function Login() {
                   Forgot password?
                 </Link> */}
               </Grid>
-              <Grid item style={{marginBottom:"15px"}}>
+              <Grid item style={{ marginBottom: "15px" }}>
                 <Link
                   href="/Register"
                   variant="body2"

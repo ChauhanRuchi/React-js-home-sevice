@@ -7,17 +7,16 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { getuserdata} from "../../../store/action/user";
-import service from "../../../store/Reducer/service";
+import { getuserdata } from "../../../store/authSlice";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
-import MainServiceEdit from "../Service/MainServiceEdit"
+import DeleteIcon from "@mui/icons-material/Delete";
+import MainServiceEdit from "../Service/MainServiceEdit";
 import "../../../styles/demo.css";
 
 interface Column {
-  id:  "Email" | "Password" ;
+  id: "Email" | "Password";
   label: string;
   minWidth?: number;
   align?: "right";
@@ -25,20 +24,18 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "Email", label: "EMAIL"},
+  { id: "Email", label: "EMAIL" },
   {
     id: "Password",
     label: "PASSWORD",
     align: "right",
     format: (value: number) => value.toLocaleString("en-US"),
   },
- 
 ];
 
 interface Data {
   EMAIL: string;
   PASSWORD: string;
-
 }
 
 export default function UserTable() {
@@ -46,8 +43,7 @@ export default function UserTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsData, setRowsData] = React.useState([]);
   const dispatch = useDispatch<any>();
-  const userdata = useSelector((state: any) => state.signup);
-    console.log("userdata....",userdata)
+  const userdata = useSelector((state: any) => state?.userdata);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -59,26 +55,29 @@ export default function UserTable() {
     setPage(0);
   };
   useEffect(() => {
-    dispatch(getuserdata);
-  },);
-     
-  
+    dispatch(getuserdata());
+  }, []);
+
   useEffect(() => {
-    if (userdata?.getuserdata) {
-      setRowsData(userdata.getuserdata);
+    if (userdata?.getuserData) {
+      setRowsData(userdata.getuserData);
     }
   }, [userdata]);
-    console.log("...row",rowsData)
+  console.log("...row", rowsData);
   return (
     <>
-      <Paper sx={{ width: "100%", overflow: "hidden", margin: "30px"}}>
+      <Paper sx={{ width: "100%", overflow: "hidden", margin: "30px" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow style={{background:"#214758"}}>
+              <TableRow style={{ background: "#214758" }}>
                 {columns.map((column) => (
-          
-                  <TableCell className="textfiealdstyle" style={{background:"#214758",color:"#fff"}}>{column.label}</TableCell>
+                  <TableCell
+                    className="textfiealdstyle"
+                    style={{ background: "#214758", color: "#fff" }}
+                  >
+                    {column.label}
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>

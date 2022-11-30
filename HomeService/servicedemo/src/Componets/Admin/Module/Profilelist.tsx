@@ -6,9 +6,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
-import {logout} from "../../../store/action/admin";
+import { clearState } from "../../../store/adminSlice";
 import { useSelector, useDispatch } from "react-redux";
-
 
 export default function MenuAppBar() {
   let navigate = useNavigate();
@@ -16,7 +15,6 @@ export default function MenuAppBar() {
 
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
 
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -55,14 +53,24 @@ export default function MenuAppBar() {
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
-            <MenuItem onClick={()=>{ setAnchorEl(null); navigate("./Profile")}}>Profile</MenuItem>
-            <MenuItem onClick={()=>{
-              setAnchorEl(null);
-              dispatch(logout())
-              localStorage.removeItem("AdminToken")
-              navigate("../")
-            }
-            }>Logout</MenuItem>
+            <MenuItem
+              onClick={() => {
+                setAnchorEl(null);
+                navigate("./Profile");
+              }}
+            >
+              Profile
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                setAnchorEl(null);
+                dispatch(clearState());
+                localStorage.removeItem("AdminToken");
+                navigate("../");
+              }}
+            >
+              Logout
+            </MenuItem>
           </Menu>
         </div>
       )}

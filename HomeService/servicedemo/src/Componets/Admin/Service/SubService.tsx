@@ -1,19 +1,18 @@
 import * as React from "react";
-import BasicModal from "./SubServiceCreate"
-import StickyHeadTable from "./SubServiceTable"
+import BasicModal from "./SubServiceCreate";
+import StickyHeadTable from "./SubServiceTable";
 import Button from "@mui/material/Button";
-import service from "../../../store/Reducer/service";
 import { useSelector, useDispatch } from "react-redux";
 import Alert from "@mui/material/Alert";
 
-
 export default function SubService() {
-  const state = useSelector((state: any) => state.service);
-  const dispatch = useDispatch<any>();
-  return <>
-    <BasicModal />
-    <StickyHeadTable/>
-    {state?.createsucesssub && (
+  const state = useSelector((state: any) => state?.category);
+
+  return (
+    <>
+      <BasicModal />
+      <StickyHeadTable />
+      {state?.createsubCategory?.data == true && (
         <div
           style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
         >
@@ -26,7 +25,7 @@ export default function SubService() {
           </Alert>
         </div>
       )}
-    {state?.editsucesssub && (
+      {state?.editsubCategory?.edit == true && (
         <div
           style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
         >
@@ -39,6 +38,6 @@ export default function SubService() {
           </Alert>
         </div>
       )}
-  </>
- 
+    </>
+  );
 }

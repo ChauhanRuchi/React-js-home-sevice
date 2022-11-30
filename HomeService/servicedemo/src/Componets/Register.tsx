@@ -14,9 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { signup ,signin} from "../store/action/user";
-import user from "../store/Reducer/user";
-
+import { userSignup, userSignin } from "../store/authSlice";
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { stat } from "fs/promises";
@@ -49,10 +47,10 @@ export default function SignUp() {
   const [currentemail, setemail] = useState("");
   const [currentpass, setpass] = useState("");
   const [showalert, setShowAlert] = useState(false);
-  const statesigin = useSelector((state: any) => state.signin);
+  const statesigin = useSelector((state: any) => state?.userdata?.userData);
 
-  const state1 = useSelector((state: any) => state?.signup);
-  console.log("state111...", state1);
+  const state1 = useSelector((state: any) => state?.userdata?.userData);
+  console.log("state111...", statesigin);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -70,28 +68,27 @@ export default function SignUp() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  React.useEffect(()=>{
-
-    localStorage.setItem("Token", state1?.data?.Token || "");
-    if(statesigin?.data?.Token!=null){
-      navigate("../")
+  React.useEffect(() => {
+    localStorage.setItem("Token", state1?.Token || "");
+    if (statesigin?.Token != null) {
+      navigate("../");
     }
-  },[statesigin])
+  }, [statesigin]);
 
-      React.useEffect(()=>{
-          if(state1?.signup==true){
-            dispatch(
-              signin({
-                email: currentemail,
-                password: currentpass,
-              })
-            );
-          }
-      },[state1])
-      
+  React.useEffect(() => {
+    if (state1?.signup == true) {
+      dispatch(
+        userSignin({
+          email: currentemail,
+          password: currentpass,
+        })
+      );
+    }
+  }, [state1]);
+
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs" >
+      <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
@@ -101,7 +98,7 @@ export default function SignUp() {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1,bgcolor: "#214758"}}>
+          <Avatar sx={{ m: 1, bgcolor: "#214758" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
@@ -156,8 +153,8 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   inputProps={{
-                    maxLength:6,
-                    }}
+                    maxLength: 6,
+                  }}
                   autoComplete="new-password"
                   value={currentpass}
                   onChange={(e: any) => setpass(e.target.value)}
@@ -195,21 +192,19 @@ export default function SignUp() {
                 background: "#214758",
               }}
               onClick={() => {
-
-                                                                                                                        setShowAlert(true);           
+                setShowAlert(true);
                 dispatch(
-                  signup({                              
-                    email: currentemail,                    
-                    password: currentpass,                                  
+                  userSignup({
+                    email: currentemail,
+                    password: currentpass,
                   })
                 );
-
-              }}                                                  
-            >                             
+              }}
+            >
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
-              <Grid item style={{marginBottom:"15px"}}>
+              <Grid item style={{ marginBottom: "15px" }}>
                 <Link
                   href="/Login"
                   variant="body2"

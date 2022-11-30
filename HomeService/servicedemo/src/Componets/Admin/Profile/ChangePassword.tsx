@@ -6,8 +6,8 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { changepass,clearstatepassword } from "../../../store/action/admin";
-import admin from "../../../store/Reducer/admin";
+import { changepassword, clearpasswordState } from "../../../store/adminSlice";
+
 import { useState } from "react";
 import { useEffect } from "react";
 import "../../../styles/demo.css";
@@ -19,7 +19,7 @@ import {
   FormikProps,
   FormikValues,
   validateYupSchema,
-  Form
+  Form,
 } from "formik";
 
 const bull = (
@@ -35,15 +35,15 @@ export default function ChangePassword() {
   const dispatch = useDispatch<any>();
 
   const ValidationSchema = Yup.object().shape({
-     passwordinput: Yup.string().required("Required"),
-    newpasswordinput: Yup.string().required('Required')
-    .min(6, 'Password is too short - should be 6 chars minimum.')
-    .matches(/[a-zA-Z]/, 'Password should be contain letters and numbers.'),
-    confirmpasswordinput: Yup.string().required('Required')
-    .min(6, 'Password is too short - should be 6 chars minimum.')
-    .matches(/[a-zA-Z]/, 'Password should be contain letters and numbers.')
-    
-    
+    passwordinput: Yup.string().required("Required"),
+    newpasswordinput: Yup.string()
+      .required("Required")
+      .min(6, "Password is too short - should be 6 chars minimum.")
+      .matches(/[a-zA-Z]/, "Password should be contain letters and numbers."),
+    confirmpasswordinput: Yup.string()
+      .required("Required")
+      .min(6, "Password is too short - should be 6 chars minimum.")
+      .matches(/[a-zA-Z]/, "Password should be contain letters and numbers."),
   });
   const formik = useFormik({
     validationSchema: ValidationSchema,
@@ -59,20 +59,18 @@ export default function ChangePassword() {
       formData.append("newpassword", values?.newpasswordinput);
       formData.append("confirmpassword", values?.confirmpasswordinput);
 
-      dispatch(changepass(formData));
-
-    }
+      dispatch(changepassword(formData));
+    },
   });
   console.log("errors", formik.errors);
 
-  useEffect(()=>{
-      if(statepassword?.changepassword===true)
-      {
-        setTimeout(()=>{
-          dispatch(clearstatepassword())
-         },2000)
-      }
-  },[statepassword])
+  useEffect(() => {
+    if (statepassword?.changepassword === true) {
+      setTimeout(() => {
+        dispatch(clearpasswordState());
+      }, 2000);
+    }
+  }, [statepassword]);
 
   const card = (
     <React.Fragment>

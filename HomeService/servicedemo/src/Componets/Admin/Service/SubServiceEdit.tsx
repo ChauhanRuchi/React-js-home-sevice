@@ -9,16 +9,17 @@ import { TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
-import {editsubservice,getsubserviceall,cleareditsubservicedata} from "../../../store/action/service"
-import service from "../../../store/Reducer/service"
+import {
+  editsubcategory,
+  cleareditsubcategoryState,
+} from "../../../store/categorySlice";
 import { IconButton } from "@mui/material";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 import * as Yup from "yup";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 import { useSelector, useDispatch } from "react-redux";
 import { __String } from "typescript";
-import UploadFileIcon from '@mui/icons-material/UploadFile';
-
+import UploadFileIcon from "@mui/icons-material/UploadFile";
 
 const style = {
   position: "absolute" as "absolute",
@@ -37,9 +38,8 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: "center",
   color: theme.palette.text.secondary,
 }));
-export default function MainServiceEdit(Props:any) {
-
-  const state = useSelector((state: any) => state.service);
+export default function MainServiceEdit(Props: any) {
+  const state = useSelector((state: any) => state.category);
 
   var formData = new FormData();
   const dispatch = useDispatch<any>();
@@ -53,109 +53,110 @@ export default function MainServiceEdit(Props:any) {
     Decription: Yup.string().required("Required"),
   });
   const formik = useFormik({
-    validationSchema:ValidationSchema,
+    validationSchema: ValidationSchema,
     initialValues: {
       data: "fg",
       SubService: "gg",
-      Service:Props.servicename,
-      Decription:Props.decription,
+      Service: Props.servicename,
+      Decription: Props.decription,
       img_upload: "gg",
-      Serviceid:"gg",
+      Serviceid: "gg",
     },
-    onSubmit: (values:any) => {
+    onSubmit: (values: any) => {
       formData.append("image", values?.["file"]);
 
-      formData.append("servicename", values.Service||Props.servicename);
+      formData.append("servicename", values.Service || Props.servicename);
 
-      formData.append("decription", values.Decription||Props.decription);
+      formData.append("decription", values.Decription || Props.decription);
 
       for (var pair of formData.entries()) {
         console.log(pair[0] + ", " + pair[1]);
       }
-      dispatch(editsubservice(Props.id,formData));
-      
-     },
+      const data = { user: formData, id: Props?.id };
+
+      dispatch(editsubcategory(data));
+    },
   });
-    React.useEffect(()=>{
-        if(state?.editsucesssub==true)
-        setOpen(false)
-        setTimeout(()=>{
-          dispatch(cleareditsubservicedata())
-         },2000)
-    },[state?.editsucesssub])
-    
+  React.useEffect(() => {
+    if (state?.editsubCategory?.edit == true) setOpen(false);
+    setTimeout(() => {
+      dispatch(cleareditsubcategoryState());
+    }, 1800);
+  }, [state?.editsubCategory?.edit]);
+
   return (
     <div>
-       
-     <IconButton>
-           <EditIcon onClick={ handleOpen}/>
-            </IconButton>
+      <IconButton>
+        <EditIcon onClick={handleOpen} />
+      </IconButton>
       <Modal
         open={open}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div style={{display:"flex",justifyContent:"space-between"}}>
-          <Typography variant="h6">Edit Service</Typography>
-          <CloseIcon style={{color:"red"}} onClick={()=>handleClose()}/>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography variant="h6">Edit Service</Typography>
+            <CloseIcon style={{ color: "red" }} onClick={() => handleClose()} />
           </div>
           <form onSubmit={formik.handleSubmit}>
-                <TextField
-                  id="Service"
-                  onChange={formik.handleChange}
-                  defaultValue={Props.servicename}
-                  label="Service Name"
-                  fullWidth
-                  autoComplete="current-password"
-                  variant="filled"
-                  error={!!formik.errors.Service}
-                  helperText={formik.errors.Service as string}
-                />
-                <TextField
-                  id="Decription"
-                  onChange={formik.handleChange}
-                  defaultValue={Props.decription}
-                  label="Decription"
-                  fullWidth
-                  autoComplete="current-password"
-                  variant="filled"
-                  error={!!formik.errors.Decription}
-                  helperText={formik?.errors?.Decription as string}
-                />{" "}
-            
-            <div style={{display:"flex",justifyContent:"space-around"}}>
-              <Stack style={{width:"50%",margin:"10px"}}>
-                  <Button variant="contained" component="label" style={{background:"#214758"}} >
-                  {  <UploadFileIcon/>} Upload 
-                    <input
-                      id="img_upload"
-                      hidden
-                      accept="image/*"
-                      multiple
-                      type="file"
-                      name="image"
-                      value={link}
-                      // onChange={formik.handleChange}
-                      onChange={(event?: any) => {
-                        formik.setFieldValue(
-                          "file",
-                          event.currentTarget.files[0] as EventTarget
-                        );
-                      }}
-                      defaultValue={Props.url}
-                    />
-                  </Button>
-                </Stack>
+            <TextField
+              id="Service"
+              onChange={formik.handleChange}
+              defaultValue={Props.servicename}
+              label="Service Name"
+              fullWidth
+              autoComplete="current-password"
+              variant="filled"
+              error={!!formik.errors.Service}
+              helperText={formik.errors.Service as string}
+            />
+            <TextField
+              id="Decription"
+              onChange={formik.handleChange}
+              defaultValue={Props.decription}
+              label="Decription"
+              fullWidth
+              autoComplete="current-password"
+              variant="filled"
+              error={!!formik.errors.Decription}
+              helperText={formik?.errors?.Decription as string}
+            />{" "}
+            <div style={{ display: "flex", justifyContent: "space-around" }}>
+              <Stack style={{ width: "50%", margin: "10px" }}>
+                <Button
+                  variant="contained"
+                  component="label"
+                  style={{ background: "#214758" }}
+                >
+                  {<UploadFileIcon />} Upload
+                  <input
+                    id="img_upload"
+                    hidden
+                    accept="image/*"
+                    multiple
+                    type="file"
+                    name="image"
+                    value={link}
+                    // onChange={formik.handleChange}
+                    onChange={(event?: any) => {
+                      formik.setFieldValue(
+                        "file",
+                        event.currentTarget.files[0] as EventTarget
+                      );
+                    }}
+                    defaultValue={Props.url}
+                  />
+                </Button>
+              </Stack>
               <Button
                 type="submit"
                 variant="contained"
-                style={{width:"50%",margin:"10px",background:"#214758"}}
+                style={{ width: "50%", margin: "10px", background: "#214758" }}
               >
                 Submit
               </Button>
-              </div>
-            
+            </div>
           </form>
         </Box>
       </Modal>

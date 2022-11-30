@@ -7,17 +7,26 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import {getbookingdata } from "../../../store/action/booking";
-import service from "../../../store/Reducer/service";
+import { getbookingdata } from "../../../store/bookingSlice";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IconButton } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
-import MainServiceEdit from "../Service/MainServiceEdit"
+import DeleteIcon from "@mui/icons-material/Delete";
+import MainServiceEdit from "../Service/MainServiceEdit";
 import "../../../styles/demo.css";
 
 interface Column {
-  id:  "UserName" | "ContactNumber"|"BillingAddress"|"DeliveryAddress"|"Date"|"Time"|"Pincode"|"ServiceName"|"ServiceCharge"|"Status";
+  id:
+    | "UserName"
+    | "ContactNumber"
+    | "BillingAddress"
+    | "DeliveryAddress"
+    | "Date"
+    | "Time"
+    | "Pincode"
+    | "ServiceName"
+    | "ServiceCharge"
+    | "Status";
   label: string;
   minWidth?: number;
   align?: "right";
@@ -25,28 +34,27 @@ interface Column {
 }
 
 const columns: readonly Column[] = [
-  { id: "UserName", label: "USERNAME"},
+  { id: "UserName", label: "USERNAME" },
   {
     id: "ContactNumber",
     label: "CONTACTNUMBER",
     align: "right",
     format: (value: number) => value.toLocaleString("en-US"),
   },
-  { id: "BillingAddress", label: "BILLINGADDRESS"},
-  { id: "DeliveryAddress", label: "DELIVERYADDRESS"},
-  { id: "Date", label: "DATE"},
-  { id: "Time", label: "TIME"},
-  { id: "Pincode", label: "PINCODE"},
-  { id: "ServiceName", label: "SERVICENAME"},
-  { id: "ServiceCharge", label: "SERVICECHARGE"},
-  { id: "Status", label: "STATUS"},
-
+  { id: "BillingAddress", label: "BILLINGADDRESS" },
+  { id: "DeliveryAddress", label: "DELIVERYADDRESS" },
+  { id: "Date", label: "DATE" },
+  { id: "Time", label: "TIME" },
+  { id: "Pincode", label: "PINCODE" },
+  { id: "ServiceName", label: "SERVICENAME" },
+  { id: "ServiceCharge", label: "SERVICECHARGE" },
+  { id: "Status", label: "STATUS" },
 ];
 
 interface Data {
   EMAIL: string;
   PASSWORD: string;
-  CONTACTNUMBER:string
+  CONTACTNUMBER: string;
 }
 
 export default function BookingTable() {
@@ -66,43 +74,63 @@ export default function BookingTable() {
     setPage(0);
   };
   useEffect(() => {
-    dispatch(getbookingdata);
-  },);
-     
-  
+    dispatch(getbookingdata());
+  }, []);
+
   useEffect(() => {
-    if (statebookingdata?.getbooking) {
-      setRowsData(statebookingdata.getbooking);
+    if (statebookingdata?.getbookingData) {
+      setRowsData(statebookingdata.getbookingData);
     }
   }, [statebookingdata]);
   return (
     <>
-      <Paper sx={{ width: "70%", overflow: "hidden", margin: "30px",justifyContent:"center"}}>
+      <Paper
+        sx={{
+          width: "70%",
+          overflow: "hidden",
+          margin: "30px",
+          justifyContent: "center",
+        }}
+      >
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow style={{background:"#214758"}}>
+              <TableRow style={{ background: "#214758" }}>
                 {columns.map((column) => (
-          
-                  <TableCell className="textfiealdstyle" style={{background:"#214758",color:"#fff"}}>{column.label}</TableCell>
+                  <TableCell
+                    className="textfiealdstyle"
+                    style={{ background: "#214758", color: "#fff" }}
+                  >
+                    {column.label}
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {[...rowsData]?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((column: any) => (
-                <TableRow hover role="checkbox">
-                  <TableCell key={"UserName"}>{column.name}</TableCell>{" "}
-                  <TableCell key={"ContactNumber"}>{column.contactnumber}</TableCell>
-                  <TableCell key={"BillingAddress"}>{column.billingaddress}</TableCell>{" "}
-                  <TableCell key={"DeliveryAddress"}>{column.deliveryadress}</TableCell>
-                  <TableCell key={"Date"}>{column.date}</TableCell>{" "}
-                  <TableCell key={"Time"}>{column.time}</TableCell>
-                  <TableCell key={"Pincode"}>{column.city}</TableCell>{" "}
-                  <TableCell key={"ServiceName"}>{column.servicename}</TableCell>
-                  <TableCell key={"ServiceCharge"}>{column.charge}</TableCell>{" "}
-                  <TableCell key={"Status"}>{column.status}</TableCell>
-                </TableRow>
-              ))}
+              {[...rowsData]
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((column: any) => (
+                  <TableRow hover role="checkbox">
+                    <TableCell key={"UserName"}>{column.name}</TableCell>{" "}
+                    <TableCell key={"ContactNumber"}>
+                      {column.contactnumber}
+                    </TableCell>
+                    <TableCell key={"BillingAddress"}>
+                      {column.billingaddress}
+                    </TableCell>{" "}
+                    <TableCell key={"DeliveryAddress"}>
+                      {column.deliveryadress}
+                    </TableCell>
+                    <TableCell key={"Date"}>{column.date}</TableCell>{" "}
+                    <TableCell key={"Time"}>{column.time}</TableCell>
+                    <TableCell key={"Pincode"}>{column.city}</TableCell>{" "}
+                    <TableCell key={"ServiceName"}>
+                      {column.servicename}
+                    </TableCell>
+                    <TableCell key={"ServiceCharge"}>{column.charge}</TableCell>{" "}
+                    <TableCell key={"Status"}>{column.status}</TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -115,7 +143,6 @@ export default function BookingTable() {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-        
       </Paper>
     </>
   );
