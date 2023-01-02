@@ -7,7 +7,7 @@ const HomeLayout = () => {
     <>
       <NavBar />
       <div
-      style={{maxHeight:"500px" ,overflowY:"auto",paddingBottom:"40px"}}>
+      className="divhomelayout">
               <Outlet/>
       </div>
       <Footer />

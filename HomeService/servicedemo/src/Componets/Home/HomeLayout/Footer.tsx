@@ -2,11 +2,11 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import PinterestIcon from "@mui/icons-material/Pinterest";
+import "../../../styles/style.css"
 
 // Grid
 import Grid from "@mui/material/Grid";
@@ -24,7 +24,7 @@ export default function Footer() {
         <Grid
           container
           spacing={2}
-          sx={{ backgroundColor: "#214758", color: "#efefef" ,bottom:"0%",position:"sticky"}}
+          className="footer"
           mt={0}
           p={2}
         
@@ -56,7 +56,7 @@ export default function Footer() {
             <Typography variant="body2">City/Town : Surat</Typography>
             <Typography variant="body2">State : Gujarat</Typography>
             <Typography variant="body2">
-              Phone Number : +91 9574099523
+              Phone Number : +91 9574579523
             </Typography>
             <Typography variant="body2">
               Email : HomeService@gmail.com

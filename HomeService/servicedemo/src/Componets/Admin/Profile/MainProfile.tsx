@@ -1,18 +1,18 @@
 import Profile from "./Profile";
 import ChangePassword from "./ChangePassword";
-import { useSelector, useDispatch } from "react-redux";
+import {useAppselector} from "../../../hooks";
 import Alert from "@mui/material/Alert";
 
 export default function MainProfiile() {
-  const state = useSelector((state: any) => state.admin);
+  const adminstate = useAppselector((state) => state.admin);
 
   return (
     <>
       <Profile />
       <ChangePassword />
-      {state?.changepassword && (
+      {adminstate?.changepassword && (
         <div
-          style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
+          className="addbutton"
         >
           <Alert
             severity="success"

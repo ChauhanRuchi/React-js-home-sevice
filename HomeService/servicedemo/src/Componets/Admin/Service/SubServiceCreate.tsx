@@ -18,7 +18,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppdispatch, useAppselector } from "../../../hooks";
 import { useEffect } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
@@ -42,19 +42,29 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 export default function BasicModal() {
-  const categorystate = useSelector((state: any) => state.category);
+  const categorystate = useAppselector((state) => state.category);
   let data = "";
   const [service, setService] = React.useState("");
   var formData = new FormData();
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppdispatch();
   const [open, setOpen] = React.useState(false);
   const [link, setlink] = React.useState("");
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  
   useEffect(() => {
     dispatch(getcategory());
   }, []);
+  React.useEffect(() => {
+    if (categorystate?.createsubCategory?.data === true) {
+      handleClose();
 
+      setTimeout(() => {
+        dispatch(clearsubcategoryState());
+      }, 2000);
+    }
+  }, [categorystate?.createsubCategory?.data]);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const handleChange = (event: SelectChangeEvent) => {
     setService(event.target.value as string);
   };
@@ -87,19 +97,11 @@ export default function BasicModal() {
       dispatch(createsubcategory(formData));
     },
   });
-  React.useEffect(() => {
-    if (categorystate?.createsubCategory?.data === true) {
-      handleClose();
 
-      setTimeout(() => {
-        dispatch(clearsubcategoryState());
-      }, 2000);
-    }
-  }, [categorystate?.createsubCategory?.data]);
   return (
     <>
       <div
-        style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
+        className="addbutton"
       >
         <Button
           onClick={handleOpen}
@@ -117,11 +119,7 @@ export default function BasicModal() {
       >
         <Box sx={style}>
           <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: "20px",
-            }}
+           className="divaddsubservice"
           >
             <Typography variant="h6">Add Service</Typography>
             <CloseIcon style={{ color: "red" }} onClick={() => handleClose()} />
@@ -183,8 +181,8 @@ export default function BasicModal() {
               error={!!formik.errors.Charge}
               helperText={formik.errors.Charge}
             />
-            <div style={{ display: "flex", justifyContent: "space-around" }}>
-              <Stack style={{ width: "50%", margin: "10px" }}>
+            <div className="divuploadbutton">
+              <Stack className="stack">
                 <Button
                   variant="contained"
                   component="label"
@@ -213,7 +211,7 @@ export default function BasicModal() {
               <Button
                 type="submit"
                 variant="contained"
-                style={{ width: "50%", margin: "10px", background: "#214758" }}
+                className="submitbutton"
               >
                 Submit
               </Button>

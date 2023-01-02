@@ -7,13 +7,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import { getcategory, deletecategory } from "../../../store/categorySlice";
+import { getcategory } from "../../../store/categorySlice";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppdispatch, useAppselector } from "../../../hooks";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MainServiceEdit from "../Service/MainServiceEdit";
-import "../../../styles/demo.css";
+import "../../../styles/style.css";
 import MainServiceDelete from "../Service/MainServiceDelete";
 
 interface Column {
@@ -46,19 +46,9 @@ export default function MainServiceTable() {
   const [deletestate, setdelete] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsData, setRowsData] = React.useState([]);
-  const dispatch = useDispatch<any>();
-  const servicestate = useSelector((state: any) => state.category);
+  const dispatch = useAppdispatch();
+  const servicestate = useAppselector((state) => state.category);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
   useEffect(() => {
     dispatch(getcategory());
   }, [
@@ -73,17 +63,27 @@ export default function MainServiceTable() {
     }
   }, [servicestate]);
 
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   return (
     <>
-      <Paper sx={{ width: "100%", overflow: "hidden", margin: "20px" }}>
+      <Paper className="paper">
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow style={{ background: "#214758" }}>
+              <TableRow className="tablerow">
                 {columns.map((column) => (
                   <TableCell
                     className="textfiealdstyle"
-                    style={{ background: "#214758", color: "#fff" }}
                   >
                     {column.label}
                   </TableCell>
@@ -91,27 +91,31 @@ export default function MainServiceTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {[...rowsData]?.map((column: any) => (
-                <TableRow hover role="checkbox">
-                  <TableCell key={"ServiceName"}>
-                    {column.servicename}
-                  </TableCell>{" "}
-                  <TableCell key={"Decription"}>{column.decription}</TableCell>
-                  <TableCell key={"Edit"}>
-                    {
-                      <MainServiceEdit
-                        id={column?._id}
-                        servicename={column?.servicename}
-                        decription={column?.decription}
-                        url={column?.url}
-                      />
-                    }
-                  </TableCell>
-                  <TableCell key={"Delete"}>
-                    {<MainServiceDelete id={column?._id} />}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {[...rowsData]
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((column: any) => (
+                  <TableRow hover role="checkbox">
+                    <TableCell key={"ServiceName"}>
+                      {column.servicename}
+                    </TableCell>{" "}
+                    <TableCell key={"Decription"}>
+                      {column.decription}
+                    </TableCell>
+                    <TableCell key={"Edit"}>
+                      {
+                        <MainServiceEdit
+                          id={column?._id}
+                          servicename={column?.servicename}
+                          decription={column?.decription}
+                          url={column?.url}
+                        />
+                      }
+                    </TableCell>
+                    <TableCell key={"Delete"}>
+                      {<MainServiceDelete id={column?._id} />}
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>

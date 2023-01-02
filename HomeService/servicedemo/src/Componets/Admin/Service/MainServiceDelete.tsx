@@ -8,13 +8,13 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
   getcategory,
-  deletecategory,
+  deleteCategory,
   cleardeletecategoryState,
 } from "../../../store/categorySlice";
-
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { idText } from "typescript";
+import { useAppdispatch, useAppselector } from "../../../hooks";
+import "../../../styles/style.css"
+
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -31,19 +31,20 @@ export default function MainServiceDelete(Props: any) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const dispatch = useDispatch<any>();
-  const servicestate = useSelector((state: any) => state.category);
+  const dispatch = useAppdispatch();
+  const servicestate =useAppselector((state) => state.category);
 
-  function setdele(id: any) {
-    dispatch(deletecategory(id));
-    dispatch(getcategory());
-  }
   useEffect(() => {
     if (servicestate?.deleteCategory?.delete == true) {
       dispatch(cleardeletecategoryState());
     } else {
     }
   }, [servicestate]);
+  function setdele(id: any) {
+    dispatch(deleteCategory(id));
+    dispatch(getcategory());
+  }
+
   return (
     <div>
       <IconButton>
@@ -66,18 +67,14 @@ export default function MainServiceDelete(Props: any) {
             Are you sure delete?
           </Typography>
           <div
-            style={{
-              display: "flex",
-              margin: "20px",
-              justifyContent: "space-around",
-            }}
+           className="divdelete"
           >
             <CloseIcon
-              style={{ background: "red", width: "33%", height: "30px" }}
+             className="closeicon"
               onClick={handleClose}
             />
             <CheckIcon
-              style={{ background: "#008000", width: "33%", height: "30px" }}
+              className="checkicon"
               onClick={() => {
                 return (
                   <>

@@ -10,16 +10,17 @@ import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
 import {
-  editcategory,
+  editCategory,
   cleareditcategoryState,
 } from "../../../store/categorySlice";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import * as Yup from "yup";
 import CloseIcon from "@mui/icons-material/Close";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppdispatch, useAppselector } from "../../../hooks";
 import { __String } from "typescript";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import "../../../styles/style.css"
 
 const style = {
   position: "absolute" as "absolute",
@@ -31,22 +32,22 @@ const style = {
   boxShadow: 24,
   p: 2,
 };
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
 export default function MainServiceEdit(Props: any) {
-  const state = useSelector((state: any) => state.category);
-
+  
+  const state = useAppselector((state) => state.category);
   var formData = new FormData();
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppdispatch();
   const [open, setOpen] = React.useState(false);
   const [link, setlink] = React.useState("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  React.useEffect(() => {
+    if (state?.editCategory?.edit === true) handleClose();
+    setTimeout(() => {
+      dispatch(cleareditcategoryState());
+    }, 2000);
+  }, [state?.editCategory]);
 
   const ValidationSchema = Yup.object().shape({
     Service: Yup.string().required("Required"),
@@ -74,15 +75,10 @@ export default function MainServiceEdit(Props: any) {
         console.log(pair[0] + ", " + pair[1]);
       }
       const data = { user: formData, id: Props?.id };
-      dispatch(editcategory(data));
+      dispatch(editCategory(data));
     },
   });
-  React.useEffect(() => {
-    if (state?.editCategory?.edit === true) handleClose();
-    setTimeout(() => {
-      dispatch(cleareditcategoryState());
-    }, 2000);
-  }, [state?.editCategory]);
+
   return (
     <div>
       <IconButton>
@@ -94,7 +90,7 @@ export default function MainServiceEdit(Props: any) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div className="diviconwithtitle">
             <Typography variant="h6">Edit Service</Typography>
             <CloseIcon style={{ color: "red" }} onClick={() => handleClose()} />
           </div>
@@ -122,8 +118,8 @@ export default function MainServiceEdit(Props: any) {
               helperText={formik.errors.Decription as string}
             />
 
-            <div style={{ display: "flex", justifyContent: "space-around" }}>
-              <Stack style={{ width: "50%", margin: "10px" }}>
+            <div className="divuploadbutton">
+              <Stack className="stack">
                 <Button
                   variant="contained"
                   component="label"
@@ -152,7 +148,7 @@ export default function MainServiceEdit(Props: any) {
               <Button
                 type="submit"
                 variant="contained"
-                style={{ width: "50%", margin: "10px", background: "#214758" }}
+                className="submitbutton"
               >
                 Submit
               </Button>

@@ -9,11 +9,8 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { clearcityState, getcityname } from "../../../store/bookingSlice";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import MainServiceEdit from "../Service/MainServiceEdit";
-import "../../../styles/demo.css";
+import {useAppdispatch,useAppselector} from "../../../hooks"
+import "../../../styles/style.css";
 
 interface Column {
   id: "CityName" | "Pincode";
@@ -42,19 +39,10 @@ export default function UserTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsData, setRowsData] = React.useState([]);
-  const dispatch = useDispatch<any>();
-  const citydata = useSelector((state: any) => state.booking);
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
+  const dispatch = useAppdispatch();
+  const citydata = useAppselector((state) => state.booking);
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
-  useEffect(() => {
+    useEffect(() => {
     dispatch(getcityname());
 
     dispatch(clearcityState());
@@ -65,18 +53,27 @@ export default function UserTable() {
       setRowsData(citydata.getcityName);
     }
   }, [citydata]);
-  console.log("...row", rowsData);
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
+  };
+
   return (
     <>
-      <Paper sx={{ width: "100%", overflow: "hidden", margin: "30px" }}>
+      <Paper className="paper">
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow style={{ background: "#214758" }}>
+              <TableRow className="tablerow">
                 {columns.map((column) => (
                   <TableCell
-                    className="textfiealdstyle"
-                    style={{ background: "#214758", color: "#fff" }}
+                    className="textfiealdstyle"                   
                   >
                     {column.label}
                   </TableCell>
@@ -84,7 +81,9 @@ export default function UserTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {[...rowsData]?.map((column: any) => (
+               {[...rowsData]
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((column: any) => (
                 <TableRow hover role="checkbox">
                   <TableCell key={"CityName"}>{column.name}</TableCell>{" "}
                   <TableCell key={"Pincode"}>{column.pincode}</TableCell>

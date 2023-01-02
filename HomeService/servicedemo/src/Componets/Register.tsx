@@ -13,33 +13,13 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import {useAppdispatch,useAppselector} from "../hooks"
 import { userSignup, userSignin } from "../store/authSlice";
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { stat } from "fs/promises";
 import { useNavigate } from "react-router-dom";
 
 // some code, then in the test I have:
-
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const theme = createTheme();
 
 export default function SignUp() {
@@ -47,10 +27,9 @@ export default function SignUp() {
   const [currentemail, setemail] = useState("");
   const [currentpass, setpass] = useState("");
   const [showalert, setShowAlert] = useState(false);
-  const statesigin = useSelector((state: any) => state?.userdata?.userData);
+  const statesigin = useAppselector((state) => state?.userdata?.userData);
 
-  const state1 = useSelector((state: any) => state?.userdata?.userData);
-  console.log("state111...", statesigin);
+  const statesignup = useAppselector((state) => state?.userdata?.userData);
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -60,7 +39,7 @@ export default function SignUp() {
     });
   };
 
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppdispatch();
   const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref
@@ -69,14 +48,14 @@ export default function SignUp() {
   });
 
   React.useEffect(() => {
-    localStorage.setItem("Token", state1?.Token || "");
+    localStorage.setItem("Token", statesignup?.Token || "");
     if (statesigin?.Token != null) {
       navigate("../");
     }
   }, [statesigin]);
 
   React.useEffect(() => {
-    if (state1?.signup == true) {
+    if (statesignup?.signup == true) {
       dispatch(
         userSignin({
           email: currentemail,
@@ -84,7 +63,7 @@ export default function SignUp() {
         })
       );
     }
-  }, [state1]);
+  }, [statesignup]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -141,7 +120,7 @@ export default function SignUp() {
                   name="email"
                   autoComplete="email"
                   value={currentemail}
-                  onChange={(e: any) => setemail(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setemail(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -157,7 +136,7 @@ export default function SignUp() {
                   }}
                   autoComplete="new-password"
                   value={currentpass}
-                  onChange={(e: any) => setpass(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setpass(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -169,7 +148,7 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
-            {showalert && state1?.data?.mes && (
+            {showalert && statesignup?.mes && (
               <Stack spacing={0} sx={{ width: "100%" }}>
                 <Alert
                   severity="error"
@@ -177,7 +156,7 @@ export default function SignUp() {
                     backgroundColor: "#FF0000",
                   }}
                 >
-                  {state1?.data?.mes}
+                  {statesignup?.mes}
                 </Alert>
               </Stack>
             )}
@@ -186,11 +165,7 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              style={{
-                marginTop: "20px",
-                marginBottom: "8px",
-                background: "#214758",
-              }}
+              className="signinbutton"
               onClick={() => {
                 setShowAlert(true);
                 dispatch(
@@ -208,7 +183,7 @@ export default function SignUp() {
                 <Link
                   href="/Login"
                   variant="body2"
-                  style={{ textDecorationColor: "#214758", color: "#214758" }}
+                  className="signuplink"
                 >
                   Already have an account? Sign in
                 </Link>
@@ -216,7 +191,6 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        {/* <Copyright sx={{ mt: 5 }} /> */}
       </Container>
     </ThemeProvider>
   );

@@ -9,11 +9,11 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { getuserdata } from "../../../store/authSlice";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppdispatch,useAppselector } from "../../../hooks";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MainServiceEdit from "../Service/MainServiceEdit";
-import "../../../styles/demo.css";
+import "../../../styles/style.css";
 
 interface Column {
   id: "Email" | "Password";
@@ -42,12 +42,11 @@ export default function UserTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsData, setRowsData] = React.useState([]);
-  const dispatch = useDispatch<any>();
-  const userdata = useSelector((state: any) => state?.userdata);
+  const dispatch = useAppdispatch();
+  const userdata = useAppselector((state) => state?.userdata);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
-
   const handleChangeRowsPerPage = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -63,10 +62,9 @@ export default function UserTable() {
       setRowsData(userdata.getuserData);
     }
   }, [userdata]);
-  console.log("...row", rowsData);
   return (
     <>
-      <Paper sx={{ width: "100%", overflow: "hidden", margin: "30px" }}>
+      <Paper className="paper">
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -74,7 +72,6 @@ export default function UserTable() {
                 {columns.map((column) => (
                   <TableCell
                     className="textfiealdstyle"
-                    style={{ background: "#214758", color: "#fff" }}
                   >
                     {column.label}
                   </TableCell>
@@ -82,7 +79,9 @@ export default function UserTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {[...rowsData]?.map((column: any) => (
+            {[...rowsData]
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((column: any) => (
                 <TableRow hover role="checkbox">
                   <TableCell key={"Email"}>{column.email}</TableCell>{" "}
                   <TableCell key={"Password"}>{column.password}</TableCell>

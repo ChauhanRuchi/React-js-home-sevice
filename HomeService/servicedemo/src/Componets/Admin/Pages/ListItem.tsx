@@ -12,7 +12,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import { NavLink } from "react-router-dom";
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import BookOnlineIcon from '@mui/icons-material/BookOnline';
-import "../../../styles/demo.css"
+import "../../../styles/style.css"
 export const mainListItems = (
   <React.Fragment>
       <NavLink to="./User" className="tab">
@@ -51,8 +51,6 @@ export const mainListItems = (
       <ListItemText primary="Booking" />
     </ListItemButton>
         </NavLink>
-        
-
         <NavLink to="./City" className="tab">
     <ListItemButton>
       <ListItemIcon>

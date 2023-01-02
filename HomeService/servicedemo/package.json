@@ -33,6 +33,7 @@
     "nodemailer": "^6.7.8",
     "razorpay": "^2.8.3",
     "react": "^18.2.0",
+    "react-card-slider-component": "^1.0.9",
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
@@ -54,12 +55,24 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
   },
   "browserslist": {
@@ -75,7 +88,24 @@
     ]
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^6.5.15",
+    "@storybook/addon-essentials": "^6.5.15",
+    "@storybook/addon-interactions": "^6.5.15",
+    "@storybook/addon-links": "^6.5.15",
+    "@storybook/builder-webpack5": "^6.5.15",
+    "@storybook/manager-webpack5": "^6.5.15",
+    "@storybook/node-logger": "^6.5.15",
+    "@storybook/preset-create-react-app": "^4.1.2",
+    "@storybook/react": "^6.5.15",
+    "@storybook/testing-library": "^0.0.13",
     "@types/react-datepicker": "^4.4.2",
-    "redux-devtools-extension": "^2.13.9"
-  }
+    "babel-plugin-named-exports-order": "^0.0.2",
+    "prop-types": "^15.8.1",
+    "redux-devtools-extension": "^2.13.9",
+    "webpack": "^5.75.0"
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }

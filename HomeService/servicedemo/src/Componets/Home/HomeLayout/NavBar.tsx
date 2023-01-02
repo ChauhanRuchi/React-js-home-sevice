@@ -9,23 +9,21 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import { clearState } from "../../../store/authSlice";
-import { useSelector, useDispatch } from "react-redux";
-import { isNullOrUndefined } from "util";
+import { useAppdispatch } from "../../../hooks";
 import MiscellaneousServicesIcon from "@mui/icons-material/MiscellaneousServices";
 import { Token } from "@mui/icons-material";
 
-const pages = ["HOME", "SERVICE", "CONTACT", "LOGIN"];
+const pages = ["HOME", "SERVICE",  "LOGIN"];
 const settings = ["Profile", "Logout"];
 
 const ResponsiveAppBar = () => {
   let navigate = useNavigate();
-  const dispatch = useDispatch<any>();
+  const dispatch =useAppdispatch();
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
@@ -106,7 +104,6 @@ const ResponsiveAppBar = () => {
               mr: 1,
             }}
           />
-          {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
           <Typography
             variant="h6"
             noWrap
@@ -161,7 +158,6 @@ const ResponsiveAppBar = () => {
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
                     <Button
                       onClick={(x) => {
-                        console.log("tab...", page);
                         if (page == "HOME") {
                           return navigate("/");
                         } else if (page == "LOGIN") {
@@ -183,9 +179,7 @@ const ResponsiveAppBar = () => {
                           } else {
                             return navigate("/SubServiceAll");
                           }
-                        } else if (page == "CONTACT") {
-                          navigate("/contact");
-                        }
+                        } 
                       }}
                     >
                       {page}
@@ -244,9 +238,7 @@ const ResponsiveAppBar = () => {
                       } else {
                         return navigate("/SubServiceAll");
                       }
-                    } else if (page == "CONTACT") {
-                      navigate("/contact");
-                    }
+                    } 
                   }}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >

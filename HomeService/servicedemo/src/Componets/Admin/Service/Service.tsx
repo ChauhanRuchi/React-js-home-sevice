@@ -2,19 +2,15 @@ import * as React from "react";
 import MainService from "./MainService";
 import MainServiceTable from "./MainServiceTable";
 import Alert from "@mui/material/Alert";
-import MainServiceFillter from "./MainServiceFillter";
-import { useSelector, useDispatch } from "react-redux";
-import FillterSidePanel from "./FillterSidePanel";
+import { useAppselector } from "../../../hooks";
 
 export default function ServiceCreate() {
-  const state = useSelector((state: any) => state?.category);
+  const state = useAppselector((state) => state?.category);
 
   return (
     <>
       <MainService />
-      <MainServiceFillter />
       <div style={{ display: "flex", width: "100%" }}>
-        {/* <FillterSidePanel/> */}
         <MainServiceTable />
       </div>
 

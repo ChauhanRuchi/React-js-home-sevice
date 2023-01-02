@@ -8,11 +8,11 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {
   getsubcategoryall,
-  deletesubcategory,
+  deleteSubcategory,
   cleardeletesubcategoryState,
 } from "../../../store/categorySlice";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppdispatch, useAppselector } from "../../../hooks";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -29,16 +29,18 @@ export default function SubServiceDelete(Props: any) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const dispatch = useDispatch<any>();
-  const servicestate = useSelector((state: any) => state.category);
+  const dispatch =useAppdispatch();
+  const servicestate = useAppselector((state) => state.category);
 
-  function setdele(id: any) {
-    dispatch(deletesubcategory(id));
-    dispatch(getsubcategoryall());
-  }
   useEffect(() => {
     dispatch(cleardeletesubcategoryState());
   }, [servicestate?.deletesubCategory?.delete]);
+  
+  function setdele(id: any) {
+    dispatch(deleteSubcategory(id));
+    dispatch(getsubcategoryall());
+  }
+
   return (
     <div>
       <IconButton>
@@ -61,18 +63,14 @@ export default function SubServiceDelete(Props: any) {
             Are you sure delete?
           </Typography>
           <div
-            style={{
-              display: "flex",
-              margin: "20px",
-              justifyContent: "space-around",
-            }}
+            className="divdelete"
           >
             <CloseIcon
-              style={{ background: "red", width: "33%", height: "30px" }}
+              className="closeicon"
               onClick={handleClose}
             />
             <CheckIcon
-              style={{ background: "#008000", width: "33%", height: "30px" }}
+              className="checkicon"
               onClick={() => {
                 return (
                   <>

@@ -1,40 +1,42 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import "../styles/demo.css";
+import "../styles/style.css";
 import MediaCard from "./Home/HomeLayout/Card";
-import { Margin } from "@mui/icons-material";
 import { getcategory } from "../store/categorySlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppdispatch, useAppselector } from "../hooks";
 import { useEffect } from "react";
 import Stack from "@mui/material/Stack";
-import { Container, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 
 const Home = () => {
-  const dispatch = useDispatch<any>();
-  const state1 = useSelector((state: any) => state.category);
-  let arr = state1?.getcategoryData;
-
+  const dispatch = useAppdispatch();
+  const categorystate = useAppselector((state) => state.category);
+  let arr = categorystate?.getcategoryData;
   useEffect(() => {
     dispatch(getcategory());
   }, []);
   return (
     <div>
-      <Stack spacing={3}>
+      <Stack spacing={1}>
         <Box>
-          <Typography variant="h5" className="Title">
+          <Typography variant="h6" className="Title">
             We are Provide On-Demand Home Services
           </Typography>
         </Box>
-        <Box sx={{ width: "100%" }}>
-          <Typography variant="h5" className="Heading">
+        <Box>
+          <Typography variant="h6" className="Heading">
             On-Demand Home Service Provide Business Listing, Booking Online All
             About Service in Below Need
           </Typography>
         </Box>
       </Stack>
 
-      <Grid container spacing={2}>
+      <Grid
+        container
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}
+      >
         {arr?.map(function (item: any) {
           return (
             <MediaCard

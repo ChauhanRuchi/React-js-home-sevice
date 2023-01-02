@@ -10,14 +10,14 @@ import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useFormik } from "formik";
 import {
-  editsubcategory,
+  editSubcategory,
   cleareditsubcategoryState,
 } from "../../../store/categorySlice";
 import { IconButton } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import * as Yup from "yup";
 import CloseIcon from "@mui/icons-material/Close";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppdispatch, useAppselector } from "../../../hooks";
 import { __String } from "typescript";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 
@@ -39,12 +39,20 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 export default function MainServiceEdit(Props: any) {
-  const state = useSelector((state: any) => state.category);
+  const state = useAppselector((state) => state.category);
 
   var formData = new FormData();
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppdispatch();
   const [open, setOpen] = React.useState(false);
   const [link, setlink] = React.useState("");
+
+  React.useEffect(() => {
+    if (state?.editsubCategory?.edit == true) setOpen(false);
+    setTimeout(() => {
+      dispatch(cleareditsubcategoryState());
+    }, 1800);
+  }, [state?.editsubCategory?.edit]);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -74,15 +82,9 @@ export default function MainServiceEdit(Props: any) {
       }
       const data = { user: formData, id: Props?.id };
 
-      dispatch(editsubcategory(data));
+      dispatch(editSubcategory(data));
     },
   });
-  React.useEffect(() => {
-    if (state?.editsubCategory?.edit == true) setOpen(false);
-    setTimeout(() => {
-      dispatch(cleareditsubcategoryState());
-    }, 1800);
-  }, [state?.editsubCategory?.edit]);
 
   return (
     <div>
@@ -95,7 +97,7 @@ export default function MainServiceEdit(Props: any) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div className="diviconwithtitle">
             <Typography variant="h6">Edit Service</Typography>
             <CloseIcon style={{ color: "red" }} onClick={() => handleClose()} />
           </div>
@@ -122,8 +124,8 @@ export default function MainServiceEdit(Props: any) {
               error={!!formik.errors.Decription}
               helperText={formik?.errors?.Decription as string}
             />{" "}
-            <div style={{ display: "flex", justifyContent: "space-around" }}>
-              <Stack style={{ width: "50%", margin: "10px" }}>
+            <div className="divuploadbutton">
+              <Stack className="stack">
                 <Button
                   variant="contained"
                   component="label"
@@ -152,7 +154,7 @@ export default function MainServiceEdit(Props: any) {
               <Button
                 type="submit"
                 variant="contained"
-                style={{ width: "50%", margin: "10px", background: "#214758" }}
+               className="submitbutton"
               >
                 Submit
               </Button>

@@ -9,11 +9,8 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { getbookingdata } from "../../../store/bookingSlice";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import MainServiceEdit from "../Service/MainServiceEdit";
-import "../../../styles/demo.css";
+import {useAppdispatch,useAppselector} from "../../../hooks"
+import "../../../styles/style.css";
 
 interface Column {
   id:
@@ -51,18 +48,21 @@ const columns: readonly Column[] = [
   { id: "Status", label: "STATUS" },
 ];
 
-interface Data {
-  EMAIL: string;
-  PASSWORD: string;
-  CONTACTNUMBER: string;
-}
-
 export default function BookingTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsData, setRowsData] = React.useState([]);
-  const dispatch = useDispatch<any>();
-  const statebookingdata = useSelector((state: any) => state.booking);
+  const dispatch = useAppdispatch();
+  const statebookingdata = useAppselector((state) => state.booking);
+   useEffect(() => {
+    dispatch(getbookingdata());
+  }, []);
+
+  useEffect(() => {
+    if (statebookingdata?.getbookingData) {
+      setRowsData(statebookingdata.getbookingData);
+    }
+  }, [statebookingdata]);
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -73,33 +73,20 @@ export default function BookingTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-  useEffect(() => {
-    dispatch(getbookingdata());
-  }, []);
 
-  useEffect(() => {
-    if (statebookingdata?.getbookingData) {
-      setRowsData(statebookingdata.getbookingData);
-    }
-  }, [statebookingdata]);
   return (
     <>
       <Paper
-        sx={{
-          width: "70%",
-          overflow: "hidden",
-          margin: "30px",
-          justifyContent: "center",
-        }}
+        className="paperbookingtable"
       >
-        <TableContainer sx={{ maxHeight: 440 }}>
+        <TableContainer >
           <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow style={{ background: "#214758" }}>
+            <TableHead role="tablehead">
+              <TableRow className="tablerow" role="tablerow">
                 {columns.map((column) => (
                   <TableCell
                     className="textfiealdstyle"
-                    style={{ background: "#214758", color: "#fff" }}
+                    role="tablecell"
                   >
                     {column.label}
                   </TableCell>
@@ -110,7 +97,7 @@ export default function BookingTable() {
               {[...rowsData]
                 ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((column: any) => (
-                  <TableRow hover role="checkbox">
+                  <TableRow hover role="row">
                     <TableCell key={"UserName"}>{column.name}</TableCell>{" "}
                     <TableCell key={"ContactNumber"}>
                       {column.contactnumber}
@@ -121,7 +108,7 @@ export default function BookingTable() {
                     <TableCell key={"DeliveryAddress"}>
                       {column.deliveryadress}
                     </TableCell>
-                    <TableCell key={"Date"}>{column.date}</TableCell>{" "}
+                    <TableCell  key={"Date"}>{column.date}</TableCell >{" "}
                     <TableCell key={"Time"}>{column.time}</TableCell>
                     <TableCell key={"Pincode"}>{column.city}</TableCell>{" "}
                     <TableCell key={"ServiceName"}>

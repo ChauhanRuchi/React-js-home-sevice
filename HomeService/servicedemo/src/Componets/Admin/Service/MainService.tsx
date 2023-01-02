@@ -15,7 +15,7 @@ import {
 } from "../../../store/categorySlice";
 import CloseIcon from "@mui/icons-material/Close";
 import * as Yup from "yup";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppdispatch, useAppselector } from "../../../hooks";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import LoadingButton from "@mui/lab/LoadingButton";
 
@@ -37,22 +37,31 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 export default function MainService() {
-  const state = useSelector((state: any) => state.category);
+  const state = useAppselector((state) => state.category);
   const [loading, setLoading] = React.useState(false);
   function handleClick() {
     setLoading(true);
   }
   var formData = new FormData();
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppdispatch();
   const [open, setOpen] = React.useState(false);
   const [link, setlink] = React.useState("");
+
+  React.useEffect(() => {
+    if (state?.createCategory?.data === true) {
+      handleClose();
+
+      setTimeout(() => {
+        dispatch(clearcategoryState());
+      }, 2000);
+    }
+  }, [state?.createCategory?.data]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const ValidationSchema = Yup.object().shape({
     Service: Yup.string().required("Required"),
     Decription: Yup.string().required("Required"),
   });
-
   const formik = useFormik({
     validationSchema: ValidationSchema,
     initialValues: {
@@ -78,21 +87,10 @@ export default function MainService() {
       dispatch(createcategory(formData));
     },
   });
-
-  React.useEffect(() => {
-    if (state?.createCategory?.data === true) {
-      handleClose();
-
-      setTimeout(() => {
-        dispatch(clearcategoryState());
-      }, 2000);
-    }
-  }, [state?.createCategory?.data]);
-
   return (
     <>
       <div
-        style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
+        className="addbutton"
       >
         <Button
           onClick={handleOpen}
@@ -109,17 +107,13 @@ export default function MainService() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div className="diviconwithtitle">
             <Typography variant="h6">Add Service</Typography>
             <CloseIcon style={{ color: "red" }} onClick={() => handleClose()} />
           </div>
           <form onSubmit={formik.handleSubmit}>
             <div
-              style={{
-                justifyContent: "center",
-                width: "100%",
-                textAlign: "center",
-              }}
+              className="divsubmit"
             >
               <TextField
                 id="Service"
@@ -144,8 +138,8 @@ export default function MainService() {
                 error={!!formik.errors.Decription}
                 helperText={formik.errors.Decription}
               />{" "}
-              <div style={{ display: "flex", justifyContent: "space-around" }}>
-                <Stack style={{ width: "50%", margin: "10px" }}>
+              <div className="divuploadbutton">
+                <Stack className="stack">
                   <Button
                     variant="contained"
                     component="label"
@@ -160,7 +154,6 @@ export default function MainService() {
                       type="file"
                       name="image"
                       value={link}
-                      // onChange={formik.handleChange}
                       onChange={(event?: any) => {
                         formik.setFieldValue(
                           "file",
@@ -171,17 +164,13 @@ export default function MainService() {
                     ></input>
                   </Button>
                 </Stack>
-                <LoadingButton
+                <Button
                   type="submit"
                   variant="contained"
-                  style={{
-                    width: "50%",
-                    margin: "10px",
-                    background: "#214758",
-                  }}
+                  className="submitbutton"
                 >
                   Submit
-                </LoadingButton>
+                </Button>
               </div>
             </div>
           </form>

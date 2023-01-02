@@ -8,15 +8,13 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { useAppdispatch, useAppselector } from "../../../hooks";
 import SubServiceEdit from "../Service/SubServiceEdit";
 import { AnyAaaaRecord } from "dns";
-import "../../../styles/demo.css";
+import "../../../styles/style.css";
 import SubServiceDelete from "../Service/SubServiceDelete";
 import {
-  deletesubcategory,
+  deleteSubcategory,
   getsubcategoryall,
 } from "../../../store/categorySlice";
 
@@ -53,19 +51,9 @@ export default function StickyHeadTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [rowsData, setRowsData] = React.useState([]);
-  const dispatch = useDispatch<any>();
-  const servicestate = useSelector((state: any) => state.category);
+  const dispatch = useAppdispatch();
+  const servicestate = useAppselector((state) => state.category);
 
-  const handleChangePage = (event: unknown, newPage: number) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
   useEffect(() => {
     dispatch(getsubcategoryall());
   }, [
@@ -80,22 +68,35 @@ export default function StickyHeadTable() {
     }
   }, [servicestate]);
 
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <>
-      <Paper sx={{ width: "100%", overflow: "hidden", margin: "30px" }}>
+      <Paper className="paper">
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
-              <TableRow style={{ background: "#214758" }}>
+              <TableRow className="tablerow">
                 {columns.map((column) => (
-                  <TableCell style={{ background: "#214758", color: "#fff" }}>
+                  <TableCell className="textfiealdstyle">
                     {column.label}
                   </TableCell>
                 ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {rowsData.map((column: any, mainindex: any) => (
+             {[...rowsData]
+                ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((column: any) => (
                 <TableRow hover role="checkbox">
                   <TableCell key={"MainService"}>
                     {column.mainservice}
@@ -116,23 +117,17 @@ export default function StickyHeadTable() {
                   </TableCell>
                   <TableCell key={"Delete"}>
                     {
-                      // <IconButton>
-                      //   <DeleteIcon
-                      //     onClick={() => {
-                      //       setdele(column?._id);
-                      //     }}
-                      //   />
-                      // </IconButton>
                       <SubServiceDelete id={column?._id} />
                     }
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
+           
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[10, 5, 100]}
           component="div"
           count={rowsData.length}
           rowsPerPage={rowsPerPage}

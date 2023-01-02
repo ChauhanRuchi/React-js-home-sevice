@@ -7,32 +7,18 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { changepassword, clearpasswordState } from "../../../store/adminSlice";
-
-import { useState } from "react";
 import { useEffect } from "react";
-import "../../../styles/demo.css";
-import { useSelector, useDispatch } from "react-redux";
+import "../../../styles/style.css";
+import { useAppdispatch, useAppselector } from "../../../hooks";
 import * as Yup from "yup";
 import {
   useFormik,
-  FormikErrors,
-  FormikProps,
-  FormikValues,
-  validateYupSchema,
-  Form,
 } from "formik";
-
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  ></Box>
-);
 
 export default function ChangePassword() {
   var formData = new FormData();
-  const statepassword = useSelector((state: any) => state.admin);
-  const dispatch = useDispatch<any>();
+  const statepassword = useAppselector((state) => state.admin);
+  const dispatch = useAppdispatch();
 
   const ValidationSchema = Yup.object().shape({
     passwordinput: Yup.string().required("Required"),
@@ -62,7 +48,6 @@ export default function ChangePassword() {
       dispatch(changepassword(formData));
     },
   });
-  console.log("errors", formik.errors);
 
   useEffect(() => {
     if (statepassword?.changepassword === true) {

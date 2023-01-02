@@ -3,7 +3,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
-import "../../../styles/demo.css";
+import "../../../styles/style.css";
 import { useState, useEffect } from "react";
 import { Dayjs } from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -27,11 +27,10 @@ import {
   clearState,
 } from "../../../store/bookingSlice";
 import { getsubcategorybyid } from "../../../store/categorySlice";
-import { useSelector, useDispatch } from "react-redux";
-import { NestCamWiredStandTwoTone } from "@mui/icons-material";
+import { useAppdispatch,useAppselector} from "../../../hooks";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import "../../../styles/demo.css";
+import "../../../styles/style.css";
 import Payment from "../Payment/payment";
 import axios from "axios";
 import { response } from "express";
@@ -40,7 +39,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Box from "@mui/material/Box";
 import { createIntersectionTypeNode } from "typescript";
-import moment from "moment";
 
 declare global {
   interface Window {
@@ -49,29 +47,25 @@ declare global {
 }
 
 const Booking = () => {
-  let arrtime: any = [];
-  const [name, setname] = useState("");
-  const [number, setnumber] = useState("");
-  const [billingaddress, setbillingaddress] = useState("");
-  const [address, setaddress] = useState("");
+  let arrtime: string[] = [];
   const [city, setcity] = useState("");
-  const statecity = useSelector((state: any) => state.booking.getcityName);
-  const statetime = useSelector((state: any) => state.booking.getTime);
-  const statebook = useSelector((state: any) => state.booking.createBooking);
-  const stategetbook = useSelector(
-    (state: any) => state.booking.getbookingData
+  const statecity = useAppselector((state) => state.booking.getcityName);
+  const statetime = useAppselector((state) => state.booking.getTime);
+  const statebook = useAppselector((state) => state.booking.createBooking);
+  const stategetbook = useAppselector(
+    (state) => state.booking.getbookingData
   );
-  const statepayment = useSelector(
-    (state: any) => state?.booking?.createBooking?.create
+  const statepayment = useAppselector(
+    (state) => state?.booking?.createBooking?.create
   );
 
-  const stateservice = useSelector(
-    (state: any) => state.category.getsubcategorybyId
+  const stateservice = useAppselector(
+    (state) => state.category.getsubcategorybyId
   );
 
   let { id } = useParams();
 
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppdispatch();
   let navigate = useNavigate();
   const today = new Date();
   const tomorrow = new Date(today);
@@ -86,6 +80,19 @@ const Booking = () => {
   const [tomorrowdate, settomorrowdate] = useState(false);
 
   const [datevalue, setValue] = useState<any>(null);
+   useEffect(() => {
+    dispatch(getcityname());
+    dispatch(gettime());
+    dispatch(getbookingdata());
+    dispatch(getsubcategorybyid({ _id: id }));
+  }, []);
+
+  useEffect(() => {
+    if (statepayment == true) {
+      stateservice?.map((item: any) => handlepayment(item?.charge));
+      dispatch(clearState());
+    }
+  }, [statepayment]);
 
   const handleChangeCity = (event: SelectChangeEvent) => {
     formik.setFieldValue("City", event.target.value);
@@ -95,21 +102,7 @@ const Booking = () => {
     formik.setFieldValue("Time", event.target.value);
     settime(event.target.value as string);
   };
-  useEffect(() => {
-    dispatch(getcityname());
-    dispatch(gettime());
-    dispatch(getbookingdata());
-    dispatch(getsubcategorybyid({ _id: id }));
-  }, []);
-
-  useEffect(() => {
-    debugger;
-    if (statepayment == true) {
-      stateservice?.map((item: any) => handlepayment(item?.charge));
-      dispatch(clearState());
-    }
-  }, [statepayment]);
-
+ 
   const ValidationSchema = Yup.object().shape({
     Name: Yup.string().required("Required"),
     ContactNumber: Yup.string().required("Required"),
@@ -139,7 +132,7 @@ const Booking = () => {
       );
       formData.append("status", "Padding");
       formData.append("name", values?.Name);
-      formData.append("number", values?.Number);
+      formData.append("number", values?.ContactNumber);
       formData.append("billingaddress", values?.BillingAddress);
       formData.append("deliveryadress", values?.DeliveryAddress);
       formData.append(
@@ -157,7 +150,7 @@ const Booking = () => {
   });
 
   stategetbook?.map((value: any) => {
-    return arrtime.push(value.time + value.date);
+    return arrtime.push(value.time);
   });
 
   const handlepayment = async (charge: any) => {
@@ -200,12 +193,9 @@ const Booking = () => {
 
       <Box width="100%" sx={{ textAlign: "-webkit-center" }}>
         <Box
-          maxWidth="40%"
-          justifyContent="center"
-          alignItems="center"
-          margin="10px"
+          className="box"
         >
-          <Card variant="outlined" style={{ width: "100%", padding: "20px" }}>
+          <Card variant="outlined" className="divcard">
             {
               <form onSubmit={formik.handleSubmit}>
                 <div>
@@ -351,6 +341,7 @@ const Booking = () => {
                         settomorrowdate(true);
                         setcurrdate(false);
                       }}
+                      
                     >
                       Tommorow
                     </Button>
@@ -366,7 +357,7 @@ const Booking = () => {
                         <DatePicker
                           className="date"
                           minDate={new Date().toISOString()}
-                          maxDate="12/31/2022"
+                          maxDate="12/31/2023"
                           label="select your delivery date"
                           value={
                             currdate
@@ -425,18 +416,12 @@ const Booking = () => {
                     </Grid>
                   </Grid>
                   <div
-                    style={{
-                      display: "flex",
-                      margin: "30px",
-                      justifyContent: "center",
-                      flexDirection: "row",
-                    }}
-                    className="Processed Payment"
+                    className="divpayment"
                   >
                     <Button
                       variant="contained"
                       type="submit"
-                      style={{ background: "#214758" }}
+                      className="buttonpayment"
                     >
                       Procced Payment
                     </Button>

@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AnyARecord } from "dns";
+import {category,subcategory, editcategory,editsubcategory,deletecategory,deletesubcategory, getcategorybyId} from "../Types/categoryslice.type"
 
 let setserviceurl = process.env.REACT_APP_URl_SETSERVICE || "";
 let setsubserviceurl = process.env.REACT_APP_URl_SETSUBSERVICE || "";
@@ -81,7 +81,7 @@ export const getsubcategoryall = createAsyncThunk(
     }
   }
 );
-export const editcategory = createAsyncThunk(
+export const editCategory = createAsyncThunk(
   "editcategory",
   async (data: { user: FormData; id: any }) => {
     try {
@@ -102,7 +102,7 @@ export const editcategory = createAsyncThunk(
     }
   }
 );
-export const editsubcategory = createAsyncThunk(
+export const editSubcategory = createAsyncThunk(
   "editsubcategory",
   async (data: { user: FormData; id: any }) => {
     try {
@@ -123,7 +123,7 @@ export const editsubcategory = createAsyncThunk(
     }
   }
 );
-export const deletecategory = createAsyncThunk(
+export const deleteCategory = createAsyncThunk(
   "deletecategory",
   async (id: any) => {
     try {
@@ -140,7 +140,7 @@ export const deletecategory = createAsyncThunk(
     }
   }
 );
-export const deletesubcategory = createAsyncThunk(
+export const deleteSubcategory = createAsyncThunk(
   "deletesubcategory",
   async (id: any) => {
     try {
@@ -181,24 +181,25 @@ export const getsubcategorybyid = createAsyncThunk(
     }
   }
 );
+const initialState:{createCategory:category[],loading:boolean,getcategoryData:category[],createsubCategory:subcategory[],
+getsubCategory:subcategory[],getsubCategoryAll:subcategory[],editCategory:editcategory,editsubCategory:editcategory,deleteCategory:deletecategory,deletesubCategory:deletesubcategory,getcategorybyId:getcategorybyId,getsubcategorybyId:subcategory[]}={
+    loading: false as boolean,
+    getcategoryData: []as category[],
+    createCategory: []as category[],
+    createsubCategory: [] ,
+    getsubCategory: [],
+    getsubCategoryAll: [],
+    editCategory: {}as editcategory,
+    editsubCategory: {} as editsubcategory,
+    deleteCategory: {}as deletecategory,
+    deletesubCategory: {}as deletesubcategory,
+    getcategorybyId: {} as getcategorybyId,
+    getsubcategorybyId: []as subcategory[],
+}
 
 const categorySlice = createSlice({
   name: "category",
-  initialState: {
-    loading: false,
-    getcategoryData: [],
-    createCategory: [],
-    createsubCategory: [],
-    getsubCategory: [],
-    getsubCategoryAll: [],
-    editCategory: [],
-    editsubCategory: [],
-    deleteCategory: [],
-    deletesubCategory: [],
-    getcategorybyId: [],
-    getsubcategorybyId: [],
-    error: "",
-  },
+  initialState,
   reducers: {
     clearsubcategoryState: (state: any) => {
       state.createsubCategory = [];
@@ -220,7 +221,7 @@ const categorySlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getcategory.fulfilled, (state: any, action: any) => {
+    builder.addCase(getcategory.fulfilled, (state: any, action: PayloadAction<category[]>) => {
       state.getcategoryData = action.payload;
       state.loading = false;
     });
@@ -232,7 +233,7 @@ const categorySlice = createSlice({
       state.getcategoryData = action.payload;
       state.loading = false;
     });
-    builder.addCase(createcategory.fulfilled, (state: any, action: any) => {
+    builder.addCase(createcategory.fulfilled, (state: any, action: PayloadAction<category[]>) => {
       state.createCategory = action.payload;
       state.loading = false;
     });
@@ -244,7 +245,7 @@ const categorySlice = createSlice({
       state.createCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(createsubcategory.fulfilled, (state: any, action: any) => {
+    builder.addCase(createsubcategory.fulfilled, (state: any, action: PayloadAction<subcategory[]>) => {
       state.createsubCategory = action.payload;
       state.loading = false;
     });
@@ -256,7 +257,7 @@ const categorySlice = createSlice({
       state.createsubCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(getsubcategory.fulfilled, (state: any, action: any) => {
+    builder.addCase(getsubcategory.fulfilled, (state: any, action: PayloadAction<subcategory[]>) => {
       state.getsubCategory = action.payload;
       state.loading = false;
     });
@@ -268,7 +269,7 @@ const categorySlice = createSlice({
       state.getsubCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(getsubcategoryall.fulfilled, (state: any, action: any) => {
+    builder.addCase(getsubcategoryall.fulfilled, (state: any, action: PayloadAction<subcategory[]>) => {
       state.getsubCategoryAll = action.payload;
       state.loading = false;
     });
@@ -280,55 +281,55 @@ const categorySlice = createSlice({
       state.getsubCategoryAll = action.payload;
       state.loading = false;
     });
-    builder.addCase(editcategory.fulfilled, (state: any, action: any) => {
+    builder.addCase(editCategory.fulfilled, (state: any, action: PayloadAction<editcategory>) => {
       state.editCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(editcategory.rejected, (state: any, action: any) => {
+    builder.addCase(editCategory.rejected, (state: any, action: any) => {
       state.editCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(editcategory.pending, (state: any, action: any) => {
+    builder.addCase(editCategory.pending, (state: any, action: any) => {
       state.editCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(editsubcategory.fulfilled, (state: any, action: any) => {
+    builder.addCase(editSubcategory.fulfilled, (state: any, action: PayloadAction<editsubcategory>) => {
       state.editsubCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(editsubcategory.rejected, (state: any, action: any) => {
+    builder.addCase(editSubcategory.rejected, (state: any, action: any) => {
       state.editsubCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(editsubcategory.pending, (state: any, action: any) => {
+    builder.addCase(editSubcategory.pending, (state: any, action: any) => {
       state.editsubCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(deletecategory.fulfilled, (state: any, action: any) => {
+    builder.addCase(deleteCategory.fulfilled, (state: any, action: PayloadAction<deletecategory>) => {
       state.deleteCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(deletecategory.rejected, (state: any, action: any) => {
+    builder.addCase(deleteCategory.rejected, (state: any, action: any) => {
       state.deleteCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(deletecategory.pending, (state: any, action: any) => {
+    builder.addCase(deleteCategory.pending, (state: any, action: any) => {
       state.deleteCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(deletesubcategory.fulfilled, (state: any, action: any) => {
+    builder.addCase(deleteSubcategory.fulfilled, (state: any, action: PayloadAction<deletesubcategory>) => {
       state.deletesubCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(deletesubcategory.rejected, (state: any, action: any) => {
+    builder.addCase(deleteSubcategory.rejected, (state: any, action: any) => {
       state.deletesubCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(deletesubcategory.pending, (state: any, action: any) => {
+    builder.addCase(deleteSubcategory.pending, (state: any, action: any) => {
       state.deletesubCategory = action.payload;
       state.loading = false;
     });
-    builder.addCase(getcategorybyid.fulfilled, (state: any, action: any) => {
+    builder.addCase(getcategorybyid.fulfilled, (state: any, action: PayloadAction<getcategorybyId>) => {
       state.getcategorybyId = action.payload;
       state.loading = false;
     });
@@ -340,7 +341,7 @@ const categorySlice = createSlice({
       state.getcategorybyId = action.payload;
       state.loading = false;
     });
-    builder.addCase(getsubcategorybyid.fulfilled, (state: any, action: any) => {
+    builder.addCase(getsubcategorybyid.fulfilled, (state: any, action: PayloadAction<subcategory[]>) => {
       state.getsubcategorybyId = action.payload;
       state.loading = false;
     });

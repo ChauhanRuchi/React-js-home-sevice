@@ -7,8 +7,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { useSelector, useDispatch } from "react-redux";
-// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { useAppdispatch, useAppselector } from "../hooks";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -18,29 +17,11 @@ import { useState } from "react";
 import Stack from "@mui/material/Stack";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
-import "../styles/demo.css";
+import "../styles/style.css";
 //tab selection
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { BorderColor } from "@mui/icons-material";
-
-function Copyright(props: any) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { Bool } from "reselect/es/types";
 
 const theme = createTheme();
 
@@ -48,10 +29,9 @@ export default function Login() {
   localStorage.removeItem("Token");
 
   let navigate = useNavigate();
-  const userstate = useSelector((state: any) => state.userdata?.userData);
-  const adminstate = useSelector((state: any) => state?.admin?.adminData);
+  const userstate = useAppselector((state) => state.userdata?.userData);
+  const adminstate = useAppselector((state) => state?.admin?.adminData);
 
-  console.log("adminstate", adminstate);
   React.useEffect(() => {
     if (adminstate?.login == true) {
       navigate("/admin/Dashboard");
@@ -70,12 +50,12 @@ export default function Login() {
   const [currentemail, setemail] = useState("");
   const [currentpass, setpass] = useState("");
   // Tab Changed
-  const [userType, setUserType] = React.useState("User");
+  const [userType, setUserType] = React.useState<string>("User");
   const [tabIndex, setTabIndex] = React.useState<Number>(0);
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppdispatch();
 
-  const [showalert, setShowAlert] = useState(false);
-  const [showalert1, setShowAlert1] = useState(false);
+  const [showalertuser, setShowAlertUser] = useState(false);
+  const [, setShowAlert] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -92,7 +72,7 @@ export default function Login() {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
-  const handleChangeUserType = (event: any, newTabIndex: Number) => {
+  const handleChangeUserType = (_: any, newTabIndex: Number) => {
     if (newTabIndex === 0) {
       setUserType("User");
     }
@@ -114,7 +94,7 @@ export default function Login() {
       fontSize: 15,
     },
   };
-  let getStyle = (isActive: any) => {
+  let getStyle = (isActive: Boolean) => {
     return isActive ? tabStyle.active_tab : tabStyle.default_tab;
   };
   let data = {
@@ -157,10 +137,8 @@ export default function Login() {
             }
           </div>
 
-          <Avatar sx={{ m: 1, bgcolor: "#214758" }}>
-            {/* <LockOutlinedIcon /> */}
-          </Avatar>
-          <Typography component="h1" variant="h5" style={{ color: "#214758" }}>
+          <Avatar sx={{ m: 1, bgcolor: "#214758" }}></Avatar>
+          <Typography component="h1" variant="h5" className="UserType">
             {userType} Sign in
           </Typography>
           <Box
@@ -182,7 +160,9 @@ export default function Login() {
               autoComplete="email"
               autoFocus
               value={currentemail}
-              onChange={(e: any) => setemail(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setemail(e.target.value)
+              }
               // className="cm-input input.mui-focused "
             />
             <TextField
@@ -198,7 +178,9 @@ export default function Login() {
               }}
               autoComplete="current-password"
               value={currentpass}
-              onChange={(e: any) => setpass(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setpass(e.target.value)
+              }
             />
             <FormControlLabel
               style={{
@@ -214,7 +196,7 @@ export default function Login() {
               }
               label="Remember me"
             />
-            {showalert && (userstate?.mes || adminstate?.mes) && (
+            {showalertuser && (userstate?.mes || adminstate?.mes) && (
               <Stack spacing={0} sx={{ width: "100%" }}>
                 <Alert
                   severity="error"
@@ -231,14 +213,10 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              style={{
-                marginTop: "20px",
-                marginBottom: "8px",
-                background: "#214758",
-              }}
+              className="signinbutton"
               onClick={() => {
+                setShowAlertUser(true);
                 setShowAlert(true);
-                setShowAlert1(true);
 
                 if (userType == "User")
                   dispatch(
@@ -255,28 +233,15 @@ export default function Login() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item xs>
-                {/* <Link
-                  href="#/"
-                  variant="body2"
-                  style={{ textDecorationColor: "#214758", color: "#214758" }}
-                >
-                  Forgot password?
-                </Link> */}
-              </Grid>
+              <Grid item xs></Grid>
               <Grid item style={{ marginBottom: "15px" }}>
-                <Link
-                  href="/Register"
-                  variant="body2"
-                  style={{ textDecorationColor: "#214758", color: "#214758" }}
-                >
+                <Link href="/Register" variant="body2" className="signuplink">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
     </ThemeProvider>
   );

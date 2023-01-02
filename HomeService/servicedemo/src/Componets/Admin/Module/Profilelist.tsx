@@ -7,11 +7,11 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { useNavigate } from "react-router-dom";
 import { clearState } from "../../../store/adminSlice";
-import { useSelector, useDispatch } from "react-redux";
+import {useAppdispatch} from "../../../hooks"
 
 export default function MenuAppBar() {
   let navigate = useNavigate();
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppdispatch();
 
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

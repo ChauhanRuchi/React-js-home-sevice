@@ -4,7 +4,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { TextField } from "@mui/material";
@@ -14,10 +13,10 @@ import { useFormik } from "formik";
 import { clearcityState, setcitydata } from "../../../store/bookingSlice";
 import CloseIcon from "@mui/icons-material/Close";
 import * as Yup from "yup";
-import { useSelector, useDispatch } from "react-redux";
+import {useAppdispatch,useAppselector} from "../../../hooks"
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { textAlign } from "@mui/system";
+import "../../../styles/style.css"
 
 const style = {
   position: "absolute" as "absolute",
@@ -37,15 +36,22 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 export default function CityData() {
-  const state = useSelector((state: any) => state.booking);
-  const [loading, setLoading] = React.useState(false);
-  function handleClick() {
-    setLoading(true);
-  }
+  const bookingstate = useAppselector((state) => state.booking);
+
   var formData = new FormData();
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppdispatch();
   const [open, setOpen] = React.useState(false);
-  const [link, setlink] = React.useState("");
+
+  React.useEffect(() => {
+    if (bookingstate?.setcityData?.create === true) {
+      handleClose();
+
+      setTimeout(() => {
+        dispatch(clearcityState());
+      }, 2000);
+    }
+  }, [bookingstate?.setcityData]);
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const ValidationSchema = Yup.object().shape({
@@ -76,20 +82,10 @@ export default function CityData() {
     },
   });
 
-  React.useEffect(() => {
-    if (state?.setcityData?.create === true) {
-      handleClose();
-
-      setTimeout(() => {
-        dispatch(clearcityState());
-      }, 2000);
-    }
-  }, [state?.setcityData]);
-
   return (
     <>
       <div
-        style={{ display: "flex", justifyContent: "flex-end", width: "100%" }}
+      className="addbutton"
       >
         <Button
           onClick={handleOpen}
@@ -106,7 +102,7 @@ export default function CityData() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div className="diviconwithtitle">
             <Typography variant="h6">Add City</Typography>
             <CloseIcon style={{ color: "red" }} onClick={() => handleClose()} />
           </div>
@@ -141,18 +137,14 @@ export default function CityData() {
                 error={!!formik.errors.Decription}
                 helperText={formik.errors.Decription}
               />{" "}
-              <div style={{ display: "flex", justifyContent: "space-around" }}>
-                <LoadingButton
+              <div className="divuploadbutton">
+                <Button
                   type="submit"
                   variant="contained"
-                  style={{
-                    width: "50%",
-                    margin: "10px",
-                    background: "#214758",
-                  }}
+                 className="submitbutton"
                 >
                   Submit
-                </LoadingButton>
+                </Button>
               </div>
             </div>
           </form>

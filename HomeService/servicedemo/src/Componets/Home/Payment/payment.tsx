@@ -3,29 +3,27 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppselector, useAppdispatch } from "../../../hooks";
 import { getbookingdatabyid, statusupdate } from "../../../store/bookingSlice";
 import { CardMedia } from "@mui/material";
-import "../../../styles/demo.css";
+import "../../../styles/style.css";
 
 export default function Payment() {
   let { id } = useParams();
   var formData = new FormData();
   formData.append("status", "Completed");
-  const dispatch = useDispatch<any>();
-  const statebooking = useSelector(
-    (state: any) => state.booking.getbookingdatabyId
+  const dispatch = useAppdispatch();
+  const statebooking = useAppselector(
+    (state) => state.booking.getbookingdatabyId
   );
-  console.log("id....", id, statebooking);
   const card = (
     <React.Fragment>
       <CardContent>
         <Typography
-          sx={{ fontSize: 16, color: "#008000", textAlign: "center" }}
+          className="paymenttitle"
           color="text.secondary"
           gutterBottom
         >
@@ -54,21 +52,13 @@ export default function Payment() {
             return (
               <>
                 <div
-                  style={{
-                    margin: "10px",
-                    display: "flex",
-                    justifyContent: "left",
-                  }}
+                 className="divname"
                 >
                   <Typography sx={{ fontWeight: "700" }}>NAME :</Typography>
                   <Typography marginLeft="3px">{item?.name}</Typography>
                 </div>
                 <div
-                  style={{
-                    margin: "10px",
-                    display: "flex",
-                    justifyContent: "left",
-                  }}
+                  className="divname"
                 >
                   <Typography sx={{ fontWeight: "700" }}>
                     CONTACT NUMBER :
@@ -78,11 +68,7 @@ export default function Payment() {
                   </Typography>
                 </div>
                 <div
-                  style={{
-                    margin: "10px",
-                    display: "flex",
-                    justifyContent: "left",
-                  }}
+                  className="divname"
                 >
                   <Typography sx={{ fontWeight: "700" }}>
                     BILLING ADDRESS :
@@ -92,11 +78,7 @@ export default function Payment() {
                   </Typography>
                 </div>
                 <div
-                  style={{
-                    margin: "10px",
-                    display: "flex",
-                    justifyContent: "left",
-                  }}
+                 className="divname"
                 >
                   <Typography sx={{ fontWeight: "700" }}>
                     DELIVERY ADDRESS :
@@ -106,11 +88,7 @@ export default function Payment() {
                   </Typography>
                 </div>
                 <div
-                  style={{
-                    margin: "10px",
-                    display: "flex",
-                    justifyContent: "left",
-                  }}
+                 className="divname"
                 >
                   <Typography sx={{ fontWeight: "700" }}>
                     SERVICE NAME :
@@ -118,11 +96,7 @@ export default function Payment() {
                   <Typography marginLeft="3px">{item?.servicename}</Typography>
                 </div>
                 <div
-                  style={{
-                    margin: "10px",
-                    display: "flex",
-                    justifyContent: "left",
-                  }}
+                  className="divname"
                 >
                   <Typography sx={{ fontWeight: "700" }}>
                     SERVICE CHARGE :
@@ -130,11 +104,7 @@ export default function Payment() {
                   <Typography marginLeft="3px">{item?.charge}</Typography>
                 </div>
                 <div
-                  style={{
-                    margin: "10px",
-                    display: "flex",
-                    justifyContent: "left",
-                  }}
+                  className="divname"
                 >
                   <Typography sx={{ fontWeight: "700" }}>DATE :</Typography>
                   <Typography marginLeft="3px">{item?.date}</Typography>
@@ -150,21 +120,13 @@ export default function Payment() {
                   <Typography marginLeft="3px">{item?.time}</Typography>
                 </div>
                 <div
-                  style={{
-                    margin: "10px",
-                    display: "flex",
-                    justifyContent: "left",
-                  }}
+                 className="divname"
                 >
                   <Typography sx={{ fontWeight: "700" }}>PINCODE :</Typography>
                   <Typography marginLeft="3px">{item?.city} </Typography>
                 </div>
                 <div
-                  style={{
-                    margin: "10px",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
+                 className="divname"
                 >
                   <Typography sx={{ fontWeight: "700" }}>TOTAL :</Typography>
                   <Typography marginLeft="3px">{item?.charge}</Typography>
@@ -194,16 +156,12 @@ export default function Payment() {
     <>
       <Typography
         variant="h4"
-        sx={{ margin: "15px", justifyContent: "center", display: "flex" }}
+        className="ordersummary"
       >
         OrderSummary
       </Typography>
       <Box
-        maxWidth="100%"
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        marginBottom="15px"
+       className="boxpayment"
       >
         <Card variant="outlined">{card}</Card>
       </Box>

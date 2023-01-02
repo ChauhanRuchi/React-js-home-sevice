@@ -9,7 +9,6 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -131,9 +130,6 @@ function DashboardContent() {
               Dashboard
             </Typography>
             <IconButton color="inherit">
-              {/* <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge> */}
             </IconButton>
             <Profilelist />
           </Toolbar>
@@ -154,8 +150,6 @@ function DashboardContent() {
           <Divider />
           <List component="nav">
             {mainListItems}
-            {/* <Divider sx={{ my: 1 }} />
-            */}
           </List>
         </Drawer>
         <Box

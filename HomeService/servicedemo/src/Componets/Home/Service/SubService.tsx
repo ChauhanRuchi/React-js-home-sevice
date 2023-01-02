@@ -1,25 +1,19 @@
 import SubServiceCard from "./Service";
 import Typography from "@mui/material/Typography";
-import { getsubcategory, getcategorybyid } from "../../store/categorySlice";
-import { useSelector, useDispatch } from "react-redux";
+import { getsubcategory, getcategorybyid } from "../../../store/categorySlice";
+import { useAppselector, useAppdispatch } from "../../../hooks";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Grid } from "@mui/material";
-import "../../../src/styles/demo.css";
-import { serialize } from "v8";
+import "../../../../src/styles/style.css";
 
 const Service = () => {
   let servicenamebyid = "";
-  const dispatch = useDispatch<any>();
+  const dispatch = useAppdispatch();
   let { id } = useParams();
-  const state1 = useSelector((state: any) => state.category);
-  let searchbyid = state1.getcategorybyId;
-  let servicearr = state1.getsubCategory;
-  let servicename = state1?.getcategoryData;
-
-  servicename?.map((item: any) => {
-    console.log(item.servicename);
-  });
+  const categorystate = useAppselector((state) => state.category);
+  let searchbyid = categorystate.getcategorybyId;
+  let servicearr = categorystate.getsubCategory;
 
   useEffect(() => {
     dispatch(getsubcategory({ _id: id }));
@@ -30,12 +24,14 @@ const Service = () => {
       <div className="main">
         <Typography
           variant="h5"
-          style={{ margin: "10px", fontFamily: "sans-serif", fontSize: "25px" }}
+          className="subservicetitle"
         >
-          {searchbyid}
+          {searchbyid?.servicename}
         </Typography>
-        <div className="card" style={{ display: "flex", flexDirection: "row" }}>
-          <Grid container spacing={2}>
+        <div className="divsubservice">
+          <Grid  container
+        spacing={{ xs: 2, md: 3 }}
+        columns={{ xs: 4, sm: 8, md: 12 }}>
             {servicearr?.map(function (item: any) {
               return (
                 <SubServiceCard
